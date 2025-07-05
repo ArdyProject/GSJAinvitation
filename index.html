@@ -1,0 +1,747 @@
+<!-- ANDA BEBAS MENGEDIT DAN MENGAMBIL CODE INI..... -->
+ <!-- PROJECT BY ARDY HUTASOIT (2025/01/01) -->
+ <!-- EDITED BY GEMINI (2025/07/05) -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSJA RIVER OF LIFE PEMATANGSIANTAR</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        :root {
+            --bg-dark: BLACK;
+            --bg-card: #242424;
+            --text-light: #e0e0e0;
+            --text-gold: #c5a572;
+            --live-red: #ef4444;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', sans-serif;
+            --font-script: 'Great Vibes', cursive;
+            --font-mono: 'Roboto Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow: hidden; 
+            line-height: 1.8;
+        }
+
+        /* --- Cover Section --- */
+        #cover {
+            position: fixed; inset: 0; z-index: 100;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center;
+            background: url('https://images.unsplash.com/photo-1507692049682-a225b16a405a?q=80&w=1887&auto=format&fit=crop') no-repeat center center/cover;
+            transition: opacity 1.5s ease-out, visibility 1.5s;
+        }
+        #cover::before {
+            content: ''; position: absolute; inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+        }
+        #cover.fade-out { opacity: 0; visibility: hidden; }
+        .cover-content { position: relative; padding: 1rem; }
+        .cover-content h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5rem; /* Mobile-first font size */
+            font-weight: 700; color: white;
+        }
+        #open-invitation {
+            margin-top: 2rem; padding: 0.8rem 2.5rem;
+            font-size: 1rem; font-weight: 700; color: var(--bg-dark);
+            background: white; border: none; border-radius: 50px;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        #open-invitation:hover { background-color: var(--text-gold); color: white; }
+        
+
+        /* --- Main Content --- */
+        main { 
+            display: none;
+            padding-bottom: 120px;
+        }
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        section {
+            padding: 4rem 1rem; /* Adjusted padding for mobile */
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        /* --- Reusable Components --- */
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: 2.5rem; /* Mobile-first font size */
+            font-style: italic;
+            color: var(--text-gold);
+            margin-bottom: 2rem;
+        }
+        .separator {
+            width: 80px;
+            height: 2px;
+            background-color: var(--text-gold);
+            margin: 2rem auto;
+            border: none;
+        }
+
+        /* --- Home Section --- */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(rgba(26,26,26,0.85), rgba(26,26,26,0.85)), url('https://images.unsplash.com/photo-1604940500534-345a3c9e2d3d?q=80&w=1932&auto=format&fit=crop') no-repeat center center/cover;
+        }
+        #home h2 {
+            font-family: var(--font-script);
+            font-size: 3.8rem; /* Mobile-first font size */
+            font-weight: normal;
+            color: white;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        #countdown-label { font-size: 1.1rem; color: var(--text-gold); margin-bottom: 1rem; }
+        #countdown { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+        .countdown-item {
+            background: rgba(0,0,0,0.3); padding: 0.8rem;
+            border-radius: 8px; border: 1px solid var(--text-gold);
+            min-width: 70px;
+        }
+        .countdown-item div:first-child { font-size: 1.8rem; font-weight: 700; }
+        .countdown-item div:last-child { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        #live-notification {
+            display: none;
+            align-items: center; justify-content: center; gap: 1rem;
+            background: rgba(36, 36, 36, 0.5); border: 1px solid var(--live-red);
+            border-radius: 12px; padding: 1rem 1.5rem; margin-top: 1rem;
+            backdrop-filter: blur(5px); animation: fadeInScale 0.5s ease-out;
+        }
+        .live-dot {
+            width: 12px; height: 12px; background-color: var(--live-red);
+            border-radius: 50%; animation: pulse 1.5s infinite;
+        }
+        #live-text { font-size: 1.1rem; font-weight: 700; color: white; }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 8px var(--live-red); }
+            50% { transform: scale(1.2); box-shadow: 0 0 15px var(--live-red); }
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* --- SPECIAL EVENT COUNTDOWN --- */
+        #special-event-container {
+            margin-top: 3rem;
+            padding: 2rem 1rem;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--text-gold);
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+        }
+        #special-event-title {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: white;
+            text-shadow: 0 0 10px var(--text-gold);
+            margin-bottom: 1.5rem;
+        }
+        #special-countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            perspective: 500px;
+        }
+        .flip-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .flip-unit {
+            position: relative;
+            width: 60px;
+            height: 80px;
+            font-family: var(--font-mono);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--bg-dark);
+            background-color: white;
+            border-radius: 8px;
+            line-height: 80px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .flip-card-label {
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-gold);
+        }
+        #special-event-finished-message {
+            display: none;
+            font-size: 1.2rem;
+            color: var(--text-gold);
+            padding: 2rem 0;
+        }
+
+
+        /* --- Schedule Table Layout --- */
+        .schedule-card {
+            background: var(--bg-card); padding: 1.5rem;
+            border-radius: 12px; border: 1px solid #333;
+            text-align: left;
+        }
+        .schedule-day-header {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            color: var(--text-gold);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #444;
+        }
+        .schedule-day-header:first-child { margin-top: 0; }
+        .schedule-item {
+            display: flex;
+            flex-direction: column; /* Stack on mobile */
+            align-items: flex-start;
+            padding: 1rem 0.5rem;
+            border-bottom: 1px solid #333;
+        }
+        .schedule-item:last-child { border-bottom: none; }
+        .schedule-item span:first-child { font-weight: 700; font-size: 1rem; }
+        .schedule-item span:last-child { font-size: 0.9rem; }
+
+        .shimmer-text {
+            background: linear-gradient(90deg, var(--text-light), white, var(--text-light));
+            background-size: 200% auto;
+            color: #000;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s linear infinite;
+        }
+        @keyframes shimmer { to { background-position: -200% center; } }
+
+        /* --- Map Section --- */
+        .map-container {
+            margin-top: 3rem;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #333;
+        }
+        .map-container iframe { width: 100%; height: 300px; border: none; }
+
+        /* Gallery Section */
+        .gallery-grid { columns: 2; gap: 0.5rem; }
+        .gallery-grid img {
+            width: 100%; border-radius: 8px; margin-bottom: 0.5rem;
+            transition: transform 0.3s, filter 0.3s;
+        }
+        .gallery-grid img:hover { transform: scale(1.03); filter: brightness(1.1); }
+        
+        /* Ministries Section */
+        .ministries-container {
+            display: flex;
+            flex-direction: column; /* Stack on mobile */
+            gap: 1.5rem;
+        }
+        .ministry-card {
+            background: var(--bg-card); padding: 2rem;
+            border-radius: 12px;
+        }
+        .ministry-card i { color: var(--text-gold); margin-bottom: 1rem; }
+        .ministry-card h3 { font-family: var(--font-serif); font-size: 1.5rem; }
+
+        /* --- Floating Controls & Nav --- */
+        #audio-control {
+            position: fixed; bottom: 90px; right: 15px;
+            width: 50px; height: 50px;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; z-index: 50; border: 1px solid #444;
+        }
+        #bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(10px);
+            height: 70px; z-index: 50;
+        }
+        .nav-container {
+            display: flex; justify-content: space-around; align-items: center; height: 100%;
+            max-width: 500px; margin: 0 auto;
+        }
+        .nav-button {
+            color: var(--text-light); text-decoration: none;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 4px; opacity: 0.7; transition: opacity 0.3s;
+        }
+        .nav-button:hover { opacity: 1; }
+        .nav-button span { font-size: 0.7rem; font-weight: 700; }
+
+        /* --- Real-time Clock --- */
+        #realtime-clock { display: none !important; } /* Hide completely on all screens for mobile-first */
+
+        /* --- DESKTOP STYLES --- */
+        @media (min-width: 768px) {
+            section { padding: 5rem 1.5rem; }
+            .cover-content h1 { font-size: 4rem; }
+            #home h2 { font-size: 5rem; }
+            .section-title { font-size: 3rem; }
+            .schedule-item { 
+                flex-direction: row; /* Side-by-side on desktop */
+                align-items: center;
+            }
+            .gallery-grid { columns: 3; gap: 1rem; }
+            .ministries-container { flex-direction: row; }
+            
+            #special-event-title { font-size: 2rem; }
+            .flip-unit { width: 80px; height: 100px; font-size: 4rem; line-height: 100px; }
+            #special-countdown { gap: 1.5rem; }
+            
+            /* Show clock only on desktop */
+            #realtime-clock {
+                display: block !important;
+                position: fixed;
+                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(36, 36, 36, 0.5);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                border-radius: 12px;
+                padding: 1rem;
+                text-align: center;
+                z-index: 49;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                text-shadow: 0 0 5px rgba(0,0,0,0.5);
+            }
+            #clock-day {
+                font-size: 1rem; font-weight: 700; color: var(--text-gold);
+                text-transform: uppercase; letter-spacing: 1px;
+            }
+            #clock-date {
+                font-size: 2.5rem; font-weight: 700; line-height: 1.1;
+                margin: 0.5rem 0; color: var(--text-gold);
+            }
+            #clock-time {
+                font-size: 1.2rem; font-weight: 400; letter-spacing: 2px;
+                color: var(--text-gold); background-color: transparent; padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio id="worship-audio" loop><source src="" type="audio/mpeg"></audio>
+
+    <div id="realtime-clock">
+        <div id="clock-day"></div>
+        <div id="clock-date"></div>
+        <div id="clock-time"></div>
+    </div>
+
+    <div id="cover">
+        <div class="cover-content">
+            <p>SELAMAT DATANG DI</p>
+            <h1>GSJA RIVER OF LIFE</h1>
+            <p>PEMATANGSIANTAR</p>
+            <button id="open-invitation">NEXT</button>
+        </div>
+    </div>
+
+    <main id="main-content">
+        <section id="home">
+            <div class="animate-on-scroll">
+                <p>Mari Beribadah Bersama Kami Di:</p>
+                <h2>GSJA River of Life</h2>
+                <hr class="separator">
+                <div id="countdown-container">
+                    <div id="countdown-label">Menghitung...</div>
+                    <div id="countdown">
+                        <div class="countdown-item"><div>00</div><div>Hari</div></div>
+                        <div class="countdown-item"><div>00</div><div>Jam</div></div>
+                        <div class="countdown-item"><div>00</div><div>Menit</div></div>
+                        <div class="countdown-item"><div>00</div><div>Detik</div></div>
+                    </div>
+                    <div id="live-notification">
+                        <span class="live-dot"></span>
+                        <span id="live-text"></span>
+                    </div>
+                </div>
+
+                <!-- NEW: Special Event Countdown -->
+                <div id="special-event-container" class="animate-on-scroll" style="transition-delay: 0.4s;">
+                    <h3 id="special-event-title"><H5>JANGAN LEWATKAN</H5><u>Peresmian Gedung Baru Gereja GSJA River of Life</u></h3><br><H5><i>Kiramya Kita Semua Dapat Menghadiri Acara Ini. GOD BLESS WE.</i></H5>
+                    <div id="special-countdown">
+                        <div class="flip-card">
+                            <div class="flip-unit" data-flip="days">00</div>
+                            <div class="flip-card-label">Hari</div>
+                        </div>
+                        <div class="flip-card">
+                            <div class="flip-unit" data-flip="hours">00</div>
+                            <div class="flip-card-label">Jam</div>
+                        </div>
+                        <div class="flip-card">
+                            <div class="flip-unit" data-flip="minutes">00</div>
+                            <div class="flip-card-label">Menit</div>
+                        </div>
+                        <div class="flip-card">
+                            <div class="flip-unit" data-flip="seconds">00</div>
+                            <div class="flip-card-label">Detik</div>
+                        </div>
+                    </div>
+                    <div id="special-event-finished-message">MENANTI EVENT LAINNYA</div>
+                </div>
+                <!-- END: Special Event Countdown -->
+
+            </div>
+        </section>
+
+        <section id="details" style="background-color: var(--bg-card);">
+            <h2 class="section-title animate-on-scroll">Jadwal & Lokasi</h2>
+            
+            <div class="schedule-card animate-on-scroll">
+                <h3 class="schedule-day-header">Jumat</h3>
+                <div class="schedule-item">
+                    <span class="shimmer-text">Doa Syafaat</span>
+                    <span class="shimmer-text">18:30 - 20:00 WIB</span>
+                </div>
+                <div class="schedule-item">
+                    <span class="shimmer-text">Latihan Pujian & Penyembahan</span>
+                    <span class="shimmer-text">20:30 - 22:00 WIB</span>
+                </div>
+                <h3 class="schedule-day-header">Sabtu</h3>
+                <div class="schedule-item">
+                    <span class="shimmer-text">Ibadah Youth Generation</span>
+                    <span class="shimmer-text">19:30 - 21:00 WIB</span>
+                </div>
+                <h3 class="schedule-day-header">Minggu</h3>
+                <div class="schedule-item">
+                    <span class="shimmer-text">Ibadah Raya Sesi 1 & Sekolah Miggu</span>
+                    <span class="shimmer-text">08:30 - 10:30 WIB</span>
+                </div>
+                <div class="schedule-item">
+                    <span class="shimmer-text">Ibadah Raya Sesi 2</span>
+                    <span class="shimmer-text">10:35 - 12:30 WIB</span>
+                </div>
+            </div>
+
+            <div class="map-container animate-on-scroll" style="transition-delay: 0.2s;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.417215228878!2d99.0699223152194!3d2.98114695444769!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3031857427a7a1e1%3A0x8f5a33f4a0a436b!2sGSJA%20RIVER%20OF%20LIFE!5e0!3m2!1sen!2sid!4v1672895698123!5m2!1sen!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+             <p class="animate-on-scroll" style="margin-top: 1rem; font-size: 0.9rem; color: #aaa;">Jl. Pdt. J. Wismar Saragih, Pematangsiantar</p>
+        </section>
+
+        <section id="gallery">
+            <h2 class="section-title animate-on-scroll">Galeri</h2>
+            <div class="gallery-grid">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+            </div>
+        </section>
+
+        <section id="ministries" style="background-color: var(--bg-card);">
+             <h2 class="section-title animate-on-scroll">Pelayanan Kami</h2>
+             <p class="animate-on-scroll" style="max-width: 600px; margin: -2rem auto 2rem auto;">Kami percaya setiap orang memiliki karunia untuk melayani. Temukan tempat mu untuk bertumbuh dan melayani bersama kami.</p>
+             <div class="ministries-container">
+                 <div class="ministry-card animate-on-scroll">
+                     <i data-feather="heart" width="48" height="48" style="color: var(--text-gold); margin-bottom: 1rem;"></i>
+                     <h3>Sekolah Minggu</h3>
+                     <p>Menanamkan Firman Tuhan yang benar kepada anak-anak.</p>
+                 </div>
+                 <div class="ministry-card animate-on-scroll" style="transition-delay: 0.2s;">
+                     <i data-feather="zap" width="48" height="48" style="color: var(--text-gold); margin-bottom: 1rem;"></i>
+                     <h3>Youth Generation GSJA</h3>
+                     <p>Wadah bagi kaum muda/remaja untuk bertumbuh dalam iman dan komunitas yang positif.</p>
+                 </div>
+                 <div class="ministry-card animate-on-scroll" style="transition-delay: 0.4s;">
+                     <i data-feather="music" width="48" height="48" style="color: var(--text-gold); margin-bottom: 1rem;"></i>
+                     <h3>Pujian & Penyembahan</h3>
+                     <p>Memimpin jemaat untuk masuk dalam hadirat Tuhan melalui pujian.</p>
+                 </div>
+             </div>
+        </section>
+        
+        <footer style="text-align: center; padding: 3rem 1rem;" class="animate-on-scroll">
+            <p>Tuhan Yesus Memberkati.</p>
+            <h3 style="font-family: var(--font-serif); font-size: 2.5rem; color: var(--text-gold); margin-top: 1rem;">GSJA River of Life</h3>
+            <p style="margin-top: 2rem; font-size: 1.5rem; color: #aaa; font-family: var(--font-script);">Create by MultiMedia GSJA ROL Pematangsiantar - 2025 All Right Reserved.</p>
+        </footer>
+    </main>
+
+    <div id="audio-control">
+        <i data-feather="music"></i>
+    </div>
+
+    <nav id="bottom-nav">
+        <div class="nav-container">
+            <a href="#home" class="nav-button"><i data-feather="home"></i><span>Home</span></a>
+            <a href="#details" class="nav-button"><i data-feather="calendar"></i><span>Jadwal</span></a>
+            <a href="#gallery" class="nav-button"><i data-feather="image"></i><span>Galeri</span></a>
+            <a href="#ministries" class="nav-button"><i data-feather="grid"></i><span>Pelayanan</span></a>
+        </div>
+    </nav>
+ 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            feather.replace();
+
+            // --- Element Selectors & Data ---
+            const openBtn = document.getElementById('open-invitation');
+            const cover = document.getElementById('cover');
+            const mainContent = document.getElementById('main-content');
+            const audio = document.getElementById('worship-audio');
+            const audioControl = document.getElementById('audio-control');
+            const clockEl = document.getElementById('realtime-clock');
+            let isAudioPlaying = false;
+            
+            const songs = [
+                "(Hari Ini Kurasa Bahagia) GKDI Worship.mp3",
+                "(Nothing's Gonna Stop Us Now) JPCC Worship.mp3",
+                "JPCC(Imanuel).mp3",
+                "Kuberserah Penuh - OFFICIAL MUSIC VIDEO (Live Recording).mp3",
+                "Kutuk Jadi Berkat - Sound of Praise ft Clarisa Dewi (Live at GBT KAO Semarang).mp3"
+            ];
+
+            // --- Cover & Audio Logic ---
+            openBtn.addEventListener('click', () => {
+                const randomIndex = Math.floor(Math.random() * songs.length);
+                const audioSource = audio.querySelector('source');
+                // Use a valid, direct link to an audio file for testing
+                audioSource.src = songs[randomIndex];
+                audio.load();
+
+                audio.play().then(() => {
+                    isAudioPlaying = true;
+                    audioControl.innerHTML = '<i data-feather="pause"></i>';
+                    feather.replace();
+                }).catch(e => {
+                    console.error("Audio play failed:", e);
+                    // If autoplay fails, set UI to "play" state
+                    isAudioPlaying = false;
+                    audioControl.innerHTML = '<i data-feather="play"></i>';
+                    feather.replace();
+                });
+
+                cover.classList.add('fade-out');
+                document.body.style.overflow = 'auto';
+                mainContent.style.display = 'block';
+                if (window.innerWidth >= 768) {
+                    clockEl.style.display = 'block';
+                }
+            });
+
+            audioControl.addEventListener('click', () => {
+                if (isAudioPlaying) {
+                    audio.pause();
+                    audioControl.innerHTML = '<i data-feather="play"></i>';
+                } else {
+                    audio.play();
+                    audioControl.innerHTML = '<i data-feather="pause"></i>';
+                }
+                isAudioPlaying = !isAudioPlaying;
+                feather.replace();
+            });
+
+            // --- DYNAMIC COUNTDOWN & LIVE ALERT ---
+            const countdownEl = document.getElementById('countdown');
+            const countdownLabelEl = document.getElementById('countdown-label');
+            const liveNotificationEl = document.getElementById('live-notification');
+            const liveTextEl = document.getElementById('live-text');
+
+            const events = [
+                { name: "Ibadah Sesi Ke 1 & Ibadah Sekolah Minggu", day: 0, hour: 8, minute: 30, endHour: 10, endMinute: 30 },
+                { name: "Ibadah Sesi Ke 2", day: 0, hour: 10, minute: 35, endHour: 12, endMinute: 30 },
+                { name: " Ibadah Doa Syafaat", day: 5, hour: 18, minute: 30, endHour: 20, endMinute: 0 },
+                { name: "Latihan Pujian & Penyembahan", day: 5, hour: 20, minute: 30, endHour: 22, endMinute: 0 },
+                { name: "Ibadah Youth Generation", day: 6, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
+            ];
+
+            function updateCountdown() {
+                const now = new Date();
+                let eventIsLive = false;
+
+                for (const event of events) {
+                    if (now.getDay() === event.day) {
+                        const startTime = new Date(now.getTime());
+                        startTime.setHours(event.hour, event.minute, 0, 0);
+                        const endTime = new Date(now.getTime());
+                        endTime.setHours(event.endHour, event.endMinute, 0, 0);
+                        if (now >= startTime && now < endTime) {
+                            liveTextEl.textContent = `${event.name.toUpperCase()} SEDANG BERLANGSUNG`;
+                            liveNotificationEl.style.display = 'flex';
+                            countdownEl.style.display = 'none';
+                            countdownLabelEl.style.display = 'none';
+                            eventIsLive = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (!eventIsLive) {
+                    liveNotificationEl.style.display = 'none';
+                    countdownEl.style.display = 'flex';
+                    countdownLabelEl.style.display = 'block';
+
+                    let upcomingEvents = [];
+                    for (const event of events) {
+                        const eventDate = new Date(now.getTime());
+                        let daysToAdd = (event.day + 7 - now.getDay()) % 7;
+                        if (daysToAdd === 0 && now.getHours() * 60 + now.getMinutes() >= event.hour * 60 + event.minute) {
+                            daysToAdd = 7;
+                        }
+                        eventDate.setDate(now.getDate() + daysToAdd);
+                        eventDate.setHours(event.hour, event.minute, 0, 0);
+                        upcomingEvents.push({ date: eventDate, name: event.name });
+                    }
+
+                    upcomingEvents.sort((a, b) => a.date - b.date);
+                    const nextEvent = upcomingEvents[0];
+                    
+                    countdownLabelEl.textContent = `Next ${nextEvent.name}`;
+                    const distance = nextEvent.date - now.getTime();
+
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    countdownEl.innerHTML = `
+                        <div class="countdown-item"><div>${String(days).padStart(2,'0')}</div><div>Hari</div></div>
+                        <div class="countdown-item"><div>${String(hours).padStart(2,'0')}</div><div>Jam</div></div>
+                        <div class="countdown-item"><div>${String(minutes).padStart(2,'0')}</div><div>Menit</div></div>
+                        <div class="countdown-item"><div>${String(seconds).padStart(2,'0')}</div><div>Detik</div></div>
+                    `;
+                }
+            }
+
+            // --- SPECIAL EVENT COUNTDOWN LOGIC ---
+            const specialEventDate = new Date('2025-08-31T15:00:00');
+            const specialCountdownEl = document.getElementById('special-countdown');
+            const specialFinishedMessageEl = document.getElementById('special-event-finished-message');
+            const flipUnits = document.querySelectorAll('.flip-unit');
+
+            function updateSpecialCountdown() {
+                const now = new Date();
+                const distance = specialEventDate - now;
+
+                if (distance <= 0) {
+                    specialCountdownEl.style.display = 'none';
+                    specialFinishedMessageEl.style.display = 'block';
+                    // Set all to 00 and stop the interval for this function if needed
+                    flipUnits.forEach(unit => {
+                        updateFlipUnit(unit, "00");
+                    });
+                    return; // Stop further processing
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                updateFlipUnit(document.querySelector('[data-flip="days"]'), String(days).padStart(2, '0'));
+                updateFlipUnit(document.querySelector('[data-flip="hours"]'), String(hours).padStart(2, '0'));
+                updateFlipUnit(document.querySelector('[data-flip="minutes"]'), String(minutes).padStart(2, '0'));
+                updateFlipUnit(document.querySelector('[data-flip="seconds"]'), String(seconds).padStart(2, '0'));
+            }
+            
+            function updateFlipUnit(element, newValue) {
+                const currentValue = element.textContent;
+                if (newValue !== currentValue) {
+                    // Add animation class
+                    element.style.transition = 'transform 0.5s, background-color 0.5s';
+                    element.style.transform = 'rotateX(180deg)';
+                    element.style.backgroundColor = '#f0f0f0';
+                    
+                    setTimeout(() => {
+                        element.textContent = newValue;
+                        element.style.transform = 'rotateX(0deg)';
+                        element.style.backgroundColor = 'white';
+                    }, 250); // Halfway through the animation
+                }
+            }
+
+            // --- Main Interval Timer ---
+            setInterval(() => {
+                updateCountdown();
+                updateSpecialCountdown();
+            }, 1000);
+            updateCountdown();
+            updateSpecialCountdown();
+
+            // --- Real-time Clock Logic ---
+            const dayEl = document.getElementById('clock-day');
+            const dateEl = document.getElementById('clock-date');
+            const timeEl = document.getElementById('clock-time');
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+            function updateClock() {
+                const now = new Date();
+                const dayName = days[now.getDay()];
+                const date = String(now.getDate()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+
+                dayEl.textContent = dayName;
+                dateEl.textContent = date;
+                timeEl.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            // --- Animate on Scroll ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+ </body>
+</html>
+
