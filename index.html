@@ -1,6 +1,3 @@
-<!-- ANDA BEBAS MENGEDIT DAN MENGAMBIL CODE INI..... -->
- <!-- PROJECT BY ARDY HUTASOIT (2025/01/01) -->
- <!-- EDITED BY GEMINI (2025/07/07) -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -308,14 +305,116 @@
         }
         .map-container iframe { width: 100%; height: 300px; border: none; }
 
-        /* Gallery Section */
-        .gallery-grid { columns: 2; gap: 0.5rem; }
-        .gallery-grid img {
-            width: 100%; border-radius: 8px; margin-bottom: 0.5rem;
-            transition: transform 0.3s, filter 0.3s;
+        /* --- Gallery Section (UPDATED FOR COMPACT VIEW) --- */
+        #gallery-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Always 2 columns */
+            gap: 1rem;
         }
-        .gallery-grid img:hover { transform: scale(1.03); filter: brightness(1.1); }
+        .gallery-category {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #333;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .gallery-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        /* Hide all gallery items except the first one in the main view */
+        .gallery-item:not(:first-of-type) {
+            display: none;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 150px; /* Give a fixed height for uniformity */
+            object-fit: cover;
+            display: block;
+        }
+        .gallery-category-title-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 1.5rem 1rem 0.5rem 1rem;
+            text-align: center;
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            pointer-events: none; /* Allows clicks to go through to the parent */
+        }
         
+        /* --- NEW: Lightbox/Preview Styles --- */
+        #lightbox {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        #lightbox.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        #lightbox-img {
+            max-width: 95%;
+            max-height: 85%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 0 40px rgba(255,255,255,0.2);
+        }
+        #lightbox-caption {
+            position: absolute;
+            bottom: 2%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            background: rgba(0,0,0,0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+            max-width: 80%;
+        }
+        .lightbox-btn {
+            position: absolute;
+            background: rgba(0,0,0,0.4);
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        .lightbox-btn:hover {
+            background: rgba(0,0,0,0.7);
+        }
+        #lightbox-close {
+            top: 20px; right: 20px;
+            width: 44px; height: 44px;
+        }
+        #lightbox-prev, #lightbox-next {
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px; height: 50px;
+        }
+        #lightbox-prev { left: 15px; }
+        #lightbox-next { right: 15px; }
+
+
         /* Ministries Section */
         .ministries-container {
             display: flex;
@@ -453,7 +552,6 @@
                 justify-content: space-between;
                 gap: 1rem;
             }
-            .gallery-grid { columns: 3; gap: 1rem; }
             .ministries-container { flex-direction: row; }
             
             #special-event-title { font-size: 2rem; }
@@ -625,27 +723,104 @@
              <p class="animate-on-scroll" style="margin-top: 1rem; font-size: 0.9rem; color: #aaa;">Jl. Pdt. J. Wismar Saragih, Pematangsiantar</p>
         </section>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- === UPDATED GALLERY SECTION === -->
         <section id="gallery">
             <h2 class="section-title animate-on-scroll">Galeri</h2>
-            <div class="gallery-grid">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
-                <img class="animate-on-scroll" src="#" alt="DOKUMENTASI">
+            <p class="animate-on-scroll" style="max-width: 600px; margin: -2rem auto 2rem auto;">Kita lihat bagaimana Kuasa Tuhan terjadi dan melawat setiap hsti orang yang mau datang dan bersekutu kepada-Nya</p>
+            
+            <div id="gallery-container" class="animate-on-scroll">
+                <!-- Category 1: Ibadah Raya -->
+                <div class="gallery-category" data-category-name="Ibadah Raya">
+                    <!-- Only this first item is visible on the page -->
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/600x400/c5a572/000000?text=Ibadah+Sesi+1" alt="Suasana Ibadah Raya Sesi 1">
+                    </div>
+                    <!-- These items are hidden but will appear in the lightbox -->
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/600x400/c5a572/000000?text=Firman+Tuhan" alt="Penyampaian Firman Tuhan">
+                        <figcaption>Gembala Sidang menyampaikan Firman Tuhan dengan penuh kuasa.</figcaption>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/600x400/c5a572/000000?text=Jemaat" alt="Jemaat yang beribadah">
+                        <figcaption>Jemaat dengan antusias mengikuti setiap sesi ibadah.</figcaption>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/600x400/c5a572/000000?text=Altar+Call" alt="Doa dan Altar Call">
+                        <figcaption>Momen doa dan panggilan altar bagi jemaat yang rindu dilayani.</figcaption>
+                    </div>
+                    <div class="gallery-category-title-overlay">Ibadah Raya</div>
+                </div>
+
+                <!-- Category 2: Sekolah Minggu -->
+                <div class="gallery-category" data-category-name="Sekolah Minggu">
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/600x400/242424/FFFFFF?text=Anak-anak" alt="Anak-anak Sekolah Minggu">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/600x400/242424/FFFFFF?text=Aktivitas" alt="Aktivitas belajar Firman">
+                        <figcaption>Belajar Firman Tuhan melalui cerita dan aktivitas kreatif.</figcaption>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/600x400/242424/FFFFFF?text=Bermain" alt="Bermain bersama">
+                        <figcaption>Waktu bermain dan membangun persahabatan.</figcaption>
+                    </div>
+                    <div class="gallery-category-title-overlay">Sekolah Minggu</div>
+                </div>
+
+                <!-- Category 3: Youth Generation -->
+                <div class="gallery-category" data-category-name="Youth Generation">
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/600x400/ef4444/FFFFFF?text=Youth+Worship" alt="Ibadah Youth">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/600x400/ef4444/FFFFFF?text=Komunitas" alt="Komunitas anak muda">
+                        <figcaption>Membangun komunitas yang positif dan bertumbuh bersama dalam Tuhan.</figcaption>
+                    </div>
+                    <div class="gallery-category-title-overlay">Youth Generation</div>
+                </div>
+                
+                <!-- Category 4: Acara Spesial -->
+                 <div class="gallery-category" data-category-name="Acara Spesial">
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/600x400/1e40af/ffffff?text=Natal" alt="Perayaan Natal">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://placehold.co/600x400/1e40af/ffffff?text=Paskah" alt="Drama Paskah">
+                        <figcaption>Drama penyaliban Yesus saat perayaan Paskah.</figcaption>
+                    </div>
+                     <div class="gallery-item">
+                        <img src="https://placehold.co/600x400/1e40af/ffffff?text=HUT+Gereja" alt="HUT Gereja">
+                        <figcaption>Perayaan ulang tahun gereja dengan sukacita.</figcaption>
+                    </div>
+                    <div class="gallery-category-title-overlay">Acara Spesial</div>
+                </div>
             </div>
+
         </section>
+        <!-- === END OF UPDATED GALLERY SECTION === -->
 
         <section id="ministries" style="background-color: var(--bg-card);">
              <h2 class="section-title animate-on-scroll">Pelayanan Kami</h2>
@@ -675,6 +850,16 @@
             <p style="margin-top: 2rem; font-family: var(--font-sans); font-size: 0.9rem; color: #aaa;">© Create by MultiMedia GSJA River Of Life Pematangsiantar @kingproject_ar - 2025 All Right Reserved.</p>
         </footer>
     </main>
+
+    <!-- === NEW: LIGHTBOX/PREVIEW ELEMENT === -->
+    <div id="lightbox">
+        <button id="lightbox-close" class="lightbox-btn"><i data-feather="x"></i></button>
+        <button id="lightbox-prev" class="lightbox-btn"><i data-feather="chevron-left"></i></button>
+        <button id="lightbox-next" class="lightbox-btn"><i data-feather="chevron-right"></i></button>
+        <img id="lightbox-img" src="" alt="Tampilan Gambar Penuh">
+        <div id="lightbox-caption"></div>
+    </div>
+
 
     <div id="audio-control">
         <i data-feather="music"></i>
@@ -955,8 +1140,71 @@
             document.querySelectorAll('.animate-on-scroll').forEach(el => {
                 observer.observe(el);
             });
+            
+            // --- NEW: COMPACT GALLERY & LIGHTBOX LOGIC ---
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            const lightboxClose = document.getElementById('lightbox-close');
+            const lightboxPrev = document.getElementById('lightbox-prev');
+            const lightboxNext = document.getElementById('lightbox-next');
+            
+            const galleryCategories = document.querySelectorAll('.gallery-category');
+            let categoryImages = [];
+            let currentIndex = 0;
 
-            // --- NEW: NOTIFICATION LOGIC ---
+            // Function to show a specific image in the lightbox
+            function showImage(index) {
+                // Get the specific gallery item (which contains the img and figcaption)
+                const item = categoryImages[index];
+                const img = item.querySelector('img');
+                const caption = item.querySelector('figcaption');
+                
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                // Use the figcaption if it exists, otherwise use the alt text
+                lightboxCaption.textContent = caption ? caption.textContent : img.alt;
+                currentIndex = index;
+            }
+
+            // Add click listener to each gallery category
+            galleryCategories.forEach(category => {
+                category.addEventListener('click', () => {
+                    // Get all items from the clicked category (including hidden ones)
+                    categoryImages = Array.from(category.querySelectorAll('.gallery-item'));
+                    
+                    // Show the first image of the category
+                    showImage(0);
+                    lightbox.classList.add('visible');
+                    feather.replace(); // Refresh icons in lightbox
+                });
+            });
+
+            // Close lightbox
+            lightboxClose.addEventListener('click', () => {
+                lightbox.classList.remove('visible');
+            });
+            
+            // Also close lightbox when clicking on the background
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    lightbox.classList.remove('visible');
+                }
+            });
+
+            // Navigate to the next image
+            lightboxNext.addEventListener('click', () => {
+                const nextIndex = (currentIndex + 1) % categoryImages.length;
+                showImage(nextIndex);
+            });
+
+            // Navigate to the previous image
+            lightboxPrev.addEventListener('click', () => {
+                const prevIndex = (currentIndex - 1 + categoryImages.length) % categoryImages.length;
+                showImage(prevIndex);
+            });
+
+            // --- NOTIFICATION LOGIC ---
             function setupNotifications() {
                 const subscribeBtn = document.getElementById('subscribe-btn');
                 const notificationStatus = document.getElementById('notification-status');
