@@ -88,6 +88,7 @@
             margin: 0 auto;
             text-align: center;
             overflow: hidden;
+            position: relative; /* Needed for absolute positioned clock */
         }
         
         /* --- Reusable Components --- */
@@ -113,6 +114,7 @@
             flex-direction: column;
             justify-content: center;
             background: linear-gradient(rgba(26,26,26,0.85), rgba(26,26,26,0.85)), url('https://images.unsplash.com/photo-1604940500534-345a3c9e2d3d?q=80&w=1932&auto=format&fit=crop') no-repeat center center/cover;
+            padding-top: 8rem; /* Add padding to avoid overlap with clock */
         }
         #home h2 {
             font-family: var(--font-script);
@@ -124,26 +126,42 @@
         }
         #countdown-label { font-size: 1.1rem; color: var(--text-gold); margin-bottom: 1rem; }
         #countdown { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+        
+        /* CHANGED: Added animation to timer */
         .countdown-item {
             background: rgba(0,0,0,0.3); padding: 0.8rem;
             border-radius: 8px; border: 1px solid var(--text-gold);
             min-width: 70px;
+            animation: breathe 3s ease-in-out infinite;
         }
         .countdown-item div:first-child { font-size: 1.8rem; font-weight: 700; }
         .countdown-item div:last-child { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
 
+        /* NEW: Animation for timer */
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 5px rgba(197, 165, 114, 0.2); }
+            50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(197, 165, 114, 0.5); }
+        }
+
+        /* CHANGED: Added glowing border animation */
         #live-notification {
             display: none;
             align-items: center; justify-content: center; gap: 1rem;
             background: rgba(36, 36, 36, 0.5); border: 1px solid var(--live-red);
             border-radius: 12px; padding: 1rem 1.5rem; margin-top: 1rem;
-            backdrop-filter: blur(5px); animation: fadeInScale 0.5s ease-out;
+            backdrop-filter: blur(5px); animation: fadeInScale 0.5s ease-out, borderGlow 2s infinite;
         }
         .live-dot {
             width: 12px; height: 12px; background-color: var(--live-red);
             border-radius: 50%; animation: pulse 1.5s infinite;
         }
         #live-text { font-size: 1.1rem; font-weight: 700; color: white; }
+        
+        /* NEW: Animation for live notification border */
+        @keyframes borderGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.5), inset 0 0 10px rgba(239, 68, 68, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(239, 68, 68, 1), inset 0 0 15px rgba(239, 68, 68, 0.5); }
+        }
         @keyframes pulse {
             0%, 100% { transform: scale(1); box-shadow: 0 0 8px var(--live-red); }
             50% { transform: scale(1.2); box-shadow: 0 0 15px var(--live-red); }
@@ -226,18 +244,23 @@
             position: relative; /* For glowing line */
             text-shadow: 0 0 8px var(--text-gold); /* Text glow */
         }
-        /* Glowing line effect */
+        /* CHANGED: Glowing line effect */
         .schedule-day-header::after {
             content: '';
             position: absolute;
-            bottom: -1px; /* Sits on top of the border-bottom */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60%;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
             height: 2px;
-            background: var(--text-gold);
-            filter: blur(4px); /* Creates the glow effect */
+            background: linear-gradient(90deg, transparent, var(--text-gold), transparent);
+            background-size: 200% 100%;
+            animation: gleam 4s linear infinite;
             border-radius: 2px;
+        }
+        /* NEW: Keyframe for glowing line */
+        @keyframes gleam {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
         .schedule-day-header:first-child { margin-top: 0; }
 
@@ -336,12 +359,47 @@
         .nav-button:hover { opacity: 1; }
         .nav-button span { font-size: 0.7rem; font-weight: 700; }
 
-        /* --- Real-time Clock --- */
-        #realtime-clock { display: none !important; } /* Hide completely on all screens for mobile-first */
+        /* --- Real-time Clock (MOVED & RESTYLED) --- */
+        #realtime-clock {
+            position: absolute;
+            top: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 350px;
+            background: rgba(0, 0, 0, 0.2); /* More transparent */
+            border-radius: 12px;
+            padding: 0.5rem;
+            text-align: center;
+            z-index: 10;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+            backdrop-filter: blur(2px);
+        }
+        #clock-day {
+            font-size: 0.9rem; font-weight: 700; color: var(--text-gold);
+            text-transform: uppercase;
+        }
+        #clock-date {
+            font-size: 2rem; font-weight: 700;
+            color: white;
+            padding: 0 0.5rem;
+            border-left: 1px solid rgba(255,255,255,0.2);
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+        #clock-time {
+            font-size: 1rem; font-weight: 400; letter-spacing: 1px;
+            color: white;
+        }
+
 
         /* --- DESKTOP STYLES --- */
         @media (min-width: 768px) {
             section { padding: 5rem 1.5rem; }
+            #home { padding-top: 5rem; } /* Adjust padding for desktop */
             .cover-content h1 { font-size: 4rem; }
             #home h2 { font-size: 5rem; }
             .section-title { font-size: 3rem; }
@@ -358,46 +416,14 @@
             .flip-unit { width: 80px; height: 100px; font-size: 4rem; line-height: 100px; }
             #special-countdown { gap: 1.5rem; }
             
-            /* Show clock only on desktop */
-            #realtime-clock {
-                display: block !important;
-                position: fixed;
-                left: 20px;
-                top: 50%;
-                transform: translateY(-50%);
-                background: rgba(36, 36, 36, 0.5);
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
-                border-radius: 12px;
-                padding: 1rem;
-                text-align: center;
-                z-index: 49;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                text-shadow: 0 0 5px rgba(0,0,0,0.5);
-            }
-            #clock-day {
-                font-size: 1rem; font-weight: 700; color: var(--text-gold);
-                text-transform: uppercase; letter-spacing: 1px;
-            }
-            #clock-date {
-                font-size: 2.5rem; font-weight: 700; line-height: 1.1;
-                margin: 0.5rem 0; color: var(--text-gold);
-            }
-            #clock-time {
-                font-size: 1.2rem; font-weight: 400; letter-spacing: 2px;
-                color: var(--text-gold); background-color: transparent; padding: 0;
-            }
+            #realtime-clock { top: 2rem; }
         }
     </style>
 </head>
 <body>
     <audio id="worship-audio" loop><source src="" type="audio/mpeg"></audio>
 
-    <div id="realtime-clock">
-        <div id="clock-day"></div>
-        <div id="clock-date"></div>
-        <div id="clock-time"></div>
-    </div>
+    <!-- CLOCK HTML IS MOVED INSIDE #home SECTION -->
 
     <div id="cover">
         <div class="cover-content">
@@ -410,6 +436,13 @@
 
     <main id="main-content">
         <section id="home">
+            <!-- MOVED: Real-time Clock -->
+            <div id="realtime-clock">
+                <div id="clock-day"></div>
+                <div id="clock-date"></div>
+                <div id="clock-time"></div>
+            </div>
+
             <div class="animate-on-scroll">
                 <p>Mari Beribadah Bersama Kami Di:</p>
                 <h2>GSJA River of Life</h2>
@@ -587,7 +620,8 @@
         <footer style="text-align: center; padding: 3rem 1rem;" class="animate-on-scroll">
             <p>Tuhan Yesus Memberkati.</p>
             <h3 style="font-family: var(--font-serif); font-size: 2.5rem; color: var(--text-gold); margin-top: 1rem;">GSJA River of Life</h3>
-            <p style="margin-top: 2rem; font-size: 1.5rem; color: #aaa; font-family: var(--font-script);">Create by MultiMedia GSJA ROL Pematangsiantar - 2025 All Right Reserved.</p>
+            <!-- CHANGED: Font style for better readability -->
+            <p style="margin-top: 2rem; font-size: 0.9rem; color: #aaa; font-family: var(--font-sans);">Create by MultiMedia GSJA ROL Pematangsiantar - 2025 All Right Reserved.</p>
         </footer>
     </main>
 
@@ -646,9 +680,7 @@
                 cover.classList.add('fade-out');
                 document.body.style.overflow = 'auto';
                 mainContent.style.display = 'block';
-                if (window.innerWidth >= 768) {
-                    clockEl.style.display = 'block';
-                }
+                // Clock is now part of the main flow, no need to manage its display here
             });
 
             audioControl.addEventListener('click', () => {
@@ -786,6 +818,7 @@
             setInterval(() => {
                 updateCountdown();
                 updateSpecialCountdown();
+                updateClock();
             }, 1000);
             updateCountdown();
             updateSpecialCountdown();
@@ -808,7 +841,6 @@
                 dateEl.textContent = date;
                 timeEl.textContent = `${hours}:${minutes}:${seconds}`;
             }
-            setInterval(updateClock, 1000);
             updateClock();
 
             // --- Animate on Scroll ---
