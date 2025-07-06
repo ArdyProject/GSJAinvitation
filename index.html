@@ -1,6 +1,6 @@
 <!-- ANDA BEBAS MENGEDIT DAN MENGAMBIL CODE INI..... -->
  <!-- PROJECT BY ARDY HUTASOIT (2025/01/01) -->
- <!-- EDITED BY GEMINI (2025/07/06) -->
+ <!-- EDITED BY GEMINI (2025/07/07) -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -126,8 +126,6 @@
         }
         #countdown-label { font-size: 1.1rem; color: var(--text-gold); margin-bottom: 1rem; }
         #countdown { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
-        
-        /* CHANGED: Added animation to timer */
         .countdown-item {
             background: rgba(0,0,0,0.3); padding: 0.8rem;
             border-radius: 8px; border: 1px solid var(--text-gold);
@@ -137,19 +135,19 @@
         .countdown-item div:first-child { font-size: 1.8rem; font-weight: 700; }
         .countdown-item div:last-child { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* NEW: Animation for timer */
         @keyframes breathe {
             0%, 100% { transform: scale(1); box-shadow: 0 0 5px rgba(197, 165, 114, 0.2); }
             50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(197, 165, 114, 0.5); }
         }
 
-        /* CHANGED: Added glowing border animation */
         #live-notification {
             display: none;
             align-items: center; justify-content: center; gap: 1rem;
-            background: rgba(36, 36, 36, 0.5); border: 1px solid var(--live-red);
+            background: rgba(36, 36, 36, 0.5); 
+            border: 1px solid var(--live-red);
             border-radius: 12px; padding: 1rem 1.5rem; margin-top: 1rem;
-            backdrop-filter: blur(5px); animation: fadeInScale 0.5s ease-out, borderGlow 2s infinite;
+            backdrop-filter: blur(5px); 
+            animation: fadeInScale 0.5s ease-out, borderGlow 2s infinite;
         }
         .live-dot {
             width: 12px; height: 12px; background-color: var(--live-red);
@@ -157,7 +155,6 @@
         }
         #live-text { font-size: 1.1rem; font-weight: 700; color: white; }
         
-        /* NEW: Animation for live notification border */
         @keyframes borderGlow {
             0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.5), inset 0 0 10px rgba(239, 68, 68, 0.3); }
             50% { box-shadow: 0 0 25px rgba(239, 68, 68, 1), inset 0 0 15px rgba(239, 68, 68, 0.5); }
@@ -241,10 +238,9 @@
             margin-bottom: 0.5rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px solid #444;
-            position: relative; /* For glowing line */
-            text-shadow: 0 0 8px var(--text-gold); /* Text glow */
+            position: relative;
+            text-shadow: 0 0 8px var(--text-gold);
         }
-        /* CHANGED: Glowing line effect */
         .schedule-day-header::after {
             content: '';
             position: absolute;
@@ -257,7 +253,6 @@
             animation: gleam 4s linear infinite;
             border-radius: 2px;
         }
-        /* NEW: Keyframe for glowing line */
         @keyframes gleam {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
@@ -359,7 +354,7 @@
         .nav-button:hover { opacity: 1; }
         .nav-button span { font-size: 0.7rem; font-weight: 700; }
 
-        /* --- Real-time Clock (MOVED & RESTYLED) --- */
+        /* --- Real-time Clock (MOVED) --- */
         #realtime-clock {
             position: absolute;
             top: 1.5rem;
@@ -367,7 +362,7 @@
             transform: translateX(-50%);
             width: 90%;
             max-width: 350px;
-            background: rgba(0, 0, 0, 0.2); /* More transparent */
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 12px;
             padding: 0.5rem;
             text-align: center;
@@ -394,17 +389,66 @@
             font-size: 1rem; font-weight: 400; letter-spacing: 1px;
             color: white;
         }
+        
+        /* --- Footer --- */
+        footer .footer-credit {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #aaa;
+            font-family: var(--font-sans);
+        }
+        
+        /* NEW: Styles for added features */
+        #next-event-datetime {
+            color: #ccc;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+        #notification-container {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+        }
+        #subscribe-btn {
+            background-color: var(--text-gold);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        #subscribe-btn:hover {
+            background-color: #d4b98a;
+            transform: translateY(-2px);
+        }
+        #subscribe-btn:disabled {
+            background-color: #555;
+            color: #999;
+            cursor: not-allowed;
+        }
+        #notification-status {
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-top: 0.5rem;
+        }
 
 
         /* --- DESKTOP STYLES --- */
         @media (min-width: 768px) {
             section { padding: 5rem 1.5rem; }
-            #home { padding-top: 5rem; } /* Adjust padding for desktop */
+            #home { padding-top: 5rem; }
             .cover-content h1 { font-size: 4rem; }
             #home h2 { font-size: 5rem; }
             .section-title { font-size: 3rem; }
             .schedule-item { 
-                flex-direction: row; /* Side-by-side on desktop */
+                flex-direction: row;
                 align-items: center;
                 justify-content: space-between;
                 gap: 1rem;
@@ -423,8 +467,6 @@
 <body>
     <audio id="worship-audio" loop><source src="" type="audio/mpeg"></audio>
 
-    <!-- CLOCK HTML IS MOVED INSIDE #home SECTION -->
-
     <div id="cover">
         <div class="cover-content">
             <p>SELAMAT DATANG DI</p>
@@ -436,7 +478,6 @@
 
     <main id="main-content">
         <section id="home">
-            <!-- MOVED: Real-time Clock -->
             <div id="realtime-clock">
                 <div id="clock-day"></div>
                 <div id="clock-date"></div>
@@ -455,13 +496,24 @@
                         <div class="countdown-item"><div>00</div><div>Menit</div></div>
                         <div class="countdown-item"><div>00</div><div>Detik</div></div>
                     </div>
+                    <!-- NEW: Next Event Date Display -->
+                    <p id="next-event-datetime"></p>
                     <div id="live-notification">
                         <span class="live-dot"></span>
                         <span id="live-text"></span>
                     </div>
                 </div>
 
-                <!-- NEW: Special Event Countdown -->
+                <!-- NEW: Notification Feature Container -->
+                <div id="notification-container" class="animate-on-scroll" style="transition-delay: 0.2s;">
+                    <button id="subscribe-btn">
+                        <i data-feather="bell"></i>
+                        <span>Ingatkan Saya</span>
+                    </button>
+                    <p id="notification-status"></p>
+                </div>
+
+                <!-- Special Event Countdown -->
                 <div id="special-event-container" class="animate-on-scroll" style="transition-delay: 0.4s;">
                     <h3 id="special-event-title"><h2><u>Event</u></h2><H5>JANGAN LEWATKAN</H5><u>Peresmian Gedung Gereja GSJA River of Life</u></h3><br><H5><i>Kiramya Kita Semua Dapat Menghadiri Acara Ini. GOD BLESS WE.</i></H5>
                     <div id="special-countdown">
@@ -620,8 +672,7 @@
         <footer style="text-align: center; padding: 3rem 1rem;" class="animate-on-scroll">
             <p>Tuhan Yesus Memberkati.</p>
             <h3 style="font-family: var(--font-serif); font-size: 2.5rem; color: var(--text-gold); margin-top: 1rem;">GSJA River of Life</h3>
-            <!-- CHANGED: Font style for better readability -->
-            <p style="margin-top: 2rem; font-size: 0.9rem; color: #aaa; font-family: var(--font-sans);">Create by MultiMedia GSJA ROL Pematangsiantar - 2025 All Right Reserved.</p>
+            <p style="margin-top: 2rem; font-family: var(--font-sans); font-size: 0.9rem; color: #aaa;">© Create by MultiMedia GSJA River Of Life Pematangsiantar @kingproject_ar - 2025 All Right Reserved.</p>
         </footer>
     </main>
 
@@ -640,6 +691,44 @@
  
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // This is a workaround to create a service worker file from a string
+            const swCode = `
+                self.addEventListener('install', event => {
+                    self.skipWaiting();
+                });
+
+                self.addEventListener('activate', event => {
+                    // Clean up old caches if any
+                });
+                
+                // This is the core logic for the client-side reminder
+                const checkReminders = () => {
+                    const reminderTime = parseInt(localStorage.getItem('nextReminderTime') || '0');
+                    const reminderName = localStorage.getItem('nextReminderName');
+                    const now = new Date().getTime();
+
+                    if (reminderTime > 0 && now >= reminderTime) {
+                        self.registration.showNotification('Ibadah Segera Dimulai!', {
+                            body: 'Saatnya bersiap! ' + (reminderName || 'Ibadah') + ' akan dimulai dalam 15 menit.',
+                            icon: 'https://img.icons8.com/plasticine/100/praying-man.png',
+                            tag: 'event-reminder-' + reminderTime
+                        });
+                        localStorage.removeItem('nextReminderTime');
+                        localStorage.removeItem('nextReminderName');
+                        localStorage.removeItem('notificationSubscribed');
+                    }
+                };
+                
+                // Check for reminders every minute
+                setInterval(checkReminders, 60000);
+            `;
+            const swBlob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(swBlob);
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register(swUrl).catch(err => console.error('Service Worker registration failed:', err));
+            }
+
+
             feather.replace();
 
             // --- Element Selectors & Data ---
@@ -648,8 +737,8 @@
             const mainContent = document.getElementById('main-content');
             const audio = document.getElementById('worship-audio');
             const audioControl = document.getElementById('audio-control');
-            const clockEl = document.getElementById('realtime-clock');
             let isAudioPlaying = false;
+            let nextEventForNotification = null; // NEW: To store the next event for notifications
             
             const songs = [
                 "(Hari Ini Kurasa Bahagia) GKDI Worship.mp3",
@@ -680,7 +769,9 @@
                 cover.classList.add('fade-out');
                 document.body.style.overflow = 'auto';
                 mainContent.style.display = 'block';
-                // Clock is now part of the main flow, no need to manage its display here
+                
+                // Initialize notifications after user interaction
+                setupNotifications();
             });
 
             audioControl.addEventListener('click', () => {
@@ -700,10 +791,11 @@
             const countdownLabelEl = document.getElementById('countdown-label');
             const liveNotificationEl = document.getElementById('live-notification');
             const liveTextEl = document.getElementById('live-text');
+            const nextEventDateTimeEl = document.getElementById('next-event-datetime'); // NEW
 
             const events = [
-                { name: "Ibadah Raya Sesi Ke 1 & Ibadah Sekolah Minggu", day: 0, hour: 8, minute: 30, endHour: 10, endMinute: 30 },
-                { name: "Ibadah Raya Sesi Ke 2", day: 0, hour: 10, minute: 35, endHour: 12, endMinute: 30 },
+                { name: "Ibadah Raya Sesi 1 & Sekolah Minggu", day: 0, hour: 8, minute: 30, endHour: 10, endMinute: 30 },
+                { name: "Ibadah Raya Sesi 2", day: 0, hour: 10, minute: 35, endHour: 12, endMinute: 30 },
                 { name: "Ibadah Komsel Immanuel & Maranatha", day: 2, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
                 { name: "Ibadah Komsel Kasih & Agape", day: 4, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
                 { name: "Ibadah Doa Syafaat", day: 5, hour: 18, minute: 30, endHour: 20, endMinute: 0 },
@@ -726,6 +818,7 @@
                             liveNotificationEl.style.display = 'flex';
                             countdownEl.style.display = 'none';
                             countdownLabelEl.style.display = 'none';
+                            nextEventDateTimeEl.style.display = 'none'; // NEW
                             eventIsLive = true;
                             break;
                         }
@@ -736,12 +829,13 @@
                     liveNotificationEl.style.display = 'none';
                     countdownEl.style.display = 'flex';
                     countdownLabelEl.style.display = 'block';
+                    nextEventDateTimeEl.style.display = 'block'; // NEW
 
                     let upcomingEvents = [];
                     for (const event of events) {
                         const eventDate = new Date(now.getTime());
                         let daysToAdd = (event.day + 7 - now.getDay()) % 7;
-                        if (daysToAdd === 0 && now.getHours() * 60 + now.getMinutes() >= event.hour * 60 + event.minute) {
+                        if (daysToAdd === 0 && (now.getHours() > event.hour || (now.getHours() === event.hour && now.getMinutes() >= event.minute))) {
                             daysToAdd = 7;
                         }
                         eventDate.setDate(now.getDate() + daysToAdd);
@@ -751,8 +845,14 @@
 
                     upcomingEvents.sort((a, b) => a.date - b.date);
                     const nextEvent = upcomingEvents[0];
+                    nextEventForNotification = nextEvent; // Store for notification logic
                     
                     countdownLabelEl.textContent = `Next ${nextEvent.name}`;
+
+                    // NEW: Format and display the full date and time
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                    nextEventDateTimeEl.textContent = `Pada: ${nextEvent.date.toLocaleDateString('id-ID', options)} WIB`;
+
                     const distance = nextEvent.date - now.getTime();
 
                     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -837,9 +937,9 @@
                 const minutes = String(now.getMinutes()).padStart(2, '0');
                 const seconds = String(now.getSeconds()).padStart(2, '0');
 
-                dayEl.textContent = dayName;
-                dateEl.textContent = date;
-                timeEl.textContent = `${hours}:${minutes}:${seconds}`;
+                if(dayEl) dayEl.textContent = dayName;
+                if(dateEl) dateEl.textContent = date;
+                if(timeEl) timeEl.textContent = `${hours}:${minutes}:${seconds}`;
             }
             updateClock();
 
@@ -855,6 +955,72 @@
             document.querySelectorAll('.animate-on-scroll').forEach(el => {
                 observer.observe(el);
             });
+
+            // --- NEW: NOTIFICATION LOGIC ---
+            function setupNotifications() {
+                const subscribeBtn = document.getElementById('subscribe-btn');
+                const notificationStatus = document.getElementById('notification-status');
+
+                if (!('Notification' in window) || !('serviceWorker' in navigator)) {
+                    subscribeBtn.style.display = 'none';
+                    notificationStatus.textContent = 'Browser Anda tidak mendukung notifikasi.';
+                    return;
+                }
+
+                function updateButtonState() {
+                    if (Notification.permission === 'denied') {
+                        subscribeBtn.disabled = true;
+                        notificationStatus.textContent = 'Anda telah memblokir notifikasi.';
+                        return;
+                    }
+                    if (localStorage.getItem('notificationSubscribed') === 'true') {
+                        subscribeBtn.disabled = true;
+                        subscribeBtn.querySelector('span').textContent = 'Pengingat Aktif';
+                        notificationStatus.textContent = 'Anda akan diingatkan untuk ibadah berikutnya.';
+                    } else {
+                        subscribeBtn.disabled = false;
+                        subscribeBtn.querySelector('span').textContent = 'Ingatkan Saya';
+                        notificationStatus.textContent = '';
+                    }
+                }
+
+                subscribeBtn.addEventListener('click', () => {
+                    if (Notification.permission === 'granted') {
+                        scheduleNextNotification();
+                    } else {
+                        Notification.requestPermission().then(permission => {
+                            if (permission === 'granted') {
+                                scheduleNextNotification();
+                            } else {
+                                notificationStatus.textContent = 'Izin notifikasi tidak diberikan.';
+                            }
+                            updateButtonState();
+                        });
+                    }
+                });
+
+                function scheduleNextNotification() {
+                    if (!nextEventForNotification) {
+                        notificationStatus.textContent = 'Tidak ada jadwal ibadah untuk diingatkan.';
+                        return;
+                    }
+
+                    const reminderTime = new Date(nextEventForNotification.date.getTime() - 15 * 60 * 1000); // 15 minutes before
+                    const now = new Date();
+
+                    if (reminderTime > now) {
+                        localStorage.setItem('notificationSubscribed', 'true');
+                        localStorage.setItem('nextReminderTime', reminderTime.getTime());
+                        localStorage.setItem('nextReminderName', nextEventForNotification.name);
+                        notificationStatus.textContent = `Pengingat diatur untuk ${nextEventForNotification.name}.`;
+                        updateButtonState();
+                    } else {
+                         notificationStatus.textContent = 'Ibadah berikutnya sudah terlalu dekat untuk dijadwalkan.';
+                    }
+                }
+
+                updateButtonState();
+            }
         });
     </script>
  </body>
