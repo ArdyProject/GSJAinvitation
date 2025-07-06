@@ -1,6 +1,6 @@
 <!-- ANDA BEBAS MENGEDIT DAN MENGAMBIL CODE INI..... -->
  <!-- PROJECT BY ARDY HUTASOIT (2025/01/01) -->
- <!-- EDITED BY GEMINI (2025/07/05) -->
+ <!-- EDITED BY GEMINI (2025/07/06) -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -223,18 +223,52 @@
             margin-bottom: 0.5rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px solid #444;
+            position: relative; /* For glowing line */
+            text-shadow: 0 0 8px var(--text-gold); /* Text glow */
+        }
+        /* Glowing line effect */
+        .schedule-day-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; /* Sits on top of the border-bottom */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: var(--text-gold);
+            filter: blur(4px); /* Creates the glow effect */
+            border-radius: 2px;
         }
         .schedule-day-header:first-child { margin-top: 0; }
+
         .schedule-item {
             display: flex;
             flex-direction: column; /* Stack on mobile */
             align-items: flex-start;
             padding: 1rem 0.5rem;
             border-bottom: 1px solid #333;
+            gap: 0.25rem;
         }
         .schedule-item:last-child { border-bottom: none; }
-        .schedule-item span:first-child { font-weight: 700; font-size: 1rem; }
-        .schedule-item span:last-child { font-size: 0.9rem; }
+        
+        .event-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .event-name {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .event-location {
+            font-size: 0.8rem;
+            color: #aaa;
+            font-style: italic;
+            margin-top: 4px;
+        }
+        .event-time {
+            font-size: 0.9rem;
+        }
 
         .shimmer-text {
             background: linear-gradient(90deg, var(--text-light), white, var(--text-light));
@@ -314,6 +348,8 @@
             .schedule-item { 
                 flex-direction: row; /* Side-by-side on desktop */
                 align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
             }
             .gallery-grid { columns: 3; gap: 1rem; }
             .ministries-container { flex-direction: row; }
@@ -394,7 +430,7 @@
 
                 <!-- NEW: Special Event Countdown -->
                 <div id="special-event-container" class="animate-on-scroll" style="transition-delay: 0.4s;">
-                    <h3 id="special-event-title"><H5>JANGAN LEWATKAN</H5><u>Peresmian Gedung Baru Gereja GSJA River of Life</u></h3><br><H5><i>Kiramya Kita Semua Dapat Menghadiri Acara Ini. GOD BLESS WE.</i></H5>
+                    <h3 id="special-event-title"><h2><u>Event</u></h2><H5>JANGAN LEWATKAN</H5><u>Peresmian Gedung Gereja GSJA River of Life</u></h3><br><H5><i>Kiramya Kita Semua Dapat Menghadiri Acara Ini. GOD BLESS WE.</i></H5>
                     <div id="special-countdown">
                         <div class="flip-card">
                             <div class="flip-unit" data-flip="days">00</div>
@@ -424,28 +460,77 @@
             <h2 class="section-title animate-on-scroll">Jadwal & Lokasi</h2>
             
             <div class="schedule-card animate-on-scroll">
+                <!-- SELASA -->
+                <h3 class="schedule-day-header">Selasa</h3>
+                <div class="schedule-item">
+                    <div class="event-details">
+                        <span class="event-name shimmer-text">Ibadah Komsel Immanuel</span>
+                        <span class="event-location">Lokasi: DIINFOKAN DI WARTA</span>
+                    </div>
+                    <span class="event-time shimmer-text">19:30 - 21:00 WIB</span>
+                </div>
+                <div class="schedule-item">
+                    <div class="event-details">
+                        <span class="event-name shimmer-text">Ibadah Komsel Maranatha</span>
+                        <span class="event-location">Lokasi: DIINFOKAN DI WARTA</span>
+                    </div>
+                    <span class="event-time shimmer-text">19:30 - 21:00 WIB</span>
+                </div>
+
+                <!-- KAMIS -->
+                <h3 class="schedule-day-header">Kamis</h3>
+                <div class="schedule-item">
+                    <div class="event-details">
+                        <span class="event-name shimmer-text">Ibadah Komsel Kasih</span>
+                        <span class="event-location">Lokasi: DIINFOKAN DI WARTA</span>
+                    </div>
+                    <span class="event-time shimmer-text">19:30 - 21:00 WIB</span>
+                </div>
+                <div class="schedule-item">
+                    <div class="event-details">
+                        <span class="event-name shimmer-text">Ibadah Komsel Agape</span>
+                        <span class="event-location">Lokasi: DIINFOKAN DI WARTA</span>
+                    </div>
+                    <span class="event-time shimmer-text">19:30 - 21:00 WIB</span>
+                </div>
+
+                <!-- JUMAT -->
                 <h3 class="schedule-day-header">Jumat</h3>
                 <div class="schedule-item">
-                    <span class="shimmer-text">Doa Syafaat</span>
-                    <span class="shimmer-text">18:30 - 20:00 WIB</span>
+                    <div class="event-details">
+                        <span class="event-name shimmer-text">Doa Syafaat</span>
+                    </div>
+                    <span class="event-time shimmer-text">18:30 - 20:00 WIB</span>
                 </div>
                 <div class="schedule-item">
-                    <span class="shimmer-text">Latihan Pujian & Penyembahan</span>
-                    <span class="shimmer-text">20:30 - 22:00 WIB</span>
+                    <div class="event-details">
+                        <span class="event-name shimmer-text">Latihan Pujian & Penyembahan</span>
+                    </div>
+                    <span class="event-time shimmer-text">20:30 - 22:00 WIB</span>
                 </div>
+
+                <!-- SABTU -->
                 <h3 class="schedule-day-header">Sabtu</h3>
                 <div class="schedule-item">
-                    <span class="shimmer-text">Ibadah Youth Generation</span>
-                    <span class="shimmer-text">19:30 - 21:00 WIB</span>
+                    <div class="event-details">
+                        <span class="event-name shimmer-text">Ibadah Youth Generation</span>
+                    </div>
+                    <span class="event-time shimmer-text">19:00 - 21:00 WIB</span>
                 </div>
+
+                <!-- MINGGU -->
                 <h3 class="schedule-day-header">Minggu</h3>
                 <div class="schedule-item">
-                    <span class="shimmer-text">Ibadah Raya Sesi 1 & Sekolah Miggu</span>
-                    <span class="shimmer-text">08:30 - 10:30 WIB</span>
+                    <div class="event-details">
+                        <span class="event-name shimmer-text">Ibadah Raya Sesi 1 & Sekolah Minggu</span>
+                    </div>
+                    <span class="event-time shimmer-text">08:30 - 10:30 WIB</span>
                 </div>
                 <div class="schedule-item">
-                    <span class="shimmer-text">Ibadah Raya Sesi 2</span>
-                    <span class="shimmer-text">10:35 - 12:30 WIB</span>
+                    <div class="event-details">
+                        <span class="event-name shimmer-text">Ibadah Raya Sesi 2</span>
+                    </div>
+                    <span class="event-time shimmer-text">10:35 - 12:30 WIB</span>
                 </div>
             </div>
 
@@ -544,7 +629,6 @@
             openBtn.addEventListener('click', () => {
                 const randomIndex = Math.floor(Math.random() * songs.length);
                 const audioSource = audio.querySelector('source');
-                // Use a valid, direct link to an audio file for testing
                 audioSource.src = songs[randomIndex];
                 audio.load();
 
@@ -554,7 +638,6 @@
                     feather.replace();
                 }).catch(e => {
                     console.error("Audio play failed:", e);
-                    // If autoplay fails, set UI to "play" state
                     isAudioPlaying = false;
                     audioControl.innerHTML = '<i data-feather="play"></i>';
                     feather.replace();
@@ -587,11 +670,13 @@
             const liveTextEl = document.getElementById('live-text');
 
             const events = [
-                { name: "Ibadah Sesi Ke 1 & Ibadah Sekolah Minggu", day: 0, hour: 8, minute: 30, endHour: 10, endMinute: 30 },
-                { name: "Ibadah Sesi Ke 2", day: 0, hour: 10, minute: 35, endHour: 12, endMinute: 30 },
-                { name: " Ibadah Doa Syafaat", day: 5, hour: 18, minute: 30, endHour: 20, endMinute: 0 },
+                { name: "Ibadah Raya Sesi Ke 1 & Ibadah Sekolah Minggu", day: 0, hour: 8, minute: 30, endHour: 10, endMinute: 30 },
+                { name: "Ibadah Raya Sesi Ke 2", day: 0, hour: 10, minute: 35, endHour: 12, endMinute: 30 },
+                { name: "Ibadah Komsel Immanuel & Maranatha", day: 2, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
+                { name: "Ibadah Komsel Kasih & Agape", day: 4, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
+                { name: "Ibadah Doa Syafaat", day: 5, hour: 18, minute: 30, endHour: 20, endMinute: 0 },
                 { name: "Latihan Pujian & Penyembahan", day: 5, hour: 20, minute: 30, endHour: 22, endMinute: 0 },
-                { name: "Ibadah Youth Generation", day: 6, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
+                { name: "Ibadah Youth Generation", day: 6, hour: 19, minute: 0, endHour: 21, endMinute: 0 },
             ];
 
             function updateCountdown() {
@@ -665,11 +750,10 @@
                 if (distance <= 0) {
                     specialCountdownEl.style.display = 'none';
                     specialFinishedMessageEl.style.display = 'block';
-                    // Set all to 00 and stop the interval for this function if needed
                     flipUnits.forEach(unit => {
                         updateFlipUnit(unit, "00");
                     });
-                    return; // Stop further processing
+                    return; 
                 }
 
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -686,7 +770,6 @@
             function updateFlipUnit(element, newValue) {
                 const currentValue = element.textContent;
                 if (newValue !== currentValue) {
-                    // Add animation class
                     element.style.transition = 'transform 0.5s, background-color 0.5s';
                     element.style.transform = 'rotateX(180deg)';
                     element.style.backgroundColor = '#f0f0f0';
@@ -695,7 +778,7 @@
                         element.textContent = newValue;
                         element.style.transform = 'rotateX(0deg)';
                         element.style.backgroundColor = 'white';
-                    }, 250); // Halfway through the animation
+                    }, 250); 
                 }
             }
 
