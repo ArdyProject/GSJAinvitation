@@ -13,16 +13,49 @@
     <!-- Feather Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
     <style>
+        /* --- NEW: THEME COLOR VARIABLES --- */
         :root {
-            --bg-dark: BLACK;
-            --bg-card: #242424;
-            --text-light: #e0e0e0;
-            --text-gold: #c5a572;
-            --live-red: #ef4444;
             --font-serif: 'Cormorant Garamond', serif;
             --font-sans: 'Montserrat', sans-serif;
             --font-script: 'Great Vibes', cursive;
             --font-mono: 'Roboto Mono', monospace;
+            --live-red: #ef4444;
+            --shadow-light: rgba(0,0,0,0.1);
+            --shadow-dark: rgba(0,0,0,0.5);
+        }
+
+        /* Default to Dark Theme */
+        body, .theme-dark {
+            --bg-primary: #121212;
+            --bg-secondary: #000000;
+            --bg-card: #242424;
+            --text-primary: #e0e0e0;
+            --text-secondary: #aaaaaa;
+            --text-gold: #c5a572;
+            --border-color: #333;
+            --shadow-color: var(--shadow-dark);
+        }
+
+        .theme-light {
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #222222;
+            --text-secondary: #555555;
+            --text-gold: #b4864f;
+            --border-color: #e0e0e0;
+            --shadow-color: var(--shadow-light);
+        }
+
+        .theme-sky-blue {
+            --bg-primary: #eef8ff;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #1f3a4e;
+            --text-secondary: #4a657c;
+            --text-gold: #0077c2;
+            --border-color: #d0e0f0;
+            --shadow-color: var(--shadow-light);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,10 +64,11 @@
 
         body {
             font-family: var(--font-sans);
-            background-color: var(--bg-dark);
-            color: var(--text-light);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             overflow: hidden; 
             line-height: 1.8;
+            transition: background-color 0.4s, color 0.4s;
         }
 
         /* --- Cover Section --- */
@@ -58,11 +92,20 @@
         }
         #open-invitation {
             margin-top: 2rem; padding: 0.8rem 2.5rem;
-            font-size: 1rem; font-weight: 700; color: var(--bg-dark);
+            font-size: 1rem; font-weight: 700; color: #222;
             background: white; border: none; border-radius: 50px;
-            cursor: pointer; transition: all 0.3s ease;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-        #open-invitation:hover { background-color: var(--text-gold); color: white; }
+        #open-invitation:hover { 
+            background-color: #f0f0f0;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        #open-invitation:active {
+            transform: translateY(-1px);
+        }
         
 
         /* --- Main Content --- */
@@ -70,15 +113,26 @@
             display: none;
             padding-bottom: 120px;
         }
+        /* --- NEW: Enhanced Entry Animations --- */
         .animate-on-scroll {
             opacity: 0;
-            transform: translateY(30px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        .animate-on-scroll.visible {
+        .animate-fade-in-up {
+            transform: translateY(40px);
+        }
+        .animate-fade-in-up.visible {
             opacity: 1;
             transform: translateY(0);
         }
+        .animate-pop-in {
+            transform: scale(0.9);
+        }
+        .animate-pop-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
         section {
             padding: 4rem 1rem; /* Adjusted padding for mobile */
             max-width: 900px;
@@ -110,10 +164,11 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background: linear-gradient(rgba(26,26,26,0.85), rgba(26,26,26,0.85)), url('https://images.unsplash.com/photo-1604940500534-345a3c9e2d3d?q=80&w=1932&auto=format&fit=crop') no-repeat center center/cover;
+            background-color: transparent; /* Home has its own background */
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1604940500534-345a3c9e2d3d?q=80&w=1932&auto=format&fit=crop') no-repeat center center/cover;
             padding-top: 8rem; /* Add padding to avoid overlap with clock */
         }
-        #home h2 {
+        #home h1, #home h2 {
             font-family: var(--font-script);
             font-size: 3.8rem; /* Mobile-first font size */
             font-weight: normal;
@@ -129,8 +184,8 @@
             min-width: 70px;
             animation: breathe 3s ease-in-out infinite;
         }
-        .countdown-item div:first-child { font-size: 1.8rem; font-weight: 700; }
-        .countdown-item div:last-child { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+        .countdown-item div:first-child { font-size: 1.8rem; font-weight: 700; color: white; }
+        .countdown-item div:last-child { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: white; }
 
         @keyframes breathe {
             0%, 100% { transform: scale(1); box-shadow: 0 0 5px rgba(197, 165, 114, 0.2); }
@@ -199,7 +254,7 @@
             font-family: var(--font-mono);
             font-size: 3rem;
             font-weight: 700;
-            color: var(--bg-dark);
+            color: #222;
             background-color: white;
             border-radius: 8px;
             line-height: 80px;
@@ -222,10 +277,12 @@
 
 
         /* --- Schedule Table Layout --- */
+        #details { background-color: var(--bg-secondary); }
         .schedule-card {
             background: var(--bg-card); padding: 1.5rem;
-            border-radius: 12px; border: 1px solid #333;
+            border-radius: 12px; border: 1px solid var(--border-color);
             text-align: left;
+            box-shadow: 0 5px 25px var(--shadow-color);
         }
         .schedule-day-header {
             font-family: var(--font-serif);
@@ -234,7 +291,7 @@
             margin-top: 1.5rem;
             margin-bottom: 0.5rem;
             padding-bottom: 0.5rem;
-            border-bottom: 1px solid #444;
+            border-bottom: 1px solid var(--border-color);
             position: relative;
             text-shadow: 0 0 8px var(--text-gold);
         }
@@ -261,7 +318,7 @@
             flex-direction: column; /* Stack on mobile */
             align-items: flex-start;
             padding: 1rem 0.5rem;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid var(--border-color);
             gap: 0.25rem;
         }
         .schedule-item:last-child { border-bottom: none; }
@@ -274,21 +331,23 @@
         .event-name {
             font-weight: 700;
             font-size: 1rem;
+            color: var(--text-primary);
         }
         .event-location {
             font-size: 0.8rem;
-            color: #aaa;
+            color: var(--text-secondary);
             font-style: italic;
             margin-top: 4px;
         }
         .event-time {
             font-size: 0.9rem;
+            color: var(--text-primary);
         }
 
         .shimmer-text {
-            background: linear-gradient(90deg, var(--text-light), white, var(--text-light));
+            background: linear-gradient(90deg, var(--text-primary), var(--text-gold), var(--text-primary));
             background-size: 200% auto;
-            color: #000;
+            color: transparent;
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -301,7 +360,7 @@
             margin-top: 3rem;
             border-radius: 12px;
             overflow: hidden;
-            border: 2px solid #333;
+            border: 2px solid var(--border-color);
         }
         .map-container iframe { width: 100%; height: 300px; border: none; }
 
@@ -315,14 +374,14 @@
             background: var(--bg-card);
             border-radius: 12px;
             overflow: hidden;
-            border: 1px solid #333;
+            border: 1px solid var(--border-color);
             cursor: pointer;
             position: relative;
             transition: transform 0.3s, box-shadow 0.3s;
         }
         .gallery-category:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 20px var(--shadow-color);
         }
         /* Hide all gallery items except the first one in the main view */
         .gallery-item:not(:first-of-type) {
@@ -416,6 +475,7 @@
 
 
         /* Ministries Section */
+        #ministries { background-color: var(--bg-secondary); }
         .ministries-container {
             display: flex;
             flex-direction: column; /* Stack on mobile */
@@ -424,33 +484,46 @@
         .ministry-card {
             background: var(--bg-card); padding: 2rem;
             border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 5px 25px var(--shadow-color);
         }
         .ministry-card i { color: var(--text-gold); margin-bottom: 1rem; }
-        .ministry-card h3 { font-family: var(--font-serif); font-size: 1.5rem; }
+        .ministry-card h3 { font-family: var(--font-serif); font-size: 1.5rem; color: var(--text-primary); }
 
         /* --- Floating Controls & Nav --- */
         #audio-control {
             position: fixed; bottom: 90px; right: 15px;
             width: 50px; height: 50px;
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
+            background: var(--bg-card); backdrop-filter: blur(5px);
+            color: var(--text-primary);
             border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            cursor: pointer; z-index: 50; border: 1px solid #444;
+            cursor: pointer; z-index: 50; border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px var(--shadow-color);
+            transition: all 0.3s;
         }
+        #audio-control:hover { transform: scale(1.1); }
+
         #bottom-nav {
             position: fixed; bottom: 0; left: 0; right: 0;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(10px);
+            background: color-mix(in srgb, var(--bg-card) 80%, transparent); 
+            backdrop-filter: blur(10px);
             height: 70px; z-index: 50;
+            border-top: 1px solid var(--border-color);
         }
         .nav-container {
             display: flex; justify-content: space-around; align-items: center; height: 100%;
             max-width: 500px; margin: 0 auto;
         }
         .nav-button {
-            color: var(--text-light); text-decoration: none;
+            color: var(--text-secondary); text-decoration: none;
             display: flex; flex-direction: column; align-items: center;
-            gap: 4px; opacity: 0.7; transition: opacity 0.3s;
+            gap: 4px; opacity: 0.8; transition: opacity 0.3s, color 0.3s, transform 0.2s;
+            cursor: pointer; /* Ensure it's clickable */
+            background: none;
+            border: none;
+            font-family: var(--font-sans);
         }
-        .nav-button:hover { opacity: 1; }
+        .nav-button:hover { opacity: 1; color: var(--text-gold); transform: translateY(-3px); }
         .nav-button span { font-size: 0.7rem; font-weight: 700; }
 
         /* --- Real-time Clock (MOVED) --- */
@@ -493,7 +566,7 @@
         footer .footer-credit {
             margin-top: 2rem;
             font-size: 0.9rem;
-            color: #aaa;
+            color: var(--text-secondary);
             font-family: var(--font-sans);
         }
         
@@ -525,7 +598,7 @@
         }
         #subscribe-btn:hover {
             background-color: #d4b98a;
-            transform: translateY(-2px);
+            transform: translateY(-2px) scale(1.05);
         }
         #subscribe-btn:disabled {
             background-color: #555;
@@ -537,6 +610,256 @@
             color: #aaa;
             margin-top: 0.5rem;
         }
+
+        /* --- NEW: AUTH MODAL STYLES --- */
+        .auth-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        .auth-modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .auth-modal {
+            background: var(--bg-card);
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px var(--shadow-color);
+            transform: translateY(-50px) scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .auth-modal-overlay.visible .auth-modal {
+            transform: translateY(0) scale(1);
+        }
+        .auth-modal-close {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: none; border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        .auth-modal h2 {
+            font-family: var(--font-serif);
+            color: var(--text-gold);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .auth-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .auth-form input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        .auth-form .form-action {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--text-gold);
+            color: var(--bg-secondary);
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .auth-form .form-action:hover {
+            filter: brightness(1.1);
+        }
+        .auth-form .form-action:active {
+            transform: scale(0.98);
+        }
+        .auth-toggle-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .auth-toggle-link button {
+            background: none;
+            border: none;
+            color: var(--text-gold);
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: inherit;
+        }
+        #register-form { display: none; }
+
+
+        /* --- NEW: LIVE CHAT STYLES --- */
+        #chat-fab {
+            position: fixed;
+            bottom: 90px;
+            left: 15px;
+            width: 50px;
+            height: 50px;
+            background: var(--text-gold);
+            color: var(--bg-secondary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 50;
+            border: none;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            transition: transform 0.3s ease;
+        }
+        #chat-fab:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+        #chat-popup {
+            position: fixed;
+            bottom: 150px;
+            left: 15px;
+            width: 90%;
+            max-width: 350px;
+            height: 70vh;
+            max-height: 500px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            z-index: 2100;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 5px 25px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.3s ease-out;
+        }
+        #chat-popup.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+        .chat-header {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+        }
+        .chat-header h3 {
+            font-size: 1.1rem;
+            color: var(--text-gold);
+            margin: 0;
+        }
+        #chat-close-btn {
+            background: none; border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        .chat-messages {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .chat-message {
+            max-width: 80%;
+            padding: 0.6rem 0.9rem;
+            border-radius: 12px;
+            line-height: 1.5;
+        }
+        .chat-message.user {
+            background: var(--text-gold);
+            color: var(--bg-secondary);
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+        .chat-message.bot {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+        .chat-input-container {
+            display: flex;
+            padding: 0.75rem;
+            border-top: 1px solid var(--border-color);
+        }
+        #chat-input {
+            flex-grow: 1;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 0.6rem 1rem;
+            color: var(--text-primary);
+            margin-right: 0.5rem;
+        }
+        #chat-send-btn {
+            background: var(--text-gold);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--bg-secondary);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        #chat-send-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* --- NEW: THEME SWITCHER --- */
+        #theme-switcher {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 55;
+            background: var(--bg-card);
+            border-radius: 50px;
+            padding: 5px;
+            display: flex;
+            gap: 5px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+        .theme-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .theme-btn:hover {
+            transform: scale(1.1);
+        }
+        .theme-btn.active {
+            border-color: var(--text-gold);
+            box-shadow: 0 0 5px var(--text-gold);
+        }
+        #theme-dark-btn { background-color: #242424; }
+        #theme-light-btn { background-color: #f5f5f5; }
+        #theme-sky-blue-btn { background-color: #87CEEB; }
 
 
         /* --- DESKTOP STYLES --- */
@@ -559,11 +882,23 @@
             #special-countdown { gap: 1.5rem; }
             
             #realtime-clock { top: 2rem; }
+
+            #chat-popup {
+                bottom: 20px;
+                left: 20px;
+            }
         }
     </style>
 </head>
-<body>
+<body class="theme-dark"> <!-- Default theme -->
     <audio id="worship-audio" loop><source src="" type="audio/mpeg"></audio>
+    
+    <!-- NEW: THEME SWITCHER -->
+    <div id="theme-switcher">
+        <button class="theme-btn active" id="theme-dark-btn" data-theme="theme-dark" title="Dark Mode"></button>
+        <button class="theme-btn" id="theme-light-btn" data-theme="theme-light" title="Light Mode"></button>
+        <button class="theme-btn" id="theme-sky-blue-btn" data-theme="theme-sky-blue" title="Sky Blue Mode"></button>
+    </div>
 
     <div id="cover">
         <div class="cover-content">
@@ -582,9 +917,9 @@
                 <div id="clock-time"></div>
             </div>
 
-            <div class="animate-on-scroll">
+            <div class="animate-fade-in-up">
                 <p>Mari Beribadah Bersama Kami Di:</p>
-                <h1>GSJA River of Life<br>Pematangsiantar</h1>
+                <h3>GSJA River of Life<br>Pematangsiantar</h3>
                 <hr class="separator">
                 <div id="countdown-container">
                     <div id="countdown-label">Menghitung...</div>
@@ -594,7 +929,6 @@
                         <div class="countdown-item"><div>00</div><div>Menit</div></div>
                         <div class="countdown-item"><div>00</div><div>Detik</div></div>
                     </div>
-                    <!-- NEW: Next Event Date Display -->
                     <p id="next-event-datetime"></p>
                     <div id="live-notification">
                         <span class="live-dot"></span>
@@ -602,8 +936,7 @@
                     </div>
                 </div>
 
-                <!-- NEW: Notification Feature Container -->
-                <div id="notification-container" class="animate-on-scroll" style="transition-delay: 0.2s;">
+                <div id="notification-container" class="animate-pop-in" style="transition-delay: 0.2s;">
                     <button id="subscribe-btn">
                         <i data-feather="bell"></i>
                         <span>Ingatkan Saya</span>
@@ -611,9 +944,8 @@
                     <p id="notification-status"></p>
                 </div>
 
-                <!-- Special Event Countdown -->
-                <div id="special-event-container" class="animate-on-scroll" style="transition-delay: 0.4s;">
-                    <h3 id="special-event-title"><h2><u>Event</u></h2><H5>JANGAN LEWATKAN</H5><u>Peresmian Gedung Gereja GSJA River of Life</u></h3><br><H5><i>Kiramya Kita Semua Dapat Menghadiri Acara Ini. GOD BLESS WE.</i></H5>
+                <div id="special-event-container" class="animate-pop-in" style="transition-delay: 0.4s;">
+                    <h3 id="special-event-title"><h2><u>Event</u></h2><H5>JANGAN LEWATKAN</H5><u>Peresmian Gedung Gereja GSJA River of Life</u></h3><br><H5><i>Kiranya Kita Semua Dapat Menghadiri Acara Ini. GOD BLESS WE.</i></H5>
                     <div id="special-countdown">
                         <div class="flip-card">
                             <div class="flip-unit" data-flip="days">00</div>
@@ -634,15 +966,14 @@
                     </div>
                     <div id="special-event-finished-message">MENANTI EVENT LAINNYA</div>
                 </div>
-                <!-- END: Special Event Countdown -->
 
             </div>
         </section>
 
-        <section id="details" style="background-color: var(--bg-card);">
-            <h2 class="section-title animate-on-scroll">Jadwal & Lokasi</h2>
+        <section id="details">
+            <h2 class="section-title animate-fade-in-up">Jadwal & Lokasi</h2>
             
-            <div class="schedule-card animate-on-scroll">
+            <div class="schedule-card animate-pop-in">
                 <!-- SELASA -->
                 <h3 class="schedule-day-header">Selasa</h3>
                 <div class="schedule-item">
@@ -717,141 +1048,81 @@
                 </div>
             </div>
 
-            <div class="map-container animate-on-scroll" style="transition-delay: 0.2s;">
+            <div class="map-container animate-pop-in" style="transition-delay: 0.2s;">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.417215228878!2d99.0699223152194!3d2.98114695444769!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3031857427a7a1e1%3A0x8f5a33f4a0a436b!2sGSJA%20RIVER%20OF%20LIFE!5e0!3m2!1sen!2sid!4v1672895698123!5m2!1sen!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-             <p class="animate-on-scroll" style="margin-top: 1rem; font-size: 0.9rem; color: #aaa;">Jl. Pdt. J. Wismar Saragih, Pematangsiantar</p>
+             <p class="animate-fade-in-up" style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">Jl. Pdt. J. Wismar Saragih, Pematangsiantar</p>
         </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!-- === UPDATED GALLERY SECTION === -->
         <section id="gallery">
-            <h2 class="section-title animate-on-scroll">Galeri</h2>
-            <p class="animate-on-scroll" style="max-width: 600px; margin: -2rem auto 2rem auto;">Kita lihat bagaimana Kuasa Tuhan terjadi dan melawat setiap hsti orang yang mau datang dan bersekutu kepada-Nya</p>
+            <h2 class="section-title animate-fade-in-up">Galeri</h2>
+            <p class="animate-fade-in-up" style="max-width: 600px; margin: -2rem auto 2rem auto; color: var(--text-secondary);">Kita lihat bagaimana Kuasa Tuhan terjadi dan melawat setiap hati orang yang mau datang dan bersekutu kepada-Nya</p>
             
-            <div id="gallery-container" class="animate-on-scroll">
+            <div id="gallery-container" class="animate-pop-in">
                 <!-- Category 1: Ibadah Raya -->
                 <div class="gallery-category" data-category-name="Ibadah Raya">
-                    <!-- Only this first item is visible on the page -->
-                    <div class="gallery-item">
-                        <img src="https://placehold.co/600x400/c5a572/000000?text=Ibadah+Sesi+1" alt="Suasana Ibadah Raya Sesi 1">
-                    </div>
-                    <!-- These items are hidden but will appear in the lightbox -->
-                    <div class="gallery-item">
-                        <img src="https://placehold.co/600x400/c5a572/000000?text=Firman+Tuhan" alt="Penyampaian Firman Tuhan">
-                        <figcaption>Gembala Sidang menyampaikan Firman Tuhan dengan penuh kuasa.</figcaption>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://placehold.co/600x400/c5a572/000000?text=Jemaat" alt="Jemaat yang beribadah">
-                        <figcaption>Jemaat dengan antusias mengikuti setiap sesi ibadah.</figcaption>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://placehold.co/600x400/c5a572/000000?text=Altar+Call" alt="Doa dan Altar Call">
-                        <figcaption>Momen doa dan panggilan altar bagi jemaat yang rindu dilayani.</figcaption>
-                    </div>
+                    <div class="gallery-item"><img src="https://placehold.co/600x400/c5a572/000000?text=Ibadah+Sesi+1" alt="Suasana Ibadah Raya Sesi 1"></div>
+                    <div class="gallery-item"><img src="https://placehold.co/600x400/c5a572/000000?text=Firman+Tuhan" alt="Penyampaian Firman Tuhan"><figcaption>Gembala Sidang menyampaikan Firman Tuhan dengan penuh kuasa.</figcaption></div>
+                    <div class="gallery-item"><img src="https://placehold.co/600x400/c5a572/000000?text=Jemaat" alt="Jemaat yang beribadah"><figcaption>Jemaat dengan antusias mengikuti setiap sesi ibadah.</figcaption></div>
+                    <div class="gallery-item"><img src="https://placehold.co/600x400/c5a572/000000?text=Altar+Call" alt="Doa dan Altar Call"><figcaption>Momen doa dan panggilan altar bagi jemaat yang rindu dilayani.</figcaption></div>
                     <div class="gallery-category-title-overlay">Ibadah Raya</div>
                 </div>
 
                 <!-- Category 2: Sekolah Minggu -->
                 <div class="gallery-category" data-category-name="Sekolah Minggu">
-                    <div class="gallery-item">
-                        <img src="https://placehold.co/600x400/242424/FFFFFF?text=Anak-anak" alt="Anak-anak Sekolah Minggu">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://placehold.co/600x400/242424/FFFFFF?text=Aktivitas" alt="Aktivitas belajar Firman">
-                        <figcaption>Belajar Firman Tuhan melalui cerita dan aktivitas kreatif.</figcaption>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://placehold.co/600x400/242424/FFFFFF?text=Bermain" alt="Bermain bersama">
-                        <figcaption>Waktu bermain dan membangun persahabatan.</figcaption>
-                    </div>
+                    <div class="gallery-item"><img src="https://placehold.co/600x400/242424/FFFFFF?text=Anak-anak" alt="Anak-anak Sekolah Minggu"></div>
+                    <div class="gallery-item"><img src="https://placehold.co/600x400/242424/FFFFFF?text=Aktivitas" alt="Aktivitas belajar Firman"><figcaption>Belajar Firman Tuhan melalui cerita dan aktivitas kreatif.</figcaption></div>
+                    <div class="gallery-item"><img src="https://placehold.co/600x400/242424/FFFFFF?text=Bermain" alt="Bermain bersama"><figcaption>Waktu bermain dan membangun persahabatan.</figcaption></div>
                     <div class="gallery-category-title-overlay">Sekolah Minggu</div>
                 </div>
 
                 <!-- Category 3: Youth Generation -->
                 <div class="gallery-category" data-category-name="Youth Generation">
-                    <div class="gallery-item">
-                        <img src="https://placehold.co/600x400/ef4444/FFFFFF?text=Youth+Worship" alt="Ibadah Youth">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://placehold.co/600x400/ef4444/FFFFFF?text=Komunitas" alt="Komunitas anak muda">
-                        <figcaption>Membangun komunitas yang positif dan bertumbuh bersama dalam Tuhan.</figcaption>
-                    </div>
+                    <div class="gallery-item"><img src="https://placehold.co/600x400/ef4444/FFFFFF?text=Youth+Worship" alt="Ibadah Youth"></div>
+                    <div class="gallery-item"><img src="https://placehold.co/600x400/ef4444/FFFFFF?text=Komunitas" alt="Komunitas anak muda"><figcaption>Membangun komunitas yang positif dan bertumbuh bersama dalam Tuhan.</figcaption></div>
                     <div class="gallery-category-title-overlay">Youth Generation</div>
                 </div>
                 
                 <!-- Category 4: Acara Spesial -->
                  <div class="gallery-category" data-category-name="Acara Spesial">
-                    <div class="gallery-item">
-                        <img src="https://placehold.co/600x400/1e40af/ffffff?text=Natal" alt="Perayaan Natal">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://placehold.co/600x400/1e40af/ffffff?text=Paskah" alt="Drama Paskah">
-                        <figcaption>Drama penyaliban Yesus saat perayaan Paskah.</figcaption>
-                    </div>
-                     <div class="gallery-item">
-                        <img src="https://placehold.co/600x400/1e40af/ffffff?text=HUT+Gereja" alt="HUT Gereja">
-                        <figcaption>Perayaan ulang tahun gereja dengan sukacita.</figcaption>
-                    </div>
+                    <div class="gallery-item"><img src="https://placehold.co/600x400/1e40af/ffffff?text=Natal" alt="Perayaan Natal"></div>
+                    <div class="gallery-item"><img src="https://placehold.co/600x400/1e40af/ffffff?text=Paskah" alt="Drama Paskah"><figcaption>Drama penyaliban Yesus saat perayaan Paskah.</figcaption></div>
+                     <div class="gallery-item"><img src="https://placehold.co/600x400/1e40af/ffffff?text=HUT+Gereja" alt="HUT Gereja"><figcaption>Perayaan ulang tahun gereja dengan sukacita.</figcaption></div>
                     <div class="gallery-category-title-overlay">Acara Spesial</div>
                 </div>
             </div>
 
         </section>
-        <!-- === END OF UPDATED GALLERY SECTION === -->
 
-        <section id="ministries" style="background-color: var(--bg-card);">
-             <h2 class="section-title animate-on-scroll">Pelayanan Kami</h2>
-             <p class="animate-on-scroll" style="max-width: 600px; margin: -2rem auto 2rem auto;">Kami percaya setiap orang memiliki karunia untuk melayani. Temukan tempat mu untuk bertumbuh dan melayani bersama kami.</p>
+        <section id="ministries">
+             <h2 class="section-title animate-fade-in-up">Pelayanan Kami</h2>
+             <p class="animate-fade-in-up" style="max-width: 600px; margin: -2rem auto 2rem auto; color: var(--text-secondary);">Kami percaya setiap orang memiliki karunia untuk melayani. Temukan tempat mu untuk bertumbuh dan melayani bersama kami.</p>
              <div class="ministries-container">
-                 <div class="ministry-card animate-on-scroll">
-                     <i data-feather="heart" width="48" height="48" style="color: var(--text-gold); margin-bottom: 1rem;"></i>
+                 <div class="ministry-card animate-pop-in">
+                     <i data-feather="heart" width="48" height="48"></i>
                      <h3>Sekolah Minggu</h3>
                      <p>Menanamkan Firman Tuhan yang benar kepada anak-anak.</p>
                  </div>
-                 <div class="ministry-card animate-on-scroll" style="transition-delay: 0.2s;">
-                     <i data-feather="zap" width="48" height="48" style="color: var(--text-gold); margin-bottom: 1rem;"></i>
+                 <div class="ministry-card animate-pop-in" style="transition-delay: 0.2s;">
+                     <i data-feather="zap" width="48" height="48"></i>
                      <h3>Youth Generation GSJA</h3>
                      <p>Wadah bagi kaum muda/remaja untuk bertumbuh dalam iman dan komunitas yang positif.</p>
                  </div>
-                 <div class="ministry-card animate-on-scroll" style="transition-delay: 0.4s;">
-                     <i data-feather="music" width="48" height="48" style="color: var(--text-gold); margin-bottom: 1rem;"></i>
+                 <div class="ministry-card animate-pop-in" style="transition-delay: 0.4s;">
+                     <i data-feather="music" width="48" height="48"></i>
                      <h3>Pujian & Penyembahan</h3>
                      <p>Memimpin jemaat untuk masuk dalam hadirat Tuhan melalui pujian.</p>
                  </div>
              </div>
         </section>
         
-        <footer style="text-align: center; padding: 3rem 1rem;" class="animate-on-scroll">
+        <footer style="text-align: center; padding: 3rem 1rem;" class="animate-fade-in-up">
             <p>Tuhan Yesus Memberkati.</p>
             <h3 style="font-family: var(--font-serif); font-size: 2.5rem; color: var(--text-gold); margin-top: 1rem;">GSJA River of Life</h3>
-            <p style="margin-top: 2rem; font-family: var(--font-sans); font-size: 0.9rem; color: #aaa;">© Create by MultiMedia GSJA River Of Life Pematangsiantar @kingproject_ar - 2025 All Right Reserved.</p>
+            <p class="footer-credit">© Create by MultiMedia GSJA River Of Life Pematangsiantar @kingproject_ar - 2025 All Right Reserved.</p>
         </footer>
     </main>
 
-    <!-- === NEW: LIGHTBOX/PREVIEW ELEMENT === -->
     <div id="lightbox">
         <button id="lightbox-close" class="lightbox-btn"><i data-feather="x"></i></button>
         <button id="lightbox-prev" class="lightbox-btn"><i data-feather="chevron-left"></i></button>
@@ -860,10 +1131,43 @@
         <div id="lightbox-caption"></div>
     </div>
 
-
-    <div id="audio-control">
-        <i data-feather="music"></i>
+    <div id="auth-modal-overlay" class="auth-modal-overlay">
+        <div class="auth-modal">
+            <button id="auth-modal-close" class="auth-modal-close"><i data-feather="x"></i></button>
+            <form id="login-form" class="auth-form">
+                <h2>Selamat Datang Kembali</h2>
+                <div class="form-group"><input type="email" placeholder="Email Anda" required></div>
+                <div class="form-group"><input type="password" placeholder="Kata Sandi" required></div>
+                <button type="submit" class="form-action">Masuk</button>
+                <div class="auth-toggle-link">Belum punya akun? <button type="button" id="show-register">Daftar di sini</button></div>
+            </form>
+            <form id="register-form" class="auth-form">
+                <h2>Buat Akun Baru</h2>
+                <div class="form-group"><input type="text" placeholder="Nama Lengkap" required></div>
+                <div class="form-group"><input type="email" placeholder="Email Anda" required></div>
+                <div class="form-group"><input type="password" placeholder="Buat Kata Sandi" required></div>
+                <button type="submit" class="form-action">Daftar</button>
+                <div class="auth-toggle-link">Sudah punya akun? <button type="button" id="show-login">Masuk di sini</button></div>
+            </form>
+        </div>
     </div>
+    
+    <button id="chat-fab"><i data-feather="message-square"></i></button>
+    <div id="chat-popup">
+        <div class="chat-header">
+            <h3>Asisten Rohani</h3>
+            <button id="chat-close-btn"><i data-feather="x"></i></button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="chat-message bot">Shalom! Saya adalah asisten virtual GSJA River of Life. Silakan bertanya mengenai jadwal ibadah, pelayanan, atau acara di gereja kami.</div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" id="chat-input" placeholder="Ketik pertanyaan...">
+            <button id="chat-send-btn"><i data-feather="send"></i></button>
+        </div>
+    </div>
+
+    <div id="audio-control"><i data-feather="music"></i></div>
 
     <nav id="bottom-nav">
         <div class="nav-container">
@@ -871,27 +1175,19 @@
             <a href="#details" class="nav-button"><i data-feather="calendar"></i><span>Jadwal</span></a>
             <a href="#gallery" class="nav-button"><i data-feather="image"></i><span>Galeri</span></a>
             <a href="#ministries" class="nav-button"><i data-feather="grid"></i><span>Pelayanan</span></a>
+            <button id="login-nav-btn" class="nav-button"><i data-feather="user"></i><span>Login</span></button>
         </div>
     </nav>
  
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // This is a workaround to create a service worker file from a string
             const swCode = `
-                self.addEventListener('install', event => {
-                    self.skipWaiting();
-                });
-
-                self.addEventListener('activate', event => {
-                    // Clean up old caches if any
-                });
-                
-                // This is the core logic for the client-side reminder
+                self.addEventListener('install', event => { self.skipWaiting(); });
+                self.addEventListener('activate', event => {});
                 const checkReminders = () => {
                     const reminderTime = parseInt(localStorage.getItem('nextReminderTime') || '0');
                     const reminderName = localStorage.getItem('nextReminderName');
                     const now = new Date().getTime();
-
                     if (reminderTime > 0 && now >= reminderTime) {
                         self.registration.showNotification('Ibadah Segera Dimulai!', {
                             body: 'Saatnya bersiap! ' + (reminderName || 'Ibadah') + ' akan dimulai dalam 15 menit.',
@@ -903,8 +1199,6 @@
                         localStorage.removeItem('notificationSubscribed');
                     }
                 };
-                
-                // Check for reminders every minute
                 setInterval(checkReminders, 60000);
             `;
             const swBlob = new Blob([swCode], { type: 'application/javascript' });
@@ -912,7 +1206,6 @@
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register(swUrl).catch(err => console.error('Service Worker registration failed:', err));
             }
-
 
             feather.replace();
 
@@ -923,7 +1216,7 @@
             const audio = document.getElementById('worship-audio');
             const audioControl = document.getElementById('audio-control');
             let isAudioPlaying = false;
-            let nextEventForNotification = null; // NEW: To store the next event for notifications
+            let nextEventForNotification = null;
             
             const songs = [
                 "(Hari Ini Kurasa Bahagia) GKDI Worship.mp3",
@@ -955,7 +1248,6 @@
                 document.body.style.overflow = 'auto';
                 mainContent.style.display = 'block';
                 
-                // Initialize notifications after user interaction
                 setupNotifications();
             });
 
@@ -976,14 +1268,16 @@
             const countdownLabelEl = document.getElementById('countdown-label');
             const liveNotificationEl = document.getElementById('live-notification');
             const liveTextEl = document.getElementById('live-text');
-            const nextEventDateTimeEl = document.getElementById('next-event-datetime'); // NEW
+            const nextEventDateTimeEl = document.getElementById('next-event-datetime');
 
             const events = [
                 { name: "Ibadah Raya Sesi 1 & Sekolah Minggu", day: 0, hour: 8, minute: 30, endHour: 10, endMinute: 30 },
                 { name: "Ibadah Raya Sesi 2", day: 0, hour: 10, minute: 35, endHour: 12, endMinute: 30 },
-                { name: "Ibadah Komsel Immanuel & Maranatha", day: 2, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
-                { name: "Ibadah Komsel Kasih & Agape", day: 4, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
-                { name: "Ibadah Doa Syafaat", day: 5, hour: 18, minute: 30, endHour: 20, endMinute: 0 },
+                { name: "Ibadah Komsel Immanuel", day: 2, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
+                { name: "Ibadah Komsel Maranatha", day: 2, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
+                { name: "Ibadah Komsel Kasih", day: 4, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
+                { name: "Ibadah Komsel Agape", day: 4, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
+                { name: "Doa Syafaat", day: 5, hour: 18, minute: 30, endHour: 20, endMinute: 0 },
                 { name: "Latihan Pujian & Penyembahan", day: 5, hour: 20, minute: 30, endHour: 22, endMinute: 0 },
                 { name: "Ibadah Youth Generation", day: 6, hour: 19, minute: 0, endHour: 21, endMinute: 0 },
             ];
@@ -1003,7 +1297,7 @@
                             liveNotificationEl.style.display = 'flex';
                             countdownEl.style.display = 'none';
                             countdownLabelEl.style.display = 'none';
-                            nextEventDateTimeEl.style.display = 'none'; // NEW
+                            nextEventDateTimeEl.style.display = 'none';
                             eventIsLive = true;
                             break;
                         }
@@ -1014,7 +1308,7 @@
                     liveNotificationEl.style.display = 'none';
                     countdownEl.style.display = 'flex';
                     countdownLabelEl.style.display = 'block';
-                    nextEventDateTimeEl.style.display = 'block'; // NEW
+                    nextEventDateTimeEl.style.display = 'block';
 
                     let upcomingEvents = [];
                     for (const event of events) {
@@ -1030,16 +1324,13 @@
 
                     upcomingEvents.sort((a, b) => a.date - b.date);
                     const nextEvent = upcomingEvents[0];
-                    nextEventForNotification = nextEvent; // Store for notification logic
+                    nextEventForNotification = nextEvent;
                     
                     countdownLabelEl.textContent = `Next ${nextEvent.name}`;
-
-                    // NEW: Format and display the full date and time
                     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
                     nextEventDateTimeEl.textContent = `Pada: ${nextEvent.date.toLocaleDateString('id-ID', options)} WIB`;
 
                     const distance = nextEvent.date - now.getTime();
-
                     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -1067,9 +1358,7 @@
                 if (distance <= 0) {
                     specialCountdownEl.style.display = 'none';
                     specialFinishedMessageEl.style.display = 'block';
-                    flipUnits.forEach(unit => {
-                        updateFlipUnit(unit, "00");
-                    });
+                    flipUnits.forEach(unit => { updateFlipUnit(unit, "00"); });
                     return; 
                 }
 
@@ -1089,12 +1378,9 @@
                 if (newValue !== currentValue) {
                     element.style.transition = 'transform 0.5s, background-color 0.5s';
                     element.style.transform = 'rotateX(180deg)';
-                    element.style.backgroundColor = '#f0f0f0';
-                    
                     setTimeout(() => {
                         element.textContent = newValue;
                         element.style.transform = 'rotateX(0deg)';
-                        element.style.backgroundColor = 'white';
                     }, 250); 
                 }
             }
@@ -1112,23 +1398,17 @@
             const dayEl = document.getElementById('clock-day');
             const dateEl = document.getElementById('clock-date');
             const timeEl = document.getElementById('clock-time');
-            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const daysOfWeek = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
             function updateClock() {
                 const now = new Date();
-                const dayName = days[now.getDay()];
-                const date = String(now.getDate()).padStart(2, '0');
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                const seconds = String(now.getSeconds()).padStart(2, '0');
-
-                if(dayEl) dayEl.textContent = dayName;
-                if(dateEl) dateEl.textContent = date;
-                if(timeEl) timeEl.textContent = `${hours}:${minutes}:${seconds}`;
+                if(dayEl) dayEl.textContent = daysOfWeek[now.getDay()];
+                if(dateEl) dateEl.textContent = String(now.getDate()).padStart(2, '0');
+                if(timeEl) timeEl.textContent = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
             }
             updateClock();
 
-            // --- Animate on Scroll ---
+            // --- NEW: Animate on Scroll ---
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1137,72 +1417,44 @@
                 });
             }, { threshold: 0.1 });
 
-            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            document.querySelectorAll('.animate-fade-in-up, .animate-pop-in').forEach(el => {
                 observer.observe(el);
             });
             
-            // --- NEW: COMPACT GALLERY & LIGHTBOX LOGIC ---
+            // --- GALLERY & LIGHTBOX LOGIC ---
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
             const lightboxCaption = document.getElementById('lightbox-caption');
             const lightboxClose = document.getElementById('lightbox-close');
             const lightboxPrev = document.getElementById('lightbox-prev');
             const lightboxNext = document.getElementById('lightbox-next');
-            
             const galleryCategories = document.querySelectorAll('.gallery-category');
             let categoryImages = [];
             let currentIndex = 0;
 
-            // Function to show a specific image in the lightbox
             function showImage(index) {
-                // Get the specific gallery item (which contains the img and figcaption)
                 const item = categoryImages[index];
                 const img = item.querySelector('img');
                 const caption = item.querySelector('figcaption');
-                
                 lightboxImg.src = img.src;
                 lightboxImg.alt = img.alt;
-                // Use the figcaption if it exists, otherwise use the alt text
                 lightboxCaption.textContent = caption ? caption.textContent : img.alt;
                 currentIndex = index;
             }
 
-            // Add click listener to each gallery category
             galleryCategories.forEach(category => {
                 category.addEventListener('click', () => {
-                    // Get all items from the clicked category (including hidden ones)
                     categoryImages = Array.from(category.querySelectorAll('.gallery-item'));
-                    
-                    // Show the first image of the category
                     showImage(0);
                     lightbox.classList.add('visible');
-                    feather.replace(); // Refresh icons in lightbox
+                    feather.replace(); 
                 });
             });
 
-            // Close lightbox
-            lightboxClose.addEventListener('click', () => {
-                lightbox.classList.remove('visible');
-            });
-            
-            // Also close lightbox when clicking on the background
-            lightbox.addEventListener('click', (e) => {
-                if (e.target === lightbox) {
-                    lightbox.classList.remove('visible');
-                }
-            });
-
-            // Navigate to the next image
-            lightboxNext.addEventListener('click', () => {
-                const nextIndex = (currentIndex + 1) % categoryImages.length;
-                showImage(nextIndex);
-            });
-
-            // Navigate to the previous image
-            lightboxPrev.addEventListener('click', () => {
-                const prevIndex = (currentIndex - 1 + categoryImages.length) % categoryImages.length;
-                showImage(prevIndex);
-            });
+            lightboxClose.addEventListener('click', () => lightbox.classList.remove('visible'));
+            lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.classList.remove('visible'); });
+            lightboxNext.addEventListener('click', () => showImage((currentIndex + 1) % categoryImages.length));
+            lightboxPrev.addEventListener('click', () => showImage((currentIndex - 1 + categoryImages.length) % categoryImages.length));
 
             // --- NOTIFICATION LOGIC ---
             function setupNotifications() {
@@ -1237,11 +1489,8 @@
                         scheduleNextNotification();
                     } else {
                         Notification.requestPermission().then(permission => {
-                            if (permission === 'granted') {
-                                scheduleNextNotification();
-                            } else {
-                                notificationStatus.textContent = 'Izin notifikasi tidak diberikan.';
-                            }
+                            if (permission === 'granted') scheduleNextNotification();
+                            else notificationStatus.textContent = 'Izin notifikasi tidak diberikan.';
                             updateButtonState();
                         });
                     }
@@ -1252,11 +1501,8 @@
                         notificationStatus.textContent = 'Tidak ada jadwal ibadah untuk diingatkan.';
                         return;
                     }
-
-                    const reminderTime = new Date(nextEventForNotification.date.getTime() - 15 * 60 * 1000); // 15 minutes before
-                    const now = new Date();
-
-                    if (reminderTime > now) {
+                    const reminderTime = new Date(nextEventForNotification.date.getTime() - 15 * 60 * 1000);
+                    if (reminderTime > new Date()) {
                         localStorage.setItem('notificationSubscribed', 'true');
                         localStorage.setItem('nextReminderTime', reminderTime.getTime());
                         localStorage.setItem('nextReminderName', nextEventForNotification.name);
@@ -1266,9 +1512,129 @@
                          notificationStatus.textContent = 'Ibadah berikutnya sudah terlalu dekat untuk dijadwalkan.';
                     }
                 }
-
                 updateButtonState();
             }
+
+            // --- AUTH MODAL LOGIC ---
+            const authModalOverlay = document.getElementById('auth-modal-overlay');
+            const loginNavBtn = document.getElementById('login-nav-btn');
+            const authModalClose = document.getElementById('auth-modal-close');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const showRegisterBtn = document.getElementById('show-register');
+            const showLoginBtn = document.getElementById('show-login');
+
+            loginNavBtn.addEventListener('click', () => authModalOverlay.classList.add('visible'));
+            authModalClose.addEventListener('click', () => authModalOverlay.classList.remove('visible'));
+            authModalOverlay.addEventListener('click', (e) => { if (e.target === authModalOverlay) authModalOverlay.classList.remove('visible'); });
+            showRegisterBtn.addEventListener('click', () => { loginForm.style.display = 'none'; registerForm.style.display = 'block'; });
+            showLoginBtn.addEventListener('click', () => { registerForm.style.display = 'none'; loginForm.style.display = 'block'; });
+            
+            // --- NEW: LIVE CHAT LOGIC (REFINED) ---
+            const chatFab = document.getElementById('chat-fab');
+            const chatPopup = document.getElementById('chat-popup');
+            const chatCloseBtn = document.getElementById('chat-close-btn');
+            const chatMessages = document.getElementById('chat-messages');
+            const chatInput = document.getElementById('chat-input');
+            const chatSendBtn = document.getElementById('chat-send-btn');
+
+            chatFab.addEventListener('click', () => { chatPopup.classList.toggle('visible'); feather.replace(); });
+            chatCloseBtn.addEventListener('click', () => chatPopup.classList.remove('visible'));
+            chatSendBtn.addEventListener('click', handleSendMessage);
+            chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSendMessage(); });
+
+            function handleSendMessage() {
+                const messageText = chatInput.value.trim();
+                if (messageText === '') return;
+                addMessage(messageText, 'user');
+                chatInput.value = '';
+                setTimeout(() => {
+                    const botResponse = getBotResponse(messageText);
+                    addMessage(botResponse, 'bot');
+                }, 800);
+            }
+
+            function addMessage(text, type) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('chat-message', type);
+                messageElement.textContent = text;
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function getBotResponse(userInput) {
+                const input = userInput.toLowerCase();
+                
+                // --- Responses based on website content ---
+                if (input.includes('jadwal') || input.includes('kapan') || input.includes('jam berapa')) {
+                    let response = "Tentu, ini jadwal ibadah kami:\n";
+                    const relevantEvents = events.filter(e => input.includes(e.name.toLowerCase().split(' ')[1]) || input.includes(e.name.toLowerCase().split(' ')[0]));
+                    
+                    if (relevantEvents.length > 0) {
+                        relevantEvents.forEach(e => {
+                           response += `- ${e.name}: Setiap ${daysOfWeek[e.day]}, pukul ${String(e.hour).padStart(2,'0')}:${String(e.minute).padStart(2,'0')} WIB.\n`;
+                        });
+                        return response;
+                    }
+                    return "Jadwal ibadah lengkap ada di bagian 'Jadwal & Lokasi'. Ibadah Raya setiap Minggu (Sesi 1: 08:30, Sesi 2: 10:35), Ibadah Youth setiap Sabtu (19:00), dan berbagai ibadah komsel serta doa di hari lainnya.";
+                }
+                if (input.includes('lokasi') || input.includes('alamat') || input.includes('dimana')) {
+                    return "Gereja kami berlokasi di Jl. Pdt. J. Wismar Saragih, Pematangsiantar. Anda bisa melihat peta detail di bagian 'Jadwal & Lokasi' untuk arahan yang lebih mudah.";
+                }
+                if (input.includes('pelayanan') || input.includes('ministries')) {
+                    return "Kami memiliki beberapa pelayanan inti: Sekolah Minggu untuk anak-anak, Youth Generation untuk kaum muda, dan tim Pujian & Penyembahan. Anda bisa membaca lebih lanjut di bagian 'Pelayanan Kami'.";
+                }
+                 if (input.includes('youth') || input.includes('pemuda') || input.includes('remaja')) {
+                    return "Ibadah Youth Generation kami diadakan setiap hari Sabtu pukul 19:00 - 21:00 WIB. Ini adalah wadah bagi kaum muda untuk bertumbuh bersama dalam iman. Info lebih lanjut ada di bagian Pelayanan.";
+                }
+                if (input.includes('event') || input.includes('acara spesial') || input.includes('peresmian')) {
+                    const eventDateStr = specialEventDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                    return `Kami memiliki event spesial yaitu Peresmian Gedung Gereja pada ${eventDateStr}. Anda bisa melihat hitung mundurnya di halaman utama. Kami sangat menantikan kehadiran Anda!`;
+                }
+                if (input.includes('galeri') || input.includes('foto')) {
+                    return "Di bagian Galeri, Anda bisa melihat foto-foto dari berbagai kegiatan kami, seperti Ibadah Raya, Sekolah Minggu, Youth Generation, dan acara-acara spesial lainnya.";
+                }
+                if (input.includes('halo') || input.includes('shalom')) {
+                    return "Shalom! Selamat datang di website GSJA River of Life. Ada informasi seputar gereja kami yang bisa saya bantu?";
+                }
+                if (input.includes('terima kasih')) {
+                    return "Dengan senang hati. Tuhan Yesus memberkati!";
+                }
+
+                // Default response
+                return "Mohon maaf, saya hanya bisa menjawab pertanyaan seputar informasi di website ini. Silakan coba bertanya tentang 'jadwal', 'lokasi', 'pelayanan', atau 'event spesial' kami.";
+            }
+
+            // --- NEW: THEME SWITCHER LOGIC ---
+            const themeSwitcher = document.getElementById('theme-switcher');
+            const themeButtons = document.querySelectorAll('.theme-btn');
+
+            // Load saved theme from localStorage
+            const savedTheme = localStorage.getItem('church-theme') || 'theme-dark';
+            document.body.className = savedTheme;
+            
+            // Set active button on load
+            themeButtons.forEach(button => {
+                if (button.dataset.theme === savedTheme) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+
+            themeSwitcher.addEventListener('click', (e) => {
+                if (e.target.classList.contains('theme-btn')) {
+                    const theme = e.target.dataset.theme;
+                    document.body.className = theme;
+                    
+                    // Update active state
+                    themeButtons.forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+
+                    // Save theme to localStorage
+                    localStorage.setItem('church-theme', theme);
+                }
+            });
         });
     </script>
  </body>
