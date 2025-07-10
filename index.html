@@ -40,7 +40,7 @@
             --bg-primary: #f5f5f5;
             --bg-secondary: #ffffff;
             --bg-card: #ffffff;
-            --text-primary: gold;
+            --text-primary: #222222;
             --text-secondary: #555555;
             --text-gold: #b4864f;
             --border-color: #e0e0e0;
@@ -51,7 +51,7 @@
             --bg-primary: #eef8ff;
             --bg-secondary: #ffffff;
             --bg-card: #ffffff;
-            --text-primary: skyblue;
+            --text-primary: #1f3a4e;
             --text-secondary: #4a657c;
             --text-gold: #0077c2;
             --border-color: #d0e0f0;
@@ -600,6 +600,9 @@
         }
         .nav-button:hover { opacity: 1; color: var(--text-gold); transform: translateY(-3px); }
         .nav-button span { font-size: 0.7rem; font-weight: 700; }
+        /* NEW: Hide auth buttons initially */
+        #login-nav-btn, #logout-nav-btn { display: none; }
+
 
         /* --- Real-time Clock (MOVED) --- */
         #realtime-clock {
@@ -686,7 +689,7 @@
             margin-top: 0.5rem;
         }
 
-        /* --- NEW: AUTH MODAL STYLES --- */
+        /* --- AUTH MODAL STYLES --- */
         .auth-modal-overlay {
             position: fixed;
             inset: 0;
@@ -777,9 +780,21 @@
             font-size: inherit;
         }
         #register-form { display: none; }
+        /* NEW: Auth Error Message */
+        .auth-error {
+            color: #ef4444;
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            text-align: center;
+            display: none; /* Hidden by default */
+        }
 
 
-        /* --- NEW: LIVE CHAT STYLES --- */
+        /* --- LIVE CHAT STYLES --- */
         #chat-fab {
             position: fixed;
             bottom: 90px;
@@ -903,7 +918,7 @@
             transform: scale(0.9);
         }
 
-        /* --- NEW: THEME SWITCHER --- */
+        /* --- THEME SWITCHER --- */
         #theme-switcher {
             position: fixed;
             top: 15px;
@@ -971,7 +986,7 @@
 <body class="theme-dark"> <!-- Default theme -->
     <audio id="worship-audio" loop><source src="" type="audio/mpeg"></audio>
     
-    <!-- NEW: THEME SWITCHER -->
+    <!-- THEME SWITCHER -->
     <div id="theme-switcher">
         <button class="theme-btn active" id="theme-dark-btn" data-theme="theme-dark" title="Dark Mode"></button>
         <button class="theme-btn" id="theme-light-btn" data-theme="theme-light" title="Light Mode"></button>
@@ -1045,13 +1060,13 @@
                     <div id="special-event-finished-message">MENANTI EVENT LAINNYA</div>
                 </div>
 
-                <!-- NEW: REAL-TIME ATTENDANCE SECTION -->
+                <!-- REAL-TIME ATTENDANCE SECTION -->
                 <div id="realtime-attendance-container" class="animate-pop-in" style="transition-delay: 0.6s;">
                     <div class="attendance-display">
                         <i data-feather="users" width="40" height="40" class="attendance-icon"></i>
                         <div>
                             <div class="attendance-count" id="attendance-count">0</div>
-                            <div class="attendance-text">CEK KEHADIRAN</div>
+                            <div class="attendance-text">Jemaat Telah Hadir</div>
                         </div>
                     </div>
                     <button id="check-in-btn">
@@ -1227,18 +1242,22 @@
     <div id="auth-modal-overlay" class="auth-modal-overlay">
         <div class="auth-modal">
             <button id="auth-modal-close" class="auth-modal-close"><i data-feather="x"></i></button>
+            
             <form id="login-form" class="auth-form">
                 <h2>Selamat Datang Kembali</h2>
-                <div class="form-group"><input type="email" placeholder="Email Anda" required></div>
-                <div class="form-group"><input type="password" placeholder="Kata Sandi" required></div>
+                <div id="login-error" class="auth-error"></div>
+                <div class="form-group"><input type="email" id="login-email" placeholder="Email Anda" required></div>
+                <div class="form-group"><input type="password" id="login-password" placeholder="Kata Sandi" required></div>
                 <button type="submit" class="form-action">Masuk</button>
                 <div class="auth-toggle-link">Belum punya akun? <button type="button" id="show-register">Daftar di sini</button></div>
             </form>
+
             <form id="register-form" class="auth-form">
                 <h2>Buat Akun Baru</h2>
-                <div class="form-group"><input type="text" placeholder="Nama Lengkap" required></div>
-                <div class="form-group"><input type="email" placeholder="Email Anda" required></div>
-                <div class="form-group"><input type="password" placeholder="Buat Kata Sandi" required></div>
+                <div id="register-error" class="auth-error"></div>
+                <div class="form-group"><input type="text" id="register-name" placeholder="Nama Lengkap" required></div>
+                <div class="form-group"><input type="email" id="register-email" placeholder="Email Anda" required></div>
+                <div class="form-group"><input type="password" id="register-password" placeholder="Buat Kata Sandi" required></div>
                 <button type="submit" class="form-action">Daftar</button>
                 <div class="auth-toggle-link">Sudah punya akun? <button type="button" id="show-login">Masuk di sini</button></div>
             </form>
@@ -1269,15 +1288,33 @@
             <a href="#gallery" class="nav-button"><i data-feather="image"></i><span>Galeri</span></a>
             <a href="#ministries" class="nav-button"><i data-feather="grid"></i><span>Pelayanan</span></a>
             <button id="login-nav-btn" class="nav-button"><i data-feather="user"></i><span>Login</span></button>
+            <button id="logout-nav-btn" class="nav-button"><i data-feather="log-out"></i><span id="user-display-name">Logout</span></button>
         </div>
     </nav>
  
-    <!-- NEW: Firebase SDK -->
+    <!-- Firebase SDK -->
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { 
+            getAuth, 
+            signInAnonymously, 
+            signInWithCustomToken, 
+            onAuthStateChanged,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            signOut,
+            updateProfile
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            getDoc, 
+            setDoc, 
+            onSnapshot, 
+            collection, 
+            serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         document.addEventListener('DOMContentLoaded', () => {
             const swCode = `
@@ -1507,7 +1544,7 @@
             }
             updateClock();
 
-            // --- NEW: Animate on Scroll ---
+            // --- Animate on Scroll ---
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1614,9 +1651,10 @@
                 updateButtonState();
             }
 
-            // --- AUTH MODAL LOGIC ---
+            // --- AUTH MODAL LOGIC (SETUP) ---
             const authModalOverlay = document.getElementById('auth-modal-overlay');
             const loginNavBtn = document.getElementById('login-nav-btn');
+            const logoutNavBtn = document.getElementById('logout-nav-btn');
             const authModalClose = document.getElementById('auth-modal-close');
             const loginForm = document.getElementById('login-form');
             const registerForm = document.getElementById('register-form');
@@ -1629,7 +1667,7 @@
             showRegisterBtn.addEventListener('click', () => { loginForm.style.display = 'none'; registerForm.style.display = 'block'; });
             showLoginBtn.addEventListener('click', () => { registerForm.style.display = 'none'; loginForm.style.display = 'block'; });
             
-            // --- NEW: LIVE CHAT LOGIC (REFINED) ---
+            // --- LIVE CHAT LOGIC (REFINED) ---
             const chatFab = document.getElementById('chat-fab');
             const chatPopup = document.getElementById('chat-popup');
             const chatCloseBtn = document.getElementById('chat-close-btn');
@@ -1663,18 +1701,7 @@
 
             function getBotResponse(userInput) {
                 const input = userInput.toLowerCase();
-                
-                // --- Responses based on website content ---
                 if (input.includes('jadwal') || input.includes('kapan') || input.includes('jam berapa')) {
-                    let response = "Tentu, ini jadwal ibadah kami:\n";
-                    const relevantEvents = events.filter(e => input.includes(e.name.toLowerCase().split(' ')[1]) || input.includes(e.name.toLowerCase().split(' ')[0]));
-                    
-                    if (relevantEvents.length > 0) {
-                        relevantEvents.forEach(e => {
-                           response += `- ${e.name}: Setiap ${daysOfWeek[e.day]}, pukul ${String(e.hour).padStart(2,'0')}:${String(e.minute).padStart(2,'0')} WIB.\n`;
-                        });
-                        return response;
-                    }
                     return "Jadwal ibadah lengkap ada di bagian 'Jadwal & Lokasi'. Ibadah Raya setiap Minggu (Sesi 1: 08:30, Sesi 2: 10:35), Ibadah Youth setiap Sabtu (19:00), dan berbagai ibadah komsel serta doa di hari lainnya.";
                 }
                 if (input.includes('lokasi') || input.includes('alamat') || input.includes('dimana')) {
@@ -1683,38 +1710,21 @@
                 if (input.includes('pelayanan') || input.includes('ministries')) {
                     return "Kami memiliki beberapa pelayanan inti: Sekolah Minggu untuk anak-anak, Youth Generation untuk kaum muda, dan tim Pujian & Penyembahan. Anda bisa membaca lebih lanjut di bagian 'Pelayanan Kami'.";
                 }
-                 if (input.includes('youth') || input.includes('pemuda') || input.includes('remaja')) {
-                    return "Ibadah Youth Generation kami diadakan setiap hari Sabtu pukul 19:00 - 21:00 WIB. Ini adalah wadah bagi kaum muda untuk bertumbuh bersama dalam iman. Info lebih lanjut ada di bagian Pelayanan.";
-                }
                 if (input.includes('event') || input.includes('acara spesial') || input.includes('peresmian')) {
                     const eventDateStr = specialEventDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
                     return `Kami memiliki event spesial yaitu Peresmian Gedung Gereja pada ${eventDateStr}. Anda bisa melihat hitung mundurnya di halaman utama. Kami sangat menantikan kehadiran Anda!`;
                 }
-                if (input.includes('galeri') || input.includes('foto')) {
-                    return "Di bagian Galeri, Anda bisa melihat foto-foto dari berbagai kegiatan kami, seperti Ibadah Raya, Sekolah Minggu, Youth Generation, dan acara-acara spesial lainnya.";
-                }
-                if (input.includes('halo') || input.includes('shalom')) {
-                    return "Shalom! Selamat datang di website GSJA River of Life. Ada informasi seputar gereja kami yang bisa saya bantu?";
-                }
-                if (input.includes('terima kasih')) {
-                    return "Dengan senang hati. Tuhan Yesus memberkati!";
-                }
-
-                // Default response
-                return "Maaf, Silakan coba bertanya tentang 'jadwal', 'lokasi', 'pelayanan', atau 'event spesial'.";
+                if (input.includes('halo') || input.includes('shalom')) { return "Shalom! Ada yang bisa saya bantu?"; }
+                if (input.includes('terima kasih')) { return "Dengan senang hati. Tuhan Yesus memberkati!"; }
+                return "Maaf, silakan bertanya tentang 'jadwal', 'lokasi', 'pelayanan', atau 'event spesial'.";
             }
 
-            // --- NEW: THEME SWITCHER LOGIC ---
+            // --- THEME SWITCHER LOGIC ---
             const themeSwitcher = document.getElementById('theme-switcher');
             const themeButtons = document.querySelectorAll('.theme-btn');
-
             const savedTheme = localStorage.getItem('church-theme') || 'theme-dark';
             document.body.className = savedTheme;
-            
-            themeButtons.forEach(button => {
-                button.classList.toggle('active', button.dataset.theme === savedTheme);
-            });
-
+            themeButtons.forEach(button => button.classList.toggle('active', button.dataset.theme === savedTheme));
             themeSwitcher.addEventListener('click', (e) => {
                 if (e.target.classList.contains('theme-btn')) {
                     const theme = e.target.dataset.theme;
@@ -1725,10 +1735,8 @@
                 }
             });
 
-            // --- NEW: FIREBASE AND REAL-TIME ATTENDANCE LOGIC ---
+            // --- FIREBASE AND REAL-TIME FUNCTIONALITY ---
             let db, auth;
-            
-            // These variables are expected to be provided by the environment.
             const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
             const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-rol-app';
             
@@ -1743,12 +1751,13 @@
                     auth = getAuth(app);
                     
                     onAuthStateChanged(auth, (user) => {
+                        updateUIForAuthState(user);
                         if (user) {
-                            console.log("User is signed in with UID:", user.uid);
                             setupRealtimeAttendance(user.uid);
                         }
                     });
 
+                    // Initial sign-in check
                     if (!auth.currentUser) {
                          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                             await signInWithCustomToken(auth, __initial_auth_token);
@@ -1756,73 +1765,152 @@
                             await signInAnonymously(auth);
                         }
                     }
+                    
+                    setupAuthForms();
 
                 } catch (error) {
                     console.error("Firebase initialization error:", error);
                 }
             }
 
-            function setupRealtimeAttendance(userId) {
-                if (!db || !userId) return;
+            function updateUIForAuthState(user) {
+                const userDisplayName = document.getElementById('user-display-name');
+                if (user && !user.isAnonymous) {
+                    // User is logged in with an account
+                    loginNavBtn.style.display = 'none';
+                    logoutNavBtn.style.display = 'flex';
+                    userDisplayName.textContent = user.displayName || user.email;
+                    authModalOverlay.classList.remove('visible');
+                } else {
+                    // User is anonymous or logged out
+                    loginNavBtn.style.display = 'flex';
+                    logoutNavBtn.style.display = 'none';
+                }
+                feather.replace();
+            }
 
-                const attendanceCountEl = document.getElementById('attendance-count');
-                const checkInBtn = document.getElementById('check-in-btn');
-                const eventId = 'live_service'; // A static ID for the current service
-                
-                // Path to the collection of attendees for the specific event
-                const attendeesColPath = `/artifacts/${appId}/public/data/attendance/${eventId}/attendees`;
-                const attendeesColRef = collection(db, attendeesColPath);
-                
-                // Path to the specific user's attendance document
-                const userDocPath = `${attendeesColPath}/${userId}`;
-                const userDocRef = doc(db, userDocPath);
+            function setupAuthForms() {
+                const loginError = document.getElementById('login-error');
+                const registerError = document.getElementById('register-error');
 
-                // 1. Listen for real-time changes in attendance count
-                onSnapshot(attendeesColRef, (snapshot) => {
-                    const currentCount = Number(attendanceCountEl.textContent);
-                    const newCount = snapshot.size;
-                    
-                    if (currentCount !== newCount) {
-                        attendanceCountEl.textContent = newCount;
-                        attendanceCountEl.classList.add('updated');
-                        setTimeout(() => {
-                            attendanceCountEl.classList.remove('updated');
-                        }, 600); // Match animation duration
+                // Helper to show errors
+                const showError = (element, message) => {
+                    element.textContent = message;
+                    element.style.display = 'block';
+                };
+                
+                // Registration
+                registerForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    registerError.style.display = 'none';
+                    const name = document.getElementById('register-name').value;
+                    const email = document.getElementById('register-email').value;
+                    const password = document.getElementById('register-password').value;
+
+                    try {
+                        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                        const user = userCredential.user;
+                        
+                        await updateProfile(user, { displayName: name });
+                        
+                        // Store user info in Firestore
+                        const userDocRef = doc(db, `/artifacts/${appId}/users/${user.uid}`);
+                        await setDoc(userDocRef, {
+                            displayName: name,
+                            email: email,
+                            createdAt: serverTimestamp()
+                        });
+                        
+                        registerForm.reset();
+                    } catch (error) {
+                        showError(registerError, getFirebaseErrorMessage(error.code));
                     }
-                }, (error) => {
-                    console.error("Error listening to attendance:", error);
                 });
 
-                // 2. Check if the current user has already checked in
+                // Login
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    loginError.style.display = 'none';
+                    const email = document.getElementById('login-email').value;
+                    const password = document.getElementById('login-password').value;
+
+                    try {
+                        await signInWithEmailAndPassword(auth, email, password);
+                        loginForm.reset();
+                    } catch (error) {
+                        showError(loginError, getFirebaseErrorMessage(error.code));
+                    }
+                });
+
+                // Logout
+                logoutNavBtn.addEventListener('click', async () => {
+                    try {
+                        await signOut(auth);
+                        // onAuthStateChanged will handle UI updates and sign in anonymously
+                    } catch (error) {
+                        console.error('Error signing out:', error);
+                    }
+                });
+            }
+
+            function getFirebaseErrorMessage(errorCode) {
+                switch (errorCode) {
+                    case 'auth/email-already-in-use':
+                        return 'Email ini sudah terdaftar. Silakan login.';
+                    case 'auth/invalid-email':
+                        return 'Format email tidak valid.';
+                    case 'auth/weak-password':
+                        return 'Kata sandi terlalu lemah. Minimal 6 karakter.';
+                    case 'auth/user-not-found':
+                    case 'auth/wrong-password':
+                    case 'auth/invalid-credential':
+                        return 'Email atau kata sandi salah.';
+                    default:
+                        return 'Terjadi kesalahan. Silakan coba lagi.';
+                }
+            }
+
+            function setupRealtimeAttendance(userId) {
+                if (!db || !userId) return;
+                const attendanceCountEl = document.getElementById('attendance-count');
+                const checkInBtn = document.getElementById('check-in-btn');
+                const eventId = 'live_service';
+                const attendeesColPath = `/artifacts/${appId}/public/data/attendance/${eventId}/attendees`;
+                const attendeesColRef = collection(db, attendeesColPath);
+                const userDocRef = doc(db, `${attendeesColPath}/${userId}`);
+
+                onSnapshot(attendeesColRef, (snapshot) => {
+                    const newCount = snapshot.size;
+                    if (Number(attendanceCountEl.textContent) !== newCount) {
+                        attendanceCountEl.textContent = newCount;
+                        attendanceCountEl.classList.add('updated');
+                        setTimeout(() => attendanceCountEl.classList.remove('updated'), 600);
+                    }
+                });
+
                 getDoc(userDocRef).then((docSnap) => {
                     if (docSnap.exists()) {
                         checkInBtn.disabled = true;
                         checkInBtn.querySelector('span').textContent = 'Kehadiran Dicatat';
-                        feather.replace({ class: 'btn-icon' });
+                    } else {
+                        checkInBtn.disabled = false;
+                        checkInBtn.querySelector('span').textContent = 'Catat Kehadiran Saya';
                     }
-                }).catch(error => {
-                    console.error("Error checking user attendance status:", error);
                 });
 
-                // 3. Handle the check-in button click
-                checkInBtn.addEventListener('click', async () => {
-                    checkInBtn.disabled = true; // Disable immediately to prevent double clicks
+                checkInBtn.onclick = async () => {
+                    if (checkInBtn.disabled) return;
+                    checkInBtn.disabled = true;
                     try {
-                        await setDoc(userDocRef, {
-                            checkedInAt: serverTimestamp(),
-                            userId: userId
-                        });
+                        await setDoc(userDocRef, { checkedInAt: serverTimestamp(), userId: userId });
                         checkInBtn.querySelector('span').textContent = 'Kehadiran Dicatat';
-                        feather.replace({ class: 'btn-icon' });
-                        console.log("User checked in successfully!");
                     } catch (error) {
                         console.error("Error checking in:", error);
-                        checkInBtn.disabled = false; // Re-enable if there was an error
+                        checkInBtn.disabled = false;
                     }
-                });
+                };
             }
             
-            // Initialize Firebase when the DOM is ready
             initializeFirebase();
         });
     </script>
