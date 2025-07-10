@@ -275,6 +275,81 @@
             padding: 2rem 0;
         }
 
+        /* --- NEW: REAL-TIME ATTENDANCE STYLES --- */
+        #realtime-attendance-container {
+            margin-top: 2.5rem;
+            padding: 1.5rem 1rem;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--text-gold);
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+        }
+        .attendance-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .attendance-icon {
+            color: var(--text-gold);
+            animation: icon-glow 3s infinite ease-in-out;
+        }
+        @keyframes icon-glow {
+            0%, 100% { filter: drop-shadow(0 0 2px var(--text-gold)); }
+            50% { filter: drop-shadow(0 0 10px var(--text-gold)); }
+        }
+        .attendance-text {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+        .attendance-count {
+            font-family: var(--font-mono);
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            transition: color 0.3s;
+        }
+        .attendance-count.updated {
+            animation: number-pop 0.6s ease-out;
+        }
+        @keyframes number-pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.4) rotate(-5deg); color: var(--text-gold); text-shadow: 0 0 15px var(--text-gold); }
+            100% { transform: scale(1); }
+        }
+        #check-in-btn {
+            background: linear-gradient(45deg, var(--text-gold), #e6c48a);
+            color: var(--bg-secondary);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        #check-in-btn:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(197, 165, 114, 0.4);
+        }
+        #check-in-btn:disabled {
+            background: #555;
+            color: #999;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        #check-in-btn .feather {
+            transition: transform 0.5s ease;
+        }
+        #check-in-btn:disabled .feather {
+            transform: rotate(360deg);
+        }
 
         /* --- Schedule Table Layout --- */
         #details { background-color: var(--bg-secondary); }
@@ -883,6 +958,9 @@
             
             #realtime-clock { top: 2rem; }
 
+            .attendance-count { font-size: 4rem; }
+            .attendance-text { font-size: 1.2rem; }
+
             #chat-popup {
                 bottom: 20px;
                 left: 20px;
@@ -965,6 +1043,21 @@
                         </div>
                     </div>
                     <div id="special-event-finished-message">MENANTI EVENT LAINNYA</div>
+                </div>
+
+                <!-- NEW: REAL-TIME ATTENDANCE SECTION -->
+                <div id="realtime-attendance-container" class="animate-pop-in" style="transition-delay: 0.6s;">
+                    <div class="attendance-display">
+                        <i data-feather="users" width="40" height="40" class="attendance-icon"></i>
+                        <div>
+                            <div class="attendance-count" id="attendance-count">0</div>
+                            <div class="attendance-text">CEK KEHADIRAN</div>
+                        </div>
+                    </div>
+                    <button id="check-in-btn">
+                        <i data-feather="check-circle"></i>
+                        <span>Catat Kehadiran Saya</span>
+                    </button>
                 </div>
 
             </div>
@@ -1155,7 +1248,7 @@
     <button id="chat-fab"><i data-feather="message-square"></i></button>
     <div id="chat-popup">
         <div class="chat-header">
-            <h3>Asisten Rohani</h3>
+            <h3>Asisten Gereja</h3>
             <button id="chat-close-btn"><i data-feather="x"></i></button>
         </div>
         <div class="chat-messages" id="chat-messages">
@@ -1179,7 +1272,13 @@
         </div>
     </nav>
  
-    <script>
+    <!-- NEW: Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
         document.addEventListener('DOMContentLoaded', () => {
             const swCode = `
                 self.addEventListener('install', event => { self.skipWaiting(); });
@@ -1490,7 +1589,7 @@
                     } else {
                         Notification.requestPermission().then(permission => {
                             if (permission === 'granted') scheduleNextNotification();
-                            else notificationStatus.textContent = 'Izin notifikasi tidak diberikan.';
+                            else notificationStatus.textContent = 'ANDA TIDAK MEMBERIKAN IZIN NOTIFIKASI...';
                             updateButtonState();
                         });
                     }
@@ -1509,7 +1608,7 @@
                         notificationStatus.textContent = `Pengingat diatur untuk ${nextEventForNotification.name}.`;
                         updateButtonState();
                     } else {
-                         notificationStatus.textContent = 'Ibadah berikutnya sudah terlalu dekat untuk dijadwalkan.';
+                         notificationStatus.textContent = 'PERSIAPKAN DIRI ANDA UNTUK MENGIKUTI IBADAH.';
                     }
                 }
                 updateButtonState();
@@ -1602,39 +1701,129 @@
                 }
 
                 // Default response
-                return "Mohon maaf, saya hanya bisa menjawab pertanyaan seputar informasi di website ini. Silakan coba bertanya tentang 'jadwal', 'lokasi', 'pelayanan', atau 'event spesial' kami.";
+                return "Maaf, Silakan coba bertanya tentang 'jadwal', 'lokasi', 'pelayanan', atau 'event spesial'.";
             }
 
             // --- NEW: THEME SWITCHER LOGIC ---
             const themeSwitcher = document.getElementById('theme-switcher');
             const themeButtons = document.querySelectorAll('.theme-btn');
 
-            // Load saved theme from localStorage
             const savedTheme = localStorage.getItem('church-theme') || 'theme-dark';
             document.body.className = savedTheme;
             
-            // Set active button on load
             themeButtons.forEach(button => {
-                if (button.dataset.theme === savedTheme) {
-                    button.classList.add('active');
-                } else {
-                    button.classList.remove('active');
-                }
+                button.classList.toggle('active', button.dataset.theme === savedTheme);
             });
 
             themeSwitcher.addEventListener('click', (e) => {
                 if (e.target.classList.contains('theme-btn')) {
                     const theme = e.target.dataset.theme;
                     document.body.className = theme;
-                    
-                    // Update active state
                     themeButtons.forEach(btn => btn.classList.remove('active'));
                     e.target.classList.add('active');
-
-                    // Save theme to localStorage
                     localStorage.setItem('church-theme', theme);
                 }
             });
+
+            // --- NEW: FIREBASE AND REAL-TIME ATTENDANCE LOGIC ---
+            let db, auth;
+            
+            // These variables are expected to be provided by the environment.
+            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-rol-app';
+            
+            async function initializeFirebase() {
+                if (!firebaseConfig) {
+                    console.error("Firebase config is not available.");
+                    return;
+                }
+                try {
+                    const app = initializeApp(firebaseConfig);
+                    db = getFirestore(app);
+                    auth = getAuth(app);
+                    
+                    onAuthStateChanged(auth, (user) => {
+                        if (user) {
+                            console.log("User is signed in with UID:", user.uid);
+                            setupRealtimeAttendance(user.uid);
+                        }
+                    });
+
+                    if (!auth.currentUser) {
+                         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            await signInWithCustomToken(auth, __initial_auth_token);
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                    }
+
+                } catch (error) {
+                    console.error("Firebase initialization error:", error);
+                }
+            }
+
+            function setupRealtimeAttendance(userId) {
+                if (!db || !userId) return;
+
+                const attendanceCountEl = document.getElementById('attendance-count');
+                const checkInBtn = document.getElementById('check-in-btn');
+                const eventId = 'live_service'; // A static ID for the current service
+                
+                // Path to the collection of attendees for the specific event
+                const attendeesColPath = `/artifacts/${appId}/public/data/attendance/${eventId}/attendees`;
+                const attendeesColRef = collection(db, attendeesColPath);
+                
+                // Path to the specific user's attendance document
+                const userDocPath = `${attendeesColPath}/${userId}`;
+                const userDocRef = doc(db, userDocPath);
+
+                // 1. Listen for real-time changes in attendance count
+                onSnapshot(attendeesColRef, (snapshot) => {
+                    const currentCount = Number(attendanceCountEl.textContent);
+                    const newCount = snapshot.size;
+                    
+                    if (currentCount !== newCount) {
+                        attendanceCountEl.textContent = newCount;
+                        attendanceCountEl.classList.add('updated');
+                        setTimeout(() => {
+                            attendanceCountEl.classList.remove('updated');
+                        }, 600); // Match animation duration
+                    }
+                }, (error) => {
+                    console.error("Error listening to attendance:", error);
+                });
+
+                // 2. Check if the current user has already checked in
+                getDoc(userDocRef).then((docSnap) => {
+                    if (docSnap.exists()) {
+                        checkInBtn.disabled = true;
+                        checkInBtn.querySelector('span').textContent = 'Kehadiran Dicatat';
+                        feather.replace({ class: 'btn-icon' });
+                    }
+                }).catch(error => {
+                    console.error("Error checking user attendance status:", error);
+                });
+
+                // 3. Handle the check-in button click
+                checkInBtn.addEventListener('click', async () => {
+                    checkInBtn.disabled = true; // Disable immediately to prevent double clicks
+                    try {
+                        await setDoc(userDocRef, {
+                            checkedInAt: serverTimestamp(),
+                            userId: userId
+                        });
+                        checkInBtn.querySelector('span').textContent = 'Kehadiran Dicatat';
+                        feather.replace({ class: 'btn-icon' });
+                        console.log("User checked in successfully!");
+                    } catch (error) {
+                        console.error("Error checking in:", error);
+                        checkInBtn.disabled = false; // Re-enable if there was an error
+                    }
+                });
+            }
+            
+            // Initialize Firebase when the DOM is ready
+            initializeFirebase();
         });
     </script>
  </body>
