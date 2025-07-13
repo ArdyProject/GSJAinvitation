@@ -134,6 +134,40 @@
             font-size: 3.8rem; font-weight: normal; color: white;
             margin-bottom: 1rem; line-height: 1.2;
         }
+
+        /* --- NEW: Countdown Wrapper & Arrow Effect --- */
+        #countdown-wrapper {
+            position: relative;
+            padding: 2rem 0;
+            margin-top: 1rem;
+        }
+        .rotating-arrow {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            filter: drop-shadow(0 0 5px var(--text-gold)) drop-shadow(0 0 10px var(--text-gold));
+            animation: rotate 10s linear infinite;
+        }
+        .rotating-arrow svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--text-gold);
+        }
+        #arrow-1 {
+            top: 0;
+            left: 0;
+        }
+        #arrow-2 {
+            bottom: 0;
+            right: 0;
+            animation-direction: reverse;
+            animation-duration: 8s;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         #countdown-label { font-size: 1.1rem; color: var(--text-gold); margin-bottom: 1rem; }
         #countdown { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
         .countdown-item {
@@ -410,7 +444,7 @@
         .nav-button:hover { opacity: 1; color: var(--text-gold); transform: translateY(-3px); }
         .nav-button span { font-size: 0.7rem; font-weight: 700; }
 
-        /* --- Real-time Clock & NEW Lightning Effect --- */
+        /* --- Real-time Clock & Lightning Effect --- */
         #clock-wrapper {
             position: absolute;
             top: 1.5rem;
@@ -489,43 +523,44 @@
         #subscribe-btn:disabled { background-color: #555; color: #999; cursor: not-allowed; }
         #notification-status { font-size: 0.8rem; color: #aaa; margin-top: 0.5rem; }
 
-        /* --- AUTH MODAL STYLES --- */
-        .auth-modal-overlay {
+        /* --- AUTH & ACCOUNT MODAL STYLES --- */
+        .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.7);
             backdrop-filter: blur(8px); z-index: 2000;
             display: none;
             justify-content: center; align-items: center;
             opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease;
         }
-        .auth-modal-overlay.visible { 
+        .modal-overlay.visible { 
             display: flex;
             opacity: 1; 
             visibility: visible; 
         }
-        .auth-modal {
+        .modal-box {
             background: var(--bg-card); padding: 2.5rem 2rem; border-radius: 16px;
             width: 90%; max-width: 400px; position: relative;
             border: 1px solid var(--border-color); box-shadow: 0 10px 30px var(--shadow-color);
             transform: translateY(-50px) scale(0.95);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .auth-modal-overlay.visible .auth-modal { transform: translateY(0) scale(1); }
-        .auth-modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-secondary); cursor: pointer; }
-        .auth-modal h2 { font-family: var(--font-serif); color: var(--text-gold); text-align: center; margin-bottom: 2rem; }
+        .modal-overlay.visible .modal-box { transform: translateY(0) scale(1); }
+        .modal-close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-secondary); cursor: pointer; }
+        .modal-box h2 { font-family: var(--font-serif); color: var(--text-gold); text-align: center; margin-bottom: 2rem; }
+        
         .auth-form .form-group { margin-bottom: 1.5rem; }
         .auth-form input {
             width: 100%; padding: 0.8rem 1rem; background: var(--bg-primary);
             border: 1px solid var(--border-color); border-radius: 8px;
             color: var(--text-primary); font-size: 1rem;
         }
-        .auth-form .form-action {
+        .form-action-btn {
             width: 100%; padding: 0.9rem; background: var(--text-gold);
             color: var(--bg-secondary); border: none; border-radius: 8px;
             font-weight: 700; font-size: 1rem; cursor: pointer;
             transition: background-color 0.3s, transform 0.2s;
         }
-        .auth-form .form-action:hover { filter: brightness(1.1); }
-        .auth-form .form-action:active { transform: scale(0.98); }
+        .form-action-btn:hover { filter: brightness(1.1); }
+        .form-action-btn:active { transform: scale(0.98); }
         .auth-toggle-link { text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary); }
         .auth-toggle-link button { background: none; border: none; color: var(--text-gold); text-decoration: underline; cursor: pointer; font-size: inherit; }
         #register-form { display: none; }
@@ -538,15 +573,22 @@
             transition: color 0.3s;
         }
         .auth-message.success {
-            color: #22c55e; /* Green color for success */
+            color: #22c55e;
         }
+
+        /* Account Info Modal Specifics */
+        .account-info { text-align: center; }
+        .account-info p { margin-bottom: 0.5rem; color: var(--text-secondary); }
+        .account-info strong { color: var(--text-primary); font-weight: 700; }
+        #logout-btn { margin-top: 2rem; background-color: var(--live-red); color: white; }
+
 
         /* --- TOAST NOTIFICATION --- */
         #toast-notification {
             position: fixed;
             bottom: 80px;
             left: 50%;
-            transform: translateX(-50%) translateY(100px); /* Start off-screen */
+            transform: translateX(-50%) translateY(100px);
             background-color: var(--text-gold);
             color: var(--bg-secondary);
             padding: 1rem 1.5rem;
@@ -598,7 +640,6 @@
 
     <main id="main-content">
         <section id="home">
-            <!-- NEW: Clock Wrapper for Lightning Effect -->
             <div id="clock-wrapper">
                 <div id="realtime-clock">
                     <div id="clock-day"></div>
@@ -614,18 +655,28 @@
                 <p>Mari Beribadah Bersama Kami Di:</p>
                 <h3>GSJA River of Life<br>Pematangsiantar</h3>
                 <hr class="separator">
-                <div id="countdown-container">
-                    <div id="countdown-label">Menghitung...</div>
-                    <div id="countdown">
-                        <div class="countdown-item"><div>00</div><div>Hari</div></div>
-                        <div class="countdown-item"><div>00</div><div>Jam</div></div>
-                        <div class="countdown-item"><div>00</div><div>Menit</div></div>
-                        <div class="countdown-item"><div>00</div><div>Detik</div></div>
+                
+                <!-- NEW: Countdown Wrapper with Arrows -->
+                <div id="countdown-wrapper">
+                    <div class="rotating-arrow" id="arrow-1">
+                        <svg viewBox="0 0 24 24"><path d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14l-6-6z"/></svg>
                     </div>
-                    <p id="next-event-datetime"></p>
-                    <div id="live-notification">
-                        <span class="live-dot"></span>
-                        <span id="live-text"></span>
+                    <div class="rotating-arrow" id="arrow-2">
+                        <svg viewBox="0 0 24 24"><path d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14l-6-6z"/></svg>
+                    </div>
+                    <div id="countdown-container">
+                        <div id="countdown-label">Menghitung...</div>
+                        <div id="countdown">
+                            <div class="countdown-item"><div>00</div><div>Hari</div></div>
+                            <div class="countdown-item"><div>00</div><div>Jam</div></div>
+                            <div class="countdown-item"><div>00</div><div>Menit</div></div>
+                            <div class="countdown-item"><div>00</div><div>Detik</div></div>
+                        </div>
+                        <p id="next-event-datetime"></p>
+                        <div id="live-notification">
+                            <span class="live-dot"></span>
+                            <span id="live-text"></span>
+                        </div>
                     </div>
                 </div>
 
@@ -714,11 +765,11 @@
                 <form id="whatsapp-form">
                     <div class="form-group">
                         <label for="wa-name">Nama Anda</label>
-                        <input type="text" id="wa-name" name="name" placeholder="Contoh: John Doe" required>
+                        <input type="text" id="wa-name" name="name" placeholder="Nama Kamu" required>
                     </div>
                     <div class="form-group">
                         <label for="wa-message">Pesan Anda</label>
-                        <textarea id="wa-message" name="message" placeholder="Tuliskan pesan atau permohonan doa Anda di sini..." required></textarea>
+                        <textarea id="wa-message" name="message" placeholder="Kirimkan Harapan Dan Doamu" required></textarea>
                     </div>
                     <button type="submit" id="whatsapp-submit-btn">
                         <i data-feather="send"></i>
@@ -735,15 +786,16 @@
         </footer>
     </main>
     
-    <div id="auth-modal-overlay" class="auth-modal-overlay">
-        <div class="auth-modal">
-            <button id="auth-modal-close" class="auth-modal-close"><i data-feather="x"></i></button>
+    <!-- Auth Modal -->
+    <div id="auth-modal-overlay" class="modal-overlay">
+        <div class="modal-box">
+            <button id="auth-modal-close" class="modal-close-btn"><i data-feather="x"></i></button>
             <form id="login-form" class="auth-form">
                 <h2>Selamat Datang Kembali</h2>
                 <div class="auth-message" id="login-message"></div>
                 <div class="form-group"><input type="email" id="login-email" placeholder="Email Anda" required></div>
                 <div class="form-group"><input type="password" id="login-password" placeholder="Kata Sandi" required></div>
-                <button type="submit" class="form-action">Masuk</button>
+                <button type="submit" class="form-action-btn">Masuk</button>
                 <div class="auth-toggle-link">Belum punya akun? <button type="button" id="show-register">Daftar di sini</button></div>
             </form>
             <form id="register-form" class="auth-form">
@@ -752,9 +804,22 @@
                 <div class="form-group"><input type="text" id="register-name" placeholder="Nama Lengkap" required></div>
                 <div class="form-group"><input type="email" id="register-email" placeholder="Email Anda" required></div>
                 <div class="form-group"><input type="password" id="register-password" placeholder="Buat Kata Sandi" required></div>
-                <button type="submit" class="form-action">Daftar</button>
+                <button type="submit" class="form-action-btn">Daftar</button>
                 <div class="auth-toggle-link">Sudah punya akun? <button type="button" id="show-login">Masuk di sini</button></div>
             </form>
+        </div>
+    </div>
+
+    <!-- NEW: Account Info Modal -->
+    <div id="account-modal-overlay" class="modal-overlay">
+        <div class="modal-box">
+            <button id="account-modal-close" class="modal-close-btn"><i data-feather="x"></i></button>
+            <h2>Info Akun</h2>
+            <div class="account-info">
+                <p>Nama: <strong id="account-name"></strong></p>
+                <p>Email: <strong id="account-email"></strong></p>
+            </div>
+            <button id="logout-btn" class="form-action-btn">Logout</button>
         </div>
     </div>
 
@@ -861,6 +926,7 @@
             });
 
             // --- DYNAMIC COUNTDOWN & LIVE ALERT ---
+            const countdownContainer = document.getElementById('countdown-container');
             const countdownEl = document.getElementById('countdown');
             const countdownLabelEl = document.getElementById('countdown-label');
             const liveNotificationEl = document.getElementById('live-notification');
@@ -891,10 +957,8 @@
                         endTime.setHours(event.endHour, event.endMinute, 0, 0);
                         if (now >= startTime && now < endTime) {
                             liveTextEl.textContent = `${event.name.toUpperCase()} SEDANG BERLANGSUNG`;
+                            countdownContainer.style.display = 'none';
                             liveNotificationEl.style.display = 'flex';
-                            countdownEl.style.display = 'none';
-                            countdownLabelEl.style.display = 'none';
-                            nextEventDateTimeEl.style.display = 'none';
                             eventIsLive = true;
                             break;
                         }
@@ -903,9 +967,7 @@
                 
                 if (!eventIsLive) {
                     liveNotificationEl.style.display = 'none';
-                    countdownEl.style.display = 'flex';
-                    countdownLabelEl.style.display = 'block';
-                    nextEventDateTimeEl.style.display = 'block';
+                    countdownContainer.style.display = 'block';
 
                     let upcomingEvents = [];
                     for (const event of events) {
@@ -1115,8 +1177,10 @@
 
             // --- AUTH LOGIC (localStorage) ---
             const authModalOverlay = document.getElementById('auth-modal-overlay');
+            const accountModalOverlay = document.getElementById('account-modal-overlay');
             const authNavBtn = document.getElementById('auth-nav-btn');
             const authModalClose = document.getElementById('auth-modal-close');
+            const accountModalClose = document.getElementById('account-modal-close');
             
             const loginForm = document.getElementById('login-form');
             const registerForm = document.getElementById('register-form');
@@ -1125,6 +1189,7 @@
 
             const showRegisterBtn = document.getElementById('show-register');
             const showLoginBtn = document.getElementById('show-login');
+            const logoutBtn = document.getElementById('logout-btn');
 
             const USERS_KEY = 'churchAppUsers';
             const LOGGED_IN_USER_KEY = 'churchAppLoggedInUser';
@@ -1137,27 +1202,41 @@
                 toastEl.classList.add('show');
                 setTimeout(() => {
                     toastEl.classList.remove('show');
-                }, 3000); // Hide after 3 seconds
+                }, 3000);
             };
 
-            // --- Auth Modal UI ---
+            // --- Modal UI Functions ---
             const openAuthModal = () => {
                 loginMessageEl.textContent = '';
                 registerMessageEl.textContent = '';
                 authModalOverlay.classList.add('visible');
             };
             const closeAuthModal = () => authModalOverlay.classList.remove('visible');
+            
+            const openAccountModal = () => {
+                const user = getLoggedInUser();
+                if (user) {
+                    document.getElementById('account-name').textContent = user.name;
+                    document.getElementById('account-email').textContent = user.email;
+                    accountModalOverlay.classList.add('visible');
+                }
+            };
+            const closeAccountModal = () => accountModalOverlay.classList.remove('visible');
 
+            // --- Event Listeners for Modals ---
             authNavBtn.addEventListener('click', () => {
                 const loggedInUser = getLoggedInUser();
                 if (loggedInUser) {
-                    logout();
+                    openAccountModal(); // NEW: Open account info modal if logged in
                 } else {
-                    openAuthModal();
+                    openAuthModal(); // Open login/register modal if not logged in
                 }
             });
             authModalClose.addEventListener('click', closeAuthModal);
+            accountModalClose.addEventListener('click', closeAccountModal);
             authModalOverlay.addEventListener('click', (e) => { if (e.target === authModalOverlay) closeAuthModal(); });
+            accountModalOverlay.addEventListener('click', (e) => { if (e.target === accountModalOverlay) closeAccountModal(); });
+            
             showRegisterBtn.addEventListener('click', () => { 
                 loginForm.style.display = 'none'; 
                 registerForm.style.display = 'block'; 
@@ -1178,8 +1257,8 @@
                 const icon = authNavBtn.querySelector('i');
                 const span = authNavBtn.querySelector('span');
                 if (user) {
-                    icon.setAttribute('data-feather', 'log-out');
-                    span.textContent = 'Logout';
+                    icon.setAttribute('data-feather', 'user-check');
+                    span.textContent = 'Akun'; // NEW: Text changes to "Akun"
                 } else {
                     icon.setAttribute('data-feather', 'user');
                     span.textContent = 'Login';
@@ -1190,8 +1269,10 @@
             const logout = () => {
                 localStorage.removeItem(LOGGED_IN_USER_KEY);
                 updateNavButton(null);
+                closeAccountModal(); // Close the account modal on logout
                 showToast('Anda telah berhasil logout.');
             };
+            logoutBtn.addEventListener('click', logout);
 
             // --- Registration Logic ---
             registerForm.addEventListener('submit', (e) => {
@@ -1262,17 +1343,16 @@
                 setTimeout(() => {
                     localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(user));
                     updateNavButton(user);
-                    closeAuthModal();
+                    closeAuthModal(); // Close login modal
                     loginForm.reset();
+                    // No redirect needed, user is already on the main page.
                 }, 1500);
             });
 
             // --- Initial Check on Page Load ---
             const checkLoginStatus = () => {
                 const user = getLoggedInUser();
-                if (user) {
-                    updateNavButton(user);
-                }
+                updateNavButton(user);
             };
             checkLoginStatus();
         });
