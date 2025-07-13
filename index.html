@@ -450,12 +450,12 @@
         .auth-modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.7);
             backdrop-filter: blur(8px); z-index: 2000;
-            display: none; /* Changed from flex to none */
+            display: none;
             justify-content: center; align-items: center;
             opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease;
         }
         .auth-modal-overlay.visible { 
-            display: flex; /* Changed from opacity/visibility */
+            display: flex;
             opacity: 1; 
             visibility: visible; 
         }
@@ -492,6 +492,10 @@
             color: var(--live-red);
             font-size: 0.9rem;
             min-height: 1.2rem;
+            transition: color 0.3s;
+        }
+        .auth-message.success {
+            color: #22c55e; /* Green color for success */
         }
 
 
@@ -548,6 +552,30 @@
             transition: transform 0.2s;
         }
         #chat-send-btn:active { transform: scale(0.9); }
+
+        /* --- NEW: TOAST NOTIFICATION --- */
+        #toast-notification {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px); /* Start off-screen */
+            background-color: var(--text-gold);
+            color: var(--bg-secondary);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s, visibility 0.5s, transform 0.5s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: 700;
+        }
+        #toast-notification.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
 
         /* --- DESKTOP STYLES --- */
         @media (min-width: 768px) {
@@ -694,7 +722,7 @@
                 <form id="whatsapp-form">
                     <div class="form-group">
                         <label for="wa-name">Nama Anda</label>
-                        <input type="text" id="wa-name" name="name" placeholder="Contoh: Ardy Hutasoit" required>
+                        <input type="text" id="wa-name" name="name" placeholder="Contoh: John Doe" required>
                     </div>
                     <div class="form-group">
                         <label for="wa-message">Pesan Anda</label>
@@ -761,6 +789,9 @@
         </div>
     </nav>
  
+    <!-- NEW: Toast Notification Element -->
+    <div id="toast-notification"></div>
+
     <!-- SwiperJS Script -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
@@ -1102,7 +1133,7 @@
                 window.open(waUrl, '_blank');
             });
 
-            // --- NEW: AUTH LOGIC (localStorage) ---
+            // --- AUTH LOGIC (localStorage) ---
             const authModalOverlay = document.getElementById('auth-modal-overlay');
             const authNavBtn = document.getElementById('auth-nav-btn');
             const authModalClose = document.getElementById('auth-modal-close');
@@ -1118,6 +1149,17 @@
             const USERS_KEY = 'churchAppUsers';
             const LOGGED_IN_USER_KEY = 'churchAppLoggedInUser';
 
+            // --- NEW: Toast Notification Function ---
+            const showToast = (message) => {
+                const toastEl = document.getElementById('toast-notification');
+                if (!toastEl) return;
+                toastEl.textContent = message;
+                toastEl.classList.add('show');
+                setTimeout(() => {
+                    toastEl.classList.remove('show');
+                }, 3000); // Hide after 3 seconds
+            };
+
             // --- Auth Modal UI ---
             const openAuthModal = () => {
                 loginMessageEl.textContent = '';
@@ -1129,10 +1171,8 @@
             authNavBtn.addEventListener('click', () => {
                 const loggedInUser = getLoggedInUser();
                 if (loggedInUser) {
-                    // If user is logged in, the button becomes a logout button
                     logout();
                 } else {
-                    // If user is not logged in, open the modal
                     openAuthModal();
                 }
             });
@@ -1170,13 +1210,15 @@
             const logout = () => {
                 localStorage.removeItem(LOGGED_IN_USER_KEY);
                 updateNavButton(null);
-                alert('Anda telah berhasil logout.');
+                showToast('Anda telah berhasil logout.'); // REPLACED alert()
             };
 
             // --- Registration Logic ---
             registerForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 registerMessageEl.textContent = '';
+                registerMessageEl.classList.remove('success');
+
                 const name = document.getElementById('register-name').value.trim();
                 const email = document.getElementById('register-email').value.trim().toLowerCase();
                 const password = document.getElementById('register-password').value;
@@ -1198,24 +1240,27 @@
                     return;
                 }
 
-                // In a real app, NEVER store passwords like this. They must be hashed.
-                // This is a simplified simulation for client-side only.
                 const newUser = { name, email, password };
                 users.push(newUser);
                 saveUsers(users);
+                
+                registerMessageEl.classList.add('success');
+                registerMessageEl.textContent = `Pendaftaran berhasil! Selamat datang, ${name}.`;
 
-                // Automatically log in the new user
-                localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(newUser));
-                updateNavButton(newUser);
-                alert(`Pendaftaran berhasil! Selamat datang, ${name}.`);
-                closeAuthModal();
-                registerForm.reset();
+                // Automatically log in and close after a short delay
+                setTimeout(() => {
+                    localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(newUser));
+                    updateNavButton(newUser);
+                    closeAuthModal();
+                    registerForm.reset();
+                }, 1500);
             });
 
             // --- Login Logic ---
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 loginMessageEl.textContent = '';
+                loginMessageEl.classList.remove('success');
                 const email = document.getElementById('login-email').value.trim().toLowerCase();
                 const password = document.getElementById('login-password').value;
 
@@ -1231,12 +1276,17 @@
                     loginMessageEl.textContent = 'Email atau kata sandi salah.';
                     return;
                 }
+                
+                loginMessageEl.classList.add('success');
+                loginMessageEl.textContent = `Login berhasil! Selamat datang kembali, ${user.name}.`;
 
-                localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(user));
-                updateNavButton(user);
-                alert(`Login berhasil! Selamat datang kembali, ${user.name}.`);
-                closeAuthModal();
-                loginForm.reset();
+                // Close modal after a short delay
+                setTimeout(() => {
+                    localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(user));
+                    updateNavButton(user);
+                    closeAuthModal();
+                    loginForm.reset();
+                }, 1500);
             });
 
             // --- Initial Check on Page Load ---
