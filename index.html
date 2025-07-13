@@ -410,15 +410,58 @@
         .nav-button:hover { opacity: 1; color: var(--text-gold); transform: translateY(-3px); }
         .nav-button span { font-size: 0.7rem; font-weight: 700; }
 
-        /* --- Real-time Clock --- */
+        /* --- Real-time Clock & NEW Lightning Effect --- */
+        #clock-wrapper {
+            position: absolute;
+            top: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 350px;
+            z-index: 10;
+        }
         #realtime-clock {
-            position: absolute; top: 1.5rem; left: 50%;
-            transform: translateX(-50%); width: 90%; max-width: 350px;
+            position: relative;
             background: rgba(0, 0, 0, 0.2); border-radius: 12px;
-            padding: 0.5rem; text-align: center; z-index: 10;
+            padding: 0.5rem; text-align: center;
             display: flex; justify-content: space-around; align-items: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
             text-shadow: 0 0 5px rgba(0,0,0,0.5); backdrop-filter: blur(2px);
+        }
+        .lightning {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            filter: drop-shadow(0 0 8px #fef08a) drop-shadow(0 0 15px #fef08a);
+        }
+        .lightning path {
+            stroke: #fef08a;
+            stroke-width: 2;
+            fill: rgba(254, 240, 138, 0.8);
+        }
+        #lightning-1 {
+            top: -20px; left: -15px; width: 60px;
+            animation: flash 4s linear infinite;
+            animation-delay: 1.2s;
+        }
+        #lightning-2 {
+            top: -10px; right: -20px; width: 50px; transform: scaleX(-1) rotate(-15deg);
+            animation: flash 3.5s linear infinite;
+            animation-delay: 0.3s;
+        }
+        #lightning-3 {
+            bottom: -25px; left: 50%; width: 40px; transform: translateX(-50%) rotate(180deg);
+            animation: flash 5s linear infinite;
+            animation-delay: 2.5s;
+        }
+        @keyframes flash {
+            0%, 100% { opacity: 0; }
+            1%, 3% { opacity: 1; transform: scale(1.1); }
+            1.5%, 4% { opacity: 0; }
+            5%, 7% { opacity: 0.8; }
+            6%, 8% { opacity: 0; }
+            20%, 22% { opacity: 1; transform: scale(1); }
+            21%, 23% { opacity: 0; }
         }
         #clock-day { font-size: 0.9rem; font-weight: 700; color: var(--text-gold); text-transform: uppercase; }
         #clock-date {
@@ -498,62 +541,7 @@
             color: #22c55e; /* Green color for success */
         }
 
-
-        /* --- LIVE CHAT STYLES --- */
-        #chat-fab {
-            position: fixed; bottom: 90px; left: 15px; width: 50px; height: 50px;
-            background: var(--text-gold); color: var(--bg-secondary); border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer; z-index: 50; border: none;
-            box-shadow: 0 4px 15px var(--shadow-color); transition: transform 0.3s ease;
-        }
-        #chat-fab:hover { transform: scale(1.1) rotate(15deg); }
-        #chat-popup {
-            position: fixed; bottom: 150px; left: 15px; width: 90%;
-            max-width: 350px; height: 70vh; max-height: 500px;
-            background: var(--bg-card); border-radius: 16px; z-index: 2100;
-            display: flex; flex-direction: column;
-            box-shadow: 0 5px 25px var(--shadow-color); border: 1px solid var(--border-color);
-            opacity: 0; visibility: hidden; transform: translateY(20px) scale(0.95);
-            transition: all 0.3s ease-out;
-        }
-        #chat-popup.visible { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
-        .chat-header {
-            padding: 1rem; background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border-color); display: flex;
-            justify-content: space-between; align-items: center;
-            border-top-left-radius: 16px; border-top-right-radius: 16px;
-        }
-        .chat-header h3 { font-size: 1.1rem; color: var(--text-gold); margin: 0; }
-        #chat-close-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; }
-        .chat-messages {
-            flex-grow: 1; padding: 1rem; overflow-y: auto;
-            display: flex; flex-direction: column; gap: 0.75rem;
-        }
-        .chat-message { max-width: 80%; padding: 0.6rem 0.9rem; border-radius: 12px; line-height: 1.5; }
-        .chat-message.user {
-            background: var(--text-gold); color: var(--bg-secondary);
-            align-self: flex-end; border-bottom-right-radius: 2px;
-        }
-        .chat-message.bot {
-            background: var(--bg-primary); color: var(--text-primary);
-            align-self: flex-start; border-bottom-left-radius: 2px;
-        }
-        .chat-input-container { display: flex; padding: 0.75rem; border-top: 1px solid var(--border-color); }
-        #chat-input {
-            flex-grow: 1; background: var(--bg-primary); border: 1px solid var(--border-color);
-            border-radius: 20px; padding: 0.6rem 1rem; color: var(--text-primary);
-            margin-right: 0.5rem;
-        }
-        #chat-send-btn {
-            background: var(--text-gold); border: none; border-radius: 50%;
-            width: 40px; height: 40px; display: flex; justify-content: center;
-            align-items: center; color: var(--bg-secondary); cursor: pointer;
-            transition: transform 0.2s;
-        }
-        #chat-send-btn:active { transform: scale(0.9); }
-
-        /* --- NEW: TOAST NOTIFICATION --- */
+        /* --- TOAST NOTIFICATION --- */
         #toast-notification {
             position: fixed;
             bottom: 80px;
@@ -576,7 +564,6 @@
             transform: translateX(-50%) translateY(0);
         }
 
-
         /* --- DESKTOP STYLES --- */
         @media (min-width: 768px) {
             section { padding: 5rem 1.5rem; }
@@ -592,8 +579,7 @@
             #special-event-title { font-size: 2rem; }
             .flip-unit { width: 80px; height: 100px; font-size: 4rem; line-height: 100px; }
             #special-countdown { gap: 1.5rem; }
-            #realtime-clock { top: 2rem; }
-            #chat-popup { bottom: 20px; left: 20px; }
+            #clock-wrapper { top: 2rem; }
             .swiper-slide { width: 320px; height: 450px; }
         }
     </style>
@@ -612,10 +598,16 @@
 
     <main id="main-content">
         <section id="home">
-            <div id="realtime-clock">
-                <div id="clock-day"></div>
-                <div id="clock-date"></div>
-                <div id="clock-time"></div>
+            <!-- NEW: Clock Wrapper for Lightning Effect -->
+            <div id="clock-wrapper">
+                <div id="realtime-clock">
+                    <div id="clock-day"></div>
+                    <div id="clock-date"></div>
+                    <div id="clock-time"></div>
+                </div>
+                <svg class="lightning" id="lightning-1" viewBox="0 0 512 512"><path d="M441.15,224.82,272.58,15.8A16,16,0,0,0,248,27.23V192H123.29a16,16,0,0,0-13.8,24.31L255.42,487.2a16,16,0,0,0,28.1-9.44l-23.3-163.2H424.71a16,16,0,0,0,13.8-24.31Z"/></svg>
+                <svg class="lightning" id="lightning-2" viewBox="0 0 512 512"><path d="M441.15,224.82,272.58,15.8A16,16,0,0,0,248,27.23V192H123.29a16,16,0,0,0-13.8,24.31L255.42,487.2a16,16,0,0,0,28.1-9.44l-23.3-163.2H424.71a16,16,0,0,0,13.8-24.31Z"/></svg>
+                <svg class="lightning" id="lightning-3" viewBox="0 0 512 512"><path d="M441.15,224.82,272.58,15.8A16,16,0,0,0,248,27.23V192H123.29a16,16,0,0,0-13.8,24.31L255.42,487.2a16,16,0,0,0,28.1-9.44l-23.3-163.2H424.71a16,16,0,0,0,13.8-24.31Z"/></svg>
             </div>
 
             <div class="animate-fade-in-up">
@@ -765,17 +757,6 @@
             </form>
         </div>
     </div>
-    
-    <button id="chat-fab"><i data-feather="message-square"></i></button>
-    <div id="chat-popup">
-        <div class="chat-header"><h3>Asisten Gereja</h3><button id="chat-close-btn"><i data-feather="x"></i></button></div>
-        <div class="chat-messages" id="chat-messages">
-            <div class="chat-message bot">Shalom! Saya adalah asisten virtual GSJA River of Life. Silakan bertanya mengenai jadwal ibadah, pelayanan, atau acara di gereja kami.</div>
-        </div>
-        <div class="chat-input-container">
-            <input type="text" id="chat-input" placeholder="Ketik pertanyaan..."><button id="chat-send-btn"><i data-feather="send"></i></button>
-        </div>
-    </div>
 
     <div id="audio-control"><i data-feather="music"></i></div>
 
@@ -789,7 +770,6 @@
         </div>
     </nav>
  
-    <!-- NEW: Toast Notification Element -->
     <div id="toast-notification"></div>
 
     <!-- SwiperJS Script -->
@@ -1149,7 +1129,7 @@
             const USERS_KEY = 'churchAppUsers';
             const LOGGED_IN_USER_KEY = 'churchAppLoggedInUser';
 
-            // --- NEW: Toast Notification Function ---
+            // --- Toast Notification Function ---
             const showToast = (message) => {
                 const toastEl = document.getElementById('toast-notification');
                 if (!toastEl) return;
@@ -1210,7 +1190,7 @@
             const logout = () => {
                 localStorage.removeItem(LOGGED_IN_USER_KEY);
                 updateNavButton(null);
-                showToast('Anda telah berhasil logout.'); // REPLACED alert()
+                showToast('Anda telah berhasil logout.');
             };
 
             // --- Registration Logic ---
@@ -1247,7 +1227,6 @@
                 registerMessageEl.classList.add('success');
                 registerMessageEl.textContent = `Pendaftaran berhasil! Selamat datang, ${name}.`;
 
-                // Automatically log in and close after a short delay
                 setTimeout(() => {
                     localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(newUser));
                     updateNavButton(newUser);
@@ -1280,7 +1259,6 @@
                 loginMessageEl.classList.add('success');
                 loginMessageEl.textContent = `Login berhasil! Selamat datang kembali, ${user.name}.`;
 
-                // Close modal after a short delay
                 setTimeout(() => {
                     localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(user));
                     updateNavButton(user);
@@ -1297,63 +1275,6 @@
                 }
             };
             checkLoginStatus();
-
-            // --- LIVE CHAT LOGIC ---
-            const chatFab = document.getElementById('chat-fab');
-            const chatPopup = document.getElementById('chat-popup');
-            const chatCloseBtn = document.getElementById('chat-close-btn');
-            const chatMessages = document.getElementById('chat-messages');
-            const chatInput = document.getElementById('chat-input');
-            const chatSendBtn = document.getElementById('chat-send-btn');
-
-            chatFab.addEventListener('click', () => { chatPopup.classList.toggle('visible'); feather.replace(); });
-            chatCloseBtn.addEventListener('click', () => chatPopup.classList.remove('visible'));
-            chatSendBtn.addEventListener('click', handleSendMessage);
-            chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSendMessage(); });
-
-            function handleSendMessage() {
-                const messageText = chatInput.value.trim();
-                if (messageText === '') return;
-                addMessage(messageText, 'user');
-                chatInput.value = '';
-                setTimeout(() => {
-                    const botResponse = getBotResponse(messageText);
-                    addMessage(botResponse, 'bot');
-                }, 800);
-            }
-
-            function addMessage(text, type) {
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('chat-message', type);
-                messageElement.textContent = text;
-                chatMessages.appendChild(messageElement);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-
-            function getBotResponse(userInput) {
-                const input = userInput.toLowerCase();
-                if (input.includes('jadwal') || input.includes('kapan') || input.includes('jam berapa')) {
-                    let response = "Tentu, ini jadwal ibadah kami:\n";
-                    const relevantEvents = events.filter(e => input.includes(e.name.toLowerCase().split(' ')[1]) || input.includes(e.name.toLowerCase().split(' ')[0]));
-                    if (relevantEvents.length > 0) {
-                        relevantEvents.forEach(e => { response += `- ${e.name}: Setiap ${daysOfWeek[e.day]}, pukul ${String(e.hour).padStart(2,'0')}:${String(e.minute).padStart(2,'0')} WIB.\n`; });
-                        return response;
-                    }
-                    return "Jadwal ibadah lengkap ada di bagian 'Jadwal & Lokasi'. Ibadah Raya setiap Minggu (Sesi 1: 08:30, Sesi 2: 10:35), Ibadah Youth setiap Sabtu (19:00), dan berbagai ibadah komsel serta doa di hari lainnya.";
-                }
-                if (input.includes('lokasi') || input.includes('alamat') || input.includes('dimana')) { return "Gereja kami berlokasi di Jl. Pdt. J. Wismar Saragih, Pematangsiantar. Anda bisa melihat peta detail di bagian 'Jadwal & Lokasi' untuk arahan yang lebih mudah."; }
-                if (input.includes('pelayanan') || input.includes('ministries')) { return "Kami memiliki beberapa pelayanan inti: Sekolah Minggu untuk anak-anak, Youth Generation untuk kaum muda, dan tim Pujian & Penyembahan. Anda bisa membaca lebih lanjut di bagian 'Pelayanan Kami'."; }
-                if (input.includes('youth') || input.includes('pemuda') || input.includes('remaja')) { return "Ibadah Youth Generation kami diadakan setiap hari Sabtu pukul 19:00 - 21:00 WIB. Ini adalah wadah bagi kaum muda untuk bertumbuh bersama dalam iman. Info lebih lanjut ada di bagian Pelayanan."; }
-                if (input.includes('event') || input.includes('acara spesial') || input.includes('peresmian')) {
-                    const eventDateStr = specialEventDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-                    return `Kami memiliki event spesial yaitu Peresmian Gedung Gereja pada ${eventDateStr}. Anda bisa melihat hitung mundurnya di halaman utama. Kami sangat menantikan kehadiran Anda!`;
-                }
-                if (input.includes('galeri') || input.includes('foto')) { return "Di bagian Galeri, Anda bisa melihat foto-foto dari berbagai kegiatan kami dalam format slider yang interaktif."; }
-                if (input.includes('kontak') || input.includes('whatsapp')) { return "Tentu, Anda bisa menghubungi kami melalui form kontak di bagian bawah halaman. Pesan Anda akan langsung dikirim ke WhatsApp kami."; }
-                if (input.includes('halo') || input.includes('shalom')) { return "Shalom! Selamat datang di website GSJA River of Life. Ada informasi seputar gereja kami yang bisa saya bantu?"; }
-                if (input.includes('terima kasih')) { return "Dengan senang hati. Tuhan Yesus memberkati!"; }
-                return "Maaf, Silakan coba bertanya tentang 'jadwal', 'lokasi', 'pelayanan', atau 'event spesial'.";
-            }
         });
     </script>
  </body>
