@@ -1,1 +1,1 @@
-Preview Project: https://ArdyProject.github.io/GSJAinvitation
+Preview Project: https://ArdyProject.github.io/GSJAinvitation/
