@@ -1,8 +1,8 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <!-- Meta viewport yang lebih ketat agar tidak bisa di-zoom sembarangan dan pas di layar HP -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#050505">
     <meta name="description" content="GSJA River of Life Pematangsiantar - Jadwal ibadah, komsel, galeri kegiatan, dan informasi pelayanan gereja.">
@@ -109,36 +109,21 @@
         /* ==========================================================================
            3. LAYOUT & BACKGROUNDS (Parallax & Gelap)
            ========================================================================== */
-        section { 
-            padding: 7rem 0; /* Padding vertikal saja */
-            position: relative; 
-            width: 100%; 
-        }
+        section { padding: 7rem 0; position: relative; width: 100%; }
         
         .container { 
-            max-width: 1200px; 
-            width: 100%; 
-            margin: 0 auto; 
-            padding: 0 1.5rem; /* Padding horizontal untuk batasi konten */
-            position: relative; 
-            z-index: 2; 
+            max-width: 1200px; width: 100%; margin: 0 auto; 
+            padding: 0 1.5rem; position: relative; z-index: 2; 
         }
         
         .bg-parallax {
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* Parallax effect */
+            background-size: cover; background-position: center; background-attachment: fixed;
         }
         
-        /* Fallback untuk iOS Safari yang kadang buggy dengan fixed background */
-        @supports (-webkit-touch-callout: none) {
-            .bg-parallax { background-attachment: scroll; }
-        }
+        @supports (-webkit-touch-callout: none) { .bg-parallax { background-attachment: scroll; } }
 
         .bg-overlay {
-            position: absolute; inset: 0;
-            background: rgba(5, 5, 5, 0.85); /* Overlay gelap */
-            z-index: 1;
+            position: absolute; inset: 0; background: rgba(5, 5, 5, 0.85); z-index: 1;
         }
 
         #home { background-image: url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=2000&auto=format&fit=crop'); min-height: 100vh; display: flex; align-items: center; }
@@ -168,19 +153,13 @@
         #cover {
             position: fixed; inset: 0; z-index: 9999;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 1.2s ease, visibility 1.2s ease, transform 1.2s ease;
-            background-color: #000;
+            transition: opacity 1.2s ease, visibility 1.2s ease, transform 1.2s ease; background-color: #000;
         }
         
-        .cover-video {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover; z-index: 1;
-        }
+        .cover-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
         
         #cover::after {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(5,5,5,0.95)); z-index: 2;
+            content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(5,5,5,0.95)); z-index: 2;
         }
         
         #cover.fade-out { opacity: 0; visibility: hidden; transform: scale(1.05); }
@@ -207,24 +186,14 @@
         .nav-links a { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; transition: var(--trans-smooth); color: var(--text-light); }
         .nav-links a:hover, .nav-links a.active { color: var(--gold-primary); }
 
-        /* Bottom Nav Mobile - Disempurnakan! */
         #bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000;
             background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px);
-            border-top: 1px solid var(--glass-border);
-            height: 70px; /* Ukuran pasti agar tidak lari-lari */
-            padding-bottom: env(safe-area-inset-bottom); /* Fix untuk iPhone */
-            display: none; box-shadow: 0 -5px 25px rgba(0,0,0,0.7);
+            border-top: 1px solid var(--glass-border); height: 70px;
+            padding-bottom: env(safe-area-inset-bottom); display: none; box-shadow: 0 -5px 25px rgba(0,0,0,0.7);
         }
-        .bottom-nav-inner { 
-            display: flex; justify-content: space-between; align-items: center; 
-            height: 100%; max-width: 600px; margin: 0 auto; padding: 0 1rem;
-        }
-        .b-nav-item { 
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            flex: 1; height: 100%; gap: 6px; 
-            color: var(--text-muted); transition: var(--trans-smooth); 
-        }
+        .bottom-nav-inner { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 600px; margin: 0 auto; padding: 0 1rem; }
+        .b-nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; height: 100%; gap: 6px; color: var(--text-muted); transition: var(--trans-smooth); }
         .b-nav-icon { width: 22px; height: 22px; }
         .b-nav-text { font-size: 0.7rem; font-weight: 600; }
         .b-nav-item:hover, .b-nav-item.active { color: var(--gold-primary); transform: translateY(-3px); }
@@ -232,7 +201,7 @@
         @media (max-width: 768px) {
             #top-nav .nav-links { display: none; }
             #bottom-nav { display: block; }
-            main { padding-bottom: 70px; } /* Space untuk bottom nav */
+            main { padding-bottom: 70px; }
         }
 
         /* ==========================================================================
@@ -251,31 +220,39 @@
         .countdown-box { display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; }
         .cd-item {
             background: rgba(0,0,0,0.7); border: 1px solid var(--glass-border);
-            padding: 1.2rem 0.5rem; border-radius: 12px; 
-            flex: 1 1 80px; max-width: 110px; /* Pas di desktop & mobile */
+            padding: 1.2rem 0.5rem; border-radius: 12px; flex: 1 1 80px; max-width: 110px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3); border-top: 1px solid rgba(212, 175, 55, 0.5);
         }
         .cd-num { font-size: 2rem; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 0.4rem; font-family: var(--font-heading); }
         .cd-label { font-size: 0.75rem; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 1px; }
 
+        /* LIVE NOTIFICATION - Dikembalikan efek glow merah cerahnya */
         .live-badge {
-            display: none; align-items: center; gap: 0.5rem; margin: 2rem auto; justify-content: center;
-            background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.5);
-            padding: 0.8rem 2rem; border-radius: 50px; color: var(--live-red);
-            font-weight: 700; font-size: 0.95rem; letter-spacing: 1.5px; animation: pulse-border 2s infinite;
+            display: none; align-items: center; gap: 0.8rem; margin: 2rem auto; justify-content: center;
+            background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.8);
+            padding: 0.8rem 2rem; border-radius: 50px; color: #fff;
+            font-weight: 700; font-size: 1rem; letter-spacing: 1.5px; 
+            animation: pulse-border 2s infinite; text-shadow: 0 0 10px rgba(239,68,68,0.8);
         }
-        .live-dot { width: 12px; height: 12px; background: var(--live-red); border-radius: 50%; animation: pulse-bg 1.5s infinite; }
+        .live-dot { width: 14px; height: 14px; background: var(--live-red); border-radius: 50%; animation: pulse-bg 1.5s infinite; box-shadow: 0 0 15px var(--live-red); }
+
+        @keyframes pulse-border { 
+            0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); } 
+            70% { box-shadow: 0 0 0 15px rgba(239,68,68,0); } 
+            100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); } 
+        }
+        @keyframes pulse-bg { 
+            0% { transform: scale(0.95); opacity: 0.8; } 
+            50% { transform: scale(1.3); opacity: 1; } 
+            100% { transform: scale(0.95); opacity: 0.8; } 
+        }
 
         .special-event-card { margin-top: 4rem; padding: 2.5rem 1.5rem; text-align: center; }
 
         /* ==========================================================================
            8. SCHEDULE (JADWAL)
            ========================================================================== */
-        .schedule-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem; width: 100%;
-        }
-        
+        .schedule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; width: 100%; }
         .schedule-card { padding: 2rem; height: 100%; display: flex; flex-direction: column; transition: var(--trans-smooth); }
         .schedule-card:hover { transform: translateY(-5px); border-color: var(--gold-primary); }
         .day-badge {
@@ -293,7 +270,7 @@
            9. GALLERY (SWIPER)
            ========================================================================== */
         #gallery { padding-bottom: 7rem; }
-        .swiper { width: 100%; padding: 2rem 0; overflow: visible; /* Biar bayangannya gak kepotong */ }
+        .swiper { width: 100%; padding: 2rem 0; overflow: visible; }
         .swiper-slide {
             width: 85vw; max-width: 350px; height: 450px; border-radius: 20px; overflow: hidden;
             position: relative; border: 1px solid var(--glass-border); box-shadow: 0 15px 35px rgba(0,0,0,0.6);
@@ -320,14 +297,10 @@
         .ministry-icon { width: 70px; height: 70px; background: linear-gradient(135deg, rgba(212,175,55,0.2), transparent); border: 1px solid var(--gold-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; color: var(--gold-primary); }
         
         /* ==========================================================================
-           11. CONTACT & MAP (Diratakan tinggi kotaknya di desktop)
+           11. CONTACT & MAP
            ========================================================================== */
-        .contact-grid { 
-            display: grid; grid-template-columns: 1fr; gap: 2rem; 
-        }
-        @media(min-width: 900px) { 
-            .contact-grid { grid-template-columns: 1fr 1fr; gap: 3rem; align-items: stretch; } 
-        }
+        .contact-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        @media(min-width: 900px) { .contact-grid { grid-template-columns: 1fr 1fr; gap: 3rem; align-items: stretch; } }
         
         .contact-wrapper { padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center; height: 100%; }
         .form-group { margin-bottom: 1.5rem; }
@@ -384,9 +357,12 @@
 </head>
 <body>
 
-    <!-- AUDIO -->
+    <!-- 
+      AUDIO: Diatur untuk memutar file lokal dari folder audio/ 
+      Persis seperti kode orisinil Anda.
+    -->
     <audio id="worship-audio" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4966601b0b.mp3?filename=ambient-piano-amp-strings-10711.mp3" type="audio/mpeg">
+        <source src="" type="audio/mpeg">
     </audio>
 
     <!-- 1. COVER / LANDING -->
@@ -437,11 +413,12 @@
                     <div class="clock-time" id="c-time">00:00:00</div>
                     <div class="clock-date" id="c-date">Memuat Tanggal...</div>
                     
+                    <!-- INDIKATOR IBADAH SEDANG BERLANGSUNG -->
                     <div class="live-badge" id="live-indicator">
                         <span class="live-dot"></span> <span id="live-text">IBADAH SEDANG BERLANGSUNG</span>
                     </div>
 
-                    <div id="next-event-wrapper">
+                    <div id="countdown-container">
                         <h3 style="font-weight: 400; color: var(--gold-light); margin-top: 2rem; font-size: 1.1rem;">Menuju <span id="next-event-name" style="font-weight:700; color: var(--gold-primary);">Ibadah</span></h3>
                         <div class="countdown-box" id="countdown">
                             <div class="cd-item"><div class="cd-num" id="cd-d">00</div><div class="cd-label">Hari</div></div>
@@ -669,7 +646,7 @@
     <div class="fab" id="audio-btn" aria-label="Toggle Music"><i data-feather="music" width="20"></i></div>
     <div class="fab" id="top-btn" aria-label="Back to Top"><i data-feather="chevron-up" width="20"></i></div>
 
-    <!-- MOBILE BOTTOM NAV (Khusus Layar Kecil) -->
+    <!-- MOBILE BOTTOM NAV -->
     <nav id="bottom-nav">
         <div class="bottom-nav-inner">
             <a href="#home" class="b-nav-item active" data-target="home">
@@ -693,14 +670,43 @@
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // Init Icons
         feather.replace();
 
-        // Constants
+        // =====================================================
+        // KONFIGURASI AUDIO LOKAL & JADWAL (Original Mode)
+        // =====================================================
         const WA_NUMBER = "6283146557755";
         const SPECIAL_EVENT_DATE = "2026-08-30T15:00:00"; 
         
-        // Toast
+        // Konfigurasi Asli Folder & Array Lagu
+        const CONFIG = {
+            audioFolder: 'audio/'
+        };
+        const songs = [
+            "hari-ini-kurasa-bahagia.mp3",
+            "nothings-gonna-stop-us-now.mp3",
+            "imanuel.mp3",
+            "kuberserah-penuh.mp3",
+            "kutuk-jadi-berkat.mp3"
+        ];
+
+        // Daftar Jadwal lengkap beserta jam mulai dan Selesai yang presisi (Original Mode)
+        // Format day: 0 = Minggu, 1 = Senin, 2 = Selasa, dst.
+        const eventsSchedule = [
+            { name: "Ibadah Raya Sesi 1 & Sekolah Minggu", day: 0, hour: 8, minute: 30, endHour: 10, endMinute: 30 },
+            { name: "Ibadah Raya Sesi 2", day: 0, hour: 10, minute: 35, endHour: 12, endMinute: 30 },
+            { name: "Ibadah Komsel Immanuel", day: 2, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
+            { name: "Ibadah Komsel Maranatha", day: 2, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
+            { name: "Ibadah Komsel Kasih", day: 4, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
+            { name: "Ibadah Komsel Agape", day: 4, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
+            { name: "Doa Syafaat", day: 5, hour: 18, minute: 30, endHour: 20, endMinute: 0 },
+            { name: "Latihan Pujian & Penyembahan", day: 5, hour: 20, minute: 30, endHour: 22, endMinute: 0 },
+            { name: "Ibadah Youth Generation", day: 6, hour: 19, minute: 0, endHour: 21, endMinute: 0 }
+        ];
+
+        // ==========================================
+        // UI LOGIC & EVENTS
+        // ==========================================
         const showToast = (msg) => {
             const toast = document.getElementById('toast');
             toast.textContent = msg;
@@ -708,12 +714,9 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         };
 
-        // ==========================================
-        // UI & INTERACTION LOGIC
-        // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
             
-            // 1. Cover & Audio
+            // 1. Cover & Audio Autoplay Random (Dikembalikan seperti semula)
             const btnOpen = document.getElementById('open-invitation');
             const cover = document.getElementById('cover');
             const audio = document.getElementById('worship-audio');
@@ -721,9 +724,28 @@
             let isPlaying = false;
 
             btnOpen.addEventListener('click', () => {
-                cover.classList.add('fade-out');
-                document.body.style.overflowY = 'auto'; // Unlock scroll
+                // Pilih lagu acak dari array
+                const randomIndex = Math.floor(Math.random() * songs.length);
+                const audioSource = audio.querySelector('source');
                 
+                // Gunakan path dari konfigurasi Anda
+                audioSource.src = CONFIG.audioFolder + songs[randomIndex];
+                
+                // Fallback khusus jika Anda mengetes kodenya secara online/preview dan audio aslinya belum ada
+                // Hapus blok try/catch ini di hosting asli Anda jika ingin strict.
+                audioSource.onerror = function() {
+                    audioSource.src = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_4966601b0b.mp3";
+                    audio.load();
+                    audio.play();
+                };
+                
+                audio.load();
+
+                // Animasi Tutup Cover
+                cover.classList.add('fade-out');
+                document.body.style.overflowY = 'auto'; // Buka gembok scroll
+                
+                // Play Audio
                 audio.play().then(() => {
                     isPlaying = true;
                     audioBtn.innerHTML = '<i data-feather="pause" width="20"></i>';
@@ -748,39 +770,25 @@
             // 2. Nav & Back to Top
             const topNav = document.getElementById('top-nav');
             const topBtn = document.getElementById('top-btn');
-            
             window.addEventListener('scroll', () => {
-                if(window.scrollY > 50) topNav.classList.add('scrolled');
-                else topNav.classList.remove('scrolled');
-
-                if(window.scrollY > 500) topBtn.classList.add('visible');
-                else topBtn.classList.remove('visible');
+                if(window.scrollY > 50) topNav.classList.add('scrolled'); else topNav.classList.remove('scrolled');
+                if(window.scrollY > 500) topBtn.classList.add('visible'); else topBtn.classList.remove('visible');
             });
-
             topBtn.addEventListener('click', () => window.scrollTo(0, 0));
 
             // 3. SCROLL REVEAL ANIMATION
             const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
             const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    entry.target.classList.toggle('active', entry.isIntersecting);
-                });
-            }, { 
-                threshold: 0.1,
-                rootMargin: "0px 0px -50px 0px" 
-            });
+                entries.forEach(entry => { entry.target.classList.toggle('active', entry.isIntersecting); });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
             reveals.forEach(el => revealObserver.observe(el));
 
             // 4. Bottom Nav Active State
             const sections = document.querySelectorAll('section');
             const navItems = document.querySelectorAll('.b-nav-item, .nav-links a');
-            
             window.addEventListener('scroll', () => {
                 let current = '';
-                sections.forEach(sec => {
-                    const secTop = sec.offsetTop;
-                    if(scrollY >= secTop - 250) current = sec.getAttribute('id');
-                });
+                sections.forEach(sec => { if(scrollY >= sec.offsetTop - 250) current = sec.getAttribute('id'); });
                 navItems.forEach(item => {
                     item.classList.remove('active');
                     if(item.getAttribute('href') === `#${current}` || item.getAttribute('data-target') === current) {
@@ -790,93 +798,91 @@
             });
 
             // 5. Swiper Init
-            new Swiper(".mySwiper", {
-                effect: "cards",
-                grabCursor: true,
-                loop: true,
-                autoplay: { delay: 3000, disableOnInteraction: false }
-            });
+            new Swiper(".mySwiper", { effect: "cards", grabCursor: true, loop: true, autoplay: { delay: 3000, disableOnInteraction: false } });
 
             // 6. WhatsApp Submit
             document.getElementById('wa-form').addEventListener('submit', (e) => {
                 e.preventDefault();
-                const name = document.getElementById('wa-name').value;
-                const msg = document.getElementById('wa-msg').value;
-                const text = `Shalom, saya *${name}*.%0A%0A${encodeURIComponent(msg)}`;
+                const text = `Shalom, saya *${document.getElementById('wa-name').value}*.%0A%0A${encodeURIComponent(document.getElementById('wa-msg').value)}`;
                 window.open(`https://wa.me/${WA_NUMBER}?text=${text}`, '_blank');
             });
 
             // ==========================================
-            // DATE, TIME & COUNTDOWN
+            // DATE, WAKTU & COUNTDOWN (Termasuk Ibadah Live)
             // ==========================================
             const timeEl = document.getElementById('c-time');
             const dateEl = document.getElementById('c-date');
             const daysArr = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
             const monthsArr = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 
-            const schedule = [
-                { name: "Ibadah Raya", day: 0, h: 8, m: 30 },
-                { name: "Komsel Immanuel", day: 2, h: 19, m: 30 },
-                { name: "Komsel Kasih", day: 4, h: 19, m: 30 },
-                { name: "Doa Syafaat", day: 5, h: 18, m: 30 },
-                { name: "Youth Generation", day: 6, h: 19, m: 0 }
-            ];
-
             const liveInd = document.getElementById('live-indicator');
             const liveTxt = document.getElementById('live-text');
-            const cdWrapper = document.getElementById('next-event-wrapper');
+            const cdWrapper = document.getElementById('countdown-container');
             const cdName = document.getElementById('next-event-name');
 
             function updateTime() {
                 const now = new Date();
-                
                 timeEl.textContent = now.toLocaleTimeString('id-ID', { hour12: false });
                 dateEl.textContent = `${daysArr[now.getDay()]}, ${now.getDate()} ${monthsArr[now.getMonth()]} ${now.getFullYear()}`;
 
-                // Next Event Logic
-                let upcoming = [];
-                schedule.forEach(ev => {
-                    let d = new Date(now);
-                    let daysToAdd = ev.day - now.getDay();
-                    if(daysToAdd < 0 || (daysToAdd === 0 && (now.getHours() > ev.h || (now.getHours() === ev.h && now.getMinutes() >= ev.m)))) {
-                        daysToAdd += 7;
-                    }
-                    d.setDate(now.getDate() + daysToAdd);
-                    d.setHours(ev.h, ev.m, 0, 0);
-                    upcoming.push({ ...ev, dateObj: d });
-                });
-                upcoming.sort((a,b) => a.dateObj - b.dateObj);
-                const nextEv = upcoming[0];
+                // --- CEK APAKAH ADA IBADAH SEDANG BERLANGSUNG ---
+                let eventIsLive = false;
                 
-                let isLive = false;
-                for(let ev of schedule) {
-                    if(now.getDay() === ev.day) {
-                        let start = new Date(now); start.setHours(ev.h, ev.m, 0);
-                        let end = new Date(start); end.setHours(ev.h + 2, ev.m, 0); 
-                        if(now >= start && now <= end) {
-                            isLive = true;
+                for (const ev of eventsSchedule) {
+                    if (now.getDay() === ev.day) {
+                        // Set waktu mulai persis
+                        const startTime = new Date(now.getTime());
+                        startTime.setHours(ev.hour, ev.minute, 0, 0);
+                        
+                        // Set waktu berakhir persis
+                        const endTime = new Date(now.getTime());
+                        endTime.setHours(ev.endHour, ev.endMinute, 0, 0);
+                        
+                        // Cek jika waktu sekarang ada di antara startTime dan endTime
+                        if (now >= startTime && now < endTime) {
                             liveTxt.textContent = `${ev.name.toUpperCase()} SEDANG BERLANGSUNG`;
+                            cdWrapper.style.display = 'none';
+                            liveInd.style.display = 'flex';
+                            eventIsLive = true;
                             break;
                         }
                     }
                 }
 
-                if(isLive) {
-                    liveInd.style.display = 'inline-flex';
-                    cdWrapper.style.display = 'none';
-                } else {
+                // --- JIKA TIDAK ADA IBADAH BERLANGSUNG, TAMPILKAN COUNTDOWN ---
+                if (!eventIsLive) {
                     liveInd.style.display = 'none';
                     cdWrapper.style.display = 'block';
+
+                    let upcoming = [];
+                    for (const ev of eventsSchedule) {
+                        const eventDate = new Date(now.getTime());
+                        let daysToAdd = (ev.day + 7 - now.getDay()) % 7;
+                        
+                        // Jika harinya sama tapi jam sudah lewat, geser ke minggu depan
+                        if (daysToAdd === 0 && (now.getHours() > ev.hour || (now.getHours() === ev.hour && now.getMinutes() >= ev.minute))) {
+                            daysToAdd = 7;
+                        }
+                        
+                        eventDate.setDate(now.getDate() + daysToAdd);
+                        eventDate.setHours(ev.hour, ev.minute, 0, 0);
+                        upcoming.push({ date: eventDate, name: ev.name });
+                    }
+
+                    // Urutkan jadwal yang terdekat
+                    upcoming.sort((a, b) => a.date - b.date);
+                    const nextEv = upcoming[0];
+                    
                     cdName.textContent = nextEv.name;
 
-                    let diff = nextEv.dateObj - now;
+                    const diff = nextEv.date.getTime() - now.getTime();
                     document.getElementById('cd-d').textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2,'0');
-                    document.getElementById('cd-h').textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2,'0');
-                    document.getElementById('cd-m').textContent = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2,'0');
-                    document.getElementById('cd-s').textContent = String(Math.floor((diff / 1000) % 60)).padStart(2,'0');
+                    document.getElementById('cd-h').textContent = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2,'0');
+                    document.getElementById('cd-m').textContent = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2,'0');
+                    document.getElementById('cd-s').textContent = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2,'0');
                 }
 
-                // Special Event
+                // --- SPECIAL EVENT COUNTDOWN ---
                 const spDate = new Date(SPECIAL_EVENT_DATE);
                 const spDiff = spDate - now;
                 if(spDiff > 0) {
@@ -898,11 +904,13 @@
                 { t: "Mengucap syukurlah dalam segala hal.", r: "1 Tesalonika 5:18" },
                 { t: "Percayalah kepada TUHAN dengan segenap hatimu.", r: "Amsal 3:5" }
             ];
-            const today = new Date();
-            const verse = verses[today.getDate() % verses.length];
+            const verse = verses[new Date().getDate() % verses.length];
             document.getElementById('d-verse').textContent = verse.t;
             document.getElementById('d-ref').textContent = `— ${verse.r}`;
         });
     </script>
 </body>
 </html>
+
+
+```
