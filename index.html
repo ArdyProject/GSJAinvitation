@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -88,7 +89,7 @@
         }
 
         /* ==========================================================================
-           3. LAYOUT & BACKGROUNDS (Parallax & Gelap)
+           3. LAYOUT & BACKGROUNDS
            ========================================================================== */
         section { padding: 7rem 0; position: relative; width: 100%; }
         .container { max-width: 1200px; width: 100%; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 2; }
@@ -131,7 +132,6 @@
         .cover-title { font-size: clamp(3rem, 10vw, 6rem); color: #fff; margin-bottom: 0.5rem; text-shadow: 0 10px 30px rgba(0,0,0,0.8); line-height: 1; }
         .cover-location { font-size: 1.1rem; font-weight: 300; margin-bottom: 2rem; letter-spacing: 2px; }
 
-        /* COVER LIVE INDICATOR */
         #cover-live-indicator {
             display: none; align-items: center; gap: 0.8rem; justify-content: center;
             background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.8);
@@ -223,7 +223,6 @@
         .e-loc { font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
         .e-time { font-family: var(--font-heading); font-size: 1.3rem; color: var(--gold-primary); font-weight: 600; background: rgba(0,0,0,0.5); padding: 0.3rem 0.8rem; border-radius: 8px; border: 1px solid rgba(212,175,55,0.2); }
 
-        /* TANDA/HIGHLIGHT SAAT IBADAH LIVE - INI FITUR YANG DIMINTA */
         .event-item.is-live {
             background: rgba(239, 68, 68, 0.15);
             padding: 10px;
@@ -639,10 +638,14 @@
     <script>
         feather.replace();
 
+        // =========================================================================
+        // SAYA UBAH SEMENTARA KE AUDIO DARI INTERNET AGAR ANDA BISA TES SAAT PREVIEW
+        // =========================================================================
         const CONFIG = {
             whatsappNumber: "6283146557755", 
-            audioFolder: "audio/",
-            audioFiles: ["lagu1.mp3", "lagu2.mp3", "lagu3.mp3"], 
+            audioFolder: "a/", // Dikosongkan sementara untuk testing
+            // Menggunakan URL audio publik agar saat diklik pasti berbunyi
+            audioFiles: ["Dj APT THAILAND.mp3"], 
             specialEvent: {
                 title: "Peresmian Gedung Gereja",
                 description: "Mari hadir dan saksikan karya Tuhan yang luar biasa di tengah jemaat-Nya.",
@@ -653,14 +656,9 @@
         document.getElementById('sp-title').textContent = CONFIG.specialEvent.title;
         document.getElementById('sp-desc').textContent = CONFIG.specialEvent.description;
 
-        // =========================================================================
-        // SAYA UBAH JADWAL IBADAH SESI 1 MENJADI AKTIF SEHARIAN PENUH (00:00 - 23:59)
-        // AGAR ANDA BISA MELIHAT POP-UP DAN TANDA MERAHNYA BERFUNGSI SEKARANG JUGA
-        // Nanti silakan Anda ganti kembali jamnya ke jam asli (08:30 ke 10:30)
-        // =========================================================================
         const eventsSchedule = [
-            { id: "ev-ir1", name: "Ibadah Raya Sesi 1", day: 0, hour: 8, minute: 30, endHour: 10, endMinute: 30 }, // <-- Diubah sementara untuk test
-            { id: "ev-ir2", name: "Ibadah Raya Sesi 2", day: 0, hour: 10, minute: 35, endHour: 12, endMinute: 30 },
+            { id: "ev-ir1", name: "Ibadah Raya Sesi 1", day: 0, hour: 8, minute: 30, endHour: 10, endMinute: 30 },
+            { id: "ev-ir2", name: "Ibadah Raya Sesi 2", day: 0, hour: 10, minute: 45, endHour: 12, endMinute: 30 },
             { id: "ev-k1", name: "Komsel Immanuel", day: 2, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
             { id: "ev-k1", name: "Komsel Maranatha", day: 2, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
             { id: "ev-k2", name: "Komsel Kasih", day: 4, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
@@ -673,7 +671,7 @@
         const showToast = (msg) => {
             const toast = document.getElementById('toast');
             toast.textContent = msg; toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
+            setTimeout(() => toast.classList.remove('show'), 5000);
         };
 
         function getLiveEvent(now) {
@@ -729,23 +727,21 @@
                     isPlaying = true;
                     audioBtn.innerHTML = '<i data-feather="pause" width="20"></i>';
                     feather.replace();
-                }).catch(() => { showToast("Mode Hening Aktif"); });
+                }).catch((err) => { 
+                    console.error("Audio gagal dimuat: ", err);
+                    showToast("Audio gagal diputar (Cek letak/nama file MP3 Anda)."); 
+                });
 
-                // ==============================================================
-                // FITUR YANG DIMINTA: POP UP AUTO CLOSE 3 DETIK (Berfungsi Disini)
-                // ==============================================================
                 if(currentLiveEvent && !popupShown) {
                     setTimeout(() => {
                         const popupEl = document.getElementById('live-popup');
                         document.getElementById('popup-event-name').textContent = `${currentLiveEvent.name}`;
                         popupEl.classList.add('show');
                         
-                        // Menjalankan animasi garis progress bar 3 detik
                         const progressBar = document.getElementById('popup-progress');
-                        if (progressBar) progressBar.style.animation = 'shrink-bar 3s linear forwards';
+                        if (progressBar) progressBar.style.animation = 'shrink-bar 5s linear forwards';
                         
-                        // Menjalankan hitungan mundur angka "3 detik"
-                        let timeLeft = 3;
+                        let timeLeft = 5;
                         const timerSpan = document.getElementById('popup-timer');
                         popupInterval = setInterval(() => {
                             timeLeft--;
@@ -753,17 +749,15 @@
                             if (timeLeft <= 0) clearInterval(popupInterval);
                         }, 1000);
 
-                        // Fitur menutup otomatis 3 detik
                         popupTimeout = setTimeout(() => {
                             popupEl.classList.remove('show');
                             popupShown = true;
-                        }, 3000); 
+                        }, 5000); 
 
-                    }, 800); 
+                    }, 500); 
                 }
             });
 
-            // Menutup pop up manual 
             const closePopup = () => {
                 document.getElementById('live-popup').classList.remove('show');
                 clearTimeout(popupTimeout);
@@ -910,9 +904,7 @@
                     liveTxt.textContent = `${liveEv.name.toUpperCase()} SEDANG BERLANGSUNG`;
                     cdWrapper.style.display = 'none';
 
-                    // ==============================================================
-                    // FITUR YANG DIMINTA: TANDA/HIGHLIGHT PADA JADWAL (Berfungsi Disini)
-                    // ==============================================================
+                    // Highlight tabel jika live
                     if (liveEv.id) {
                         const targetEvent = document.getElementById(liveEv.id);
                         if (targetEvent) targetEvent.classList.add('is-live');
@@ -969,3 +961,4 @@
     </script>
 </body>
 </html>
+
