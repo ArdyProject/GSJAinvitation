@@ -2,1361 +2,907 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GSJA RIVER OF LIFE PEMATANGSIANTAR</title>
-    
+    <!-- Meta viewport yang lebih ketat agar tidak bisa di-zoom sembarangan dan pas di layar HP -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#050505">
+    <meta name="description" content="GSJA River of Life Pematangsiantar - Jadwal ibadah, komsel, galeri kegiatan, dan informasi pelayanan gereja.">
+
+    <title>GSJA River of Life Pematangsiantar</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%9D%EF%B8%8F%3C/text%3E%3C/svg%3E">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Feather Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
 
-    <!-- SwiperJS for Gallery Slider -->
+    <!-- SwiperJS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 
     <style>
-        /* --- THEME COLOR VARIABLES (DARK THEME ONLY) --- */
+        /* ==========================================================================
+           1. CSS VARIABLES & BASE STYLES
+           ========================================================================== */
         :root {
-            --font-serif: 'Cormorant Garamond', serif;
-            --font-sans: 'Montserrat', sans-serif;
-            --font-script: 'Great Vibes', cursive;
-            --font-mono: 'Roboto Mono', monospace;
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Montserrat', sans-serif;
+            
+            --bg-base: #050505;
+            --gold-primary: #d4af37;
+            --gold-light: #f9e596;
+            --gold-dark: #8c7322;
+            --text-light: #f5f5f5;
+            --text-muted: #a3a3a3;
             --live-red: #ef4444;
-            --shadow-light: rgba(0,0,0,0.1);
-            --shadow-dark: rgba(0,0,0,0.5);
-            --shadow-gold-soft: rgba(197, 165, 114, 0.2);
-            --shadow-gold-hard: rgba(197, 165, 114, 0.4);
-
-            --bg-primary: #121212;
-            --bg-secondary: #000000;
-            --bg-card: #1a1a1a;
-            --text-primary: #e0e0e0;
-            --text-secondary: #aaaaaa;
-            --text-gold: #c5a572;
-            --border-color: #333;
-            --shadow-color: var(--shadow-dark);
+            
+            --glass-bg: rgba(10, 10, 10, 0.65);
+            --glass-border: rgba(212, 175, 55, 0.25);
+            --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            
+            --trans-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         html { scroll-behavior: smooth; }
+        
         body {
-            font-family: var(--font-sans);
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            overflow-x: hidden; 
-            overflow-y: hidden;
-            line-height: 1.8;
-            transition: background-color 0.4s, color 0.4s;
-        }
-
-        /* --- Cover Section --- */
-        #cover {
-            position: fixed; inset: 0; z-index: 100;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center;
-            background: url('https://images.unsplash.com/photo-1507692049682-a225b16a405a?q=80&w=1887&auto=format&fit=crop') no-repeat center center/cover;
-            transition: opacity 1.5s ease-out, visibility 1.5s;
-        }
-        #cover::before {
-            content: ''; position: absolute; inset: 0;
-            background: rgba(0, 0, 0, 0.65);
-        }
-        #cover.fade-out { opacity: 0; visibility: hidden; }
-        .cover-content { position: relative; padding: 1rem; }
-        .cover-content h1 {
-            font-family: var(--font-serif);
-            font-size: 3.5rem;
-            font-weight: 700; color: white;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-        #open-invitation {
-            margin-top: 2rem; padding: 1rem 3rem;
-            font-size: 1rem; font-weight: 700; color: #222;
-            background: linear-gradient(145deg, #ffffff, #f0f0f0); 
-            border: none; border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2), inset 0 -2px 5px rgba(0,0,0,0.1);
-        }
-        #open-invitation:hover { 
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3), inset 0 -2px 5px rgba(0,0,0,0.1);
-        }
-        #open-invitation:active { transform: translateY(-1px); }
-        
-        /* --- Main Content --- */
-        main { display: none; padding-bottom: 120px; }
-        .animate-on-scroll {
-            opacity: 0;
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .animate-fade-in-up { transform: translateY(40px); }
-        .animate-fade-in-up.visible { opacity: 1; transform: translateY(0); }
-        .animate-pop-in { transform: scale(0.9); }
-        .animate-pop-in.visible { opacity: 1; transform: scale(1); }
-
-        section {
-            padding: 4rem 1rem;
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        /* --- Reusable Components --- */
-        .section-title {
-            font-family: var(--font-serif);
-            font-size: 2.8rem;
-            font-style: italic;
-            color: var(--text-gold);
-            margin-bottom: 2rem;
-            text-shadow: 0 0 15px var(--shadow-gold-soft);
-        }
-        .separator {
-            width: 80px; height: 2px;
-            background-color: var(--text-gold);
-            margin: 2rem auto; border: none;
-        }
-
-        /* --- Home Section --- */
-        #home {
-            min-height: 100vh;
-            display: flex; flex-direction: column; justify-content: center;
-            background-color: transparent;
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1604940500534-345a3c9e2d3d?q=80&w=1932&auto=format&fit=crop') no-repeat center center/cover;
-            padding-top: 8rem;
-        }
-        #home h1, #home h2 {
-            font-family: var(--font-script);
-            font-size: 3.8rem; font-weight: normal; color: white;
-            margin-bottom: 1rem; line-height: 1.2;
-        }
-
-        /* --- NEW: Countdown Wrapper & Arrow Effect --- */
-        #countdown-wrapper {
-            position: relative;
-            padding: 2rem 0;
-            margin-top: 1rem;
-        }
-        .rotating-arrow {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            filter: drop-shadow(0 0 5px var(--text-gold)) drop-shadow(0 0 10px var(--text-gold));
-            animation: rotate 10s linear infinite;
-        }
-        .rotating-arrow svg {
+            font-family: var(--font-body);
+            background-color: var(--bg-base);
+            color: var(--text-light);
+            line-height: 1.6;
             width: 100%;
-            height: 100%;
-            fill: var(--text-gold);
-        }
-        #arrow-1 {
-            top: 0;
-            left: 0;
-        }
-        #arrow-2 {
-            bottom: 0;
-            right: 0;
-            animation-direction: reverse;
-            animation-duration: 8s;
-        }
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            overflow-x: hidden;
+            overflow-y: hidden; /* Terkunci sebelum klik Masuk */
         }
 
-        #countdown-label { font-size: 1.1rem; color: var(--text-gold); margin-bottom: 1rem; }
-        #countdown { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
-        .countdown-item {
-            background: rgba(0,0,0,0.3); padding: 0.8rem;
-            border-radius: 8px; border: 1px solid var(--text-gold);
-            min-width: 70px;
-            animation: breathe 3s ease-in-out infinite;
-        }
-        .countdown-item div:first-child { font-size: 1.8rem; font-weight: 700; color: white; }
-        .countdown-item div:last-child { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: white; }
-
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 5px var(--shadow-gold-soft); }
-            50% { transform: scale(1.05); box-shadow: 0 0 15px var(--shadow-gold-hard); }
-        }
-
-        #live-notification {
-            display: none; align-items: center; justify-content: center; gap: 1rem;
-            background: rgba(36, 36, 36, 0.5); 
-            border: 1px solid var(--live-red);
-            border-radius: 12px; padding: 1rem 1.5rem; margin-top: 1rem;
-            backdrop-filter: blur(5px); 
-            animation: fadeInScale 0.5s ease-out, borderGlow 2s infinite;
-        }
-        .live-dot {
-            width: 12px; height: 12px; background-color: var(--live-red);
-            border-radius: 50%; animation: pulse 1.5s infinite;
-        }
-        #live-text { font-size: 1.1rem; font-weight: 700; color: white; }
+        a { color: inherit; text-decoration: none; }
+        img, video { max-width: 100%; height: auto; display: block; }
         
-        @keyframes borderGlow {
-            0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.5), inset 0 0 10px rgba(239, 68, 68, 0.3); }
-            50% { box-shadow: 0 0 25px rgba(239, 68, 68, 1), inset 0 0 15px rgba(239, 68, 68, 0.5); }
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 8px var(--live-red); }
-            50% { transform: scale(1.2); box-shadow: 0 0 15px var(--live-red); }
-        }
-        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-base); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold-primary); }
 
-        /* --- SPECIAL EVENT COUNTDOWN --- */
-        #special-event-container {
-            margin-top: 3rem; padding: 2rem 1rem;
-            background: rgba(0,0,0,0.4); border: 1px solid var(--text-gold);
-            border-radius: 12px; backdrop-filter: blur(5px);
-        }
-        #special-event-title {
-            font-family: var(--font-serif); font-size: 1.5rem; color: white;
-            text-shadow: 0 0 10px var(--text-gold); margin-bottom: 1.5rem;
-        }
-        #special-countdown { display: flex; justify-content: center; gap: 1rem; perspective: 500px; }
-        .flip-card { display: flex; flex-direction: column; align-items: center; }
-        .flip-unit {
-            position: relative; width: 60px; height: 80px;
-            font-family: var(--font-mono); font-size: 3rem; font-weight: 700;
-            color: #222; background-color: white; border-radius: 8px;
-            line-height: 80px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .flip-card-label {
-            margin-top: 0.5rem; font-size: 0.7rem; text-transform: uppercase;
-            letter-spacing: 1px; color: var(--text-gold);
-        }
-        #special-event-finished-message { display: none; font-size: 1.2rem; color: var(--text-gold); padding: 2rem 0; }
+        /* ==========================================================================
+           2. REUSABLE CLASSES & TYPOGRAPHY
+           ========================================================================== */
+        h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: 700; line-height: 1.2; }
+        .text-gold { color: var(--gold-primary); }
+        
+        .section-header { text-align: center; margin-bottom: 3.5rem; position: relative; }
+        .section-title { font-size: clamp(2.2rem, 5vw, 3.5rem); margin-bottom: 0.5rem; letter-spacing: 1px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .section-subtitle { color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto; font-weight: 300; padding: 0 15px; }
+        
+        .ornament { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 1rem; }
+        .ornament-line { height: 1px; width: 60px; background: linear-gradient(90deg, transparent, var(--gold-primary), transparent); }
+        .ornament-icon { color: var(--gold-primary); font-size: 1.2rem; display: inline-block; transform: rotate(45deg); }
 
-        /* --- Schedule Table Layout --- */
-        #details { background-color: var(--bg-secondary); }
-        .schedule-card {
-            background: var(--bg-card); padding: 1.5rem;
-            border-radius: 12px; border: 1px solid var(--border-color);
-            text-align: left; box-shadow: 0 5px 25px var(--shadow-color);
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: var(--glass-shadow);
+            position: relative; overflow: hidden;
         }
-        .schedule-day-header {
-            font-family: var(--font-serif); font-size: 1.8rem; color: var(--text-gold);
-            margin-top: 1.5rem; margin-bottom: 0.5rem; padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border-color); position: relative;
-            text-shadow: 0 0 8px var(--text-gold);
-        }
-        .schedule-day-header::after {
-            content: ''; position: absolute; bottom: -1px; left: 0;
-            width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--text-gold), transparent);
-            background-size: 200% 100%; animation: gleam 4s linear infinite;
-            border-radius: 2px;
-        }
-        @keyframes gleam { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        .schedule-day-header:first-child { margin-top: 0; }
-        .schedule-item {
-            display: flex; flex-direction: column; align-items: flex-start;
-            padding: 1rem 0.5rem; border-bottom: 1px solid var(--border-color); gap: 0.25rem;
-        }
-        .schedule-item:last-child { border-bottom: none; }
-        .event-details { display: flex; flex-direction: column; align-items: flex-start; }
-        .event-name { font-weight: 700; font-size: 1rem; color: var(--text-primary); }
-        .event-location { font-size: 0.8rem; color: var(--text-secondary); font-style: italic; margin-top: 4px; }
-        .event-time { font-size: 0.9rem; color: var(--text-primary); }
-        .shimmer-text {
-            background: linear-gradient(90deg, var(--text-primary), var(--text-gold), var(--text-primary));
-            background-size: 200% auto; color: transparent; background-clip: text;
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shimmer 4s linear infinite;
-        }
-        @keyframes shimmer { to { background-position: -200% center; } }
 
-        /* --- Map Section --- */
-        .map-container {
-            margin-top: 3rem; border-radius: 12px; overflow: hidden;
-            border: 2px solid var(--border-color);
+        .btn-primary {
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            color: #000; padding: 0.9rem 2.2rem;
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 50px;
+            font-family: var(--font-body); font-weight: 700; font-size: 1rem;
+            cursor: pointer; transition: var(--trans-smooth);
+            text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            white-space: nowrap;
         }
-        .map-container iframe { width: 100%; height: 300px; border: none; }
+        .btn-primary:hover {
+            transform: translateY(-3px); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.6);
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+        }
 
-        /* --- GALLERY SLIDER (SwiperJS) --- */
-        #gallery { overflow: visible; }
-        .gallery-slider-container {
-            width: 100%;
-            padding: 2rem 0;
-            position: relative;
+        /* ==========================================================================
+           3. LAYOUT & BACKGROUNDS (Parallax & Gelap)
+           ========================================================================== */
+        section { 
+            padding: 7rem 0; /* Padding vertikal saja */
+            position: relative; 
+            width: 100%; 
         }
-        .swiper-slide {
-            background-position: center;
+        
+        .container { 
+            max-width: 1200px; 
+            width: 100%; 
+            margin: 0 auto; 
+            padding: 0 1.5rem; /* Padding horizontal untuk batasi konten */
+            position: relative; 
+            z-index: 2; 
+        }
+        
+        .bg-parallax {
             background-size: cover;
-            width: 280px;
-            height: 400px;
-            background: var(--bg-card);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px var(--shadow-color);
-            transition: transform 0.5s;
+            background-position: center;
+            background-attachment: fixed; /* Parallax effect */
         }
-        .swiper-slide-shadow-left, .swiper-slide-shadow-right {
-            background-image: none;
-        }
-        .swiper-slide img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .slide-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 2rem 1rem 1rem;
-            text-align: center;
-            color: white;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            font-family: var(--font-serif);
-            font-size: 1.2rem;
-        }
-        .swiper-button-next, .swiper-button-prev {
-            color: var(--text-gold);
-            width: 50px;
-            height: 50px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 50%;
-            transition: background-color 0.3s;
-        }
-        .swiper-button-next:hover, .swiper-button-prev:hover {
-            background: rgba(0,0,0,0.6);
-        }
-        .swiper-button-next::after, .swiper-button-prev::after {
-            font-size: 1.5rem;
-            font-weight: 900;
-        }
-
-        /* Ministries Section */
-        #ministries { background-color: var(--bg-secondary); }
-        .ministries-container { display: flex; flex-direction: column; gap: 1.5rem; }
-        .ministry-card {
-            background: var(--bg-card); padding: 2rem;
-            border-radius: 12px; border: 1px solid var(--border-color);
-            box-shadow: 0 5px 25px var(--shadow-color);
-        }
-        .ministry-card i { color: var(--text-gold); margin-bottom: 1rem; }
-        .ministry-card h3 { font-family: var(--font-serif); font-size: 1.5rem; color: var(--text-primary); }
         
-        /* --- WHATSAPP CONTACT FORM --- */
-        #contact {
-            background-color: var(--bg-secondary);
-            padding-top: 5rem;
-            padding-bottom: 5rem;
-        }
-        .contact-card {
-            background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 8px 30px var(--shadow-color);
-        }
-        #whatsapp-form .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-        #whatsapp-form label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        #whatsapp-form input, #whatsapp-form textarea {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-family: var(--font-sans);
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        #whatsapp-form input:focus, #whatsapp-form textarea:focus {
-            outline: none;
-            border-color: var(--text-gold);
-            box-shadow: 0 0 0 3px var(--shadow-gold-soft);
-        }
-        #whatsapp-form textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-        #whatsapp-submit-btn {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(45deg, var(--text-gold), #e6c48a);
-            color: var(--bg-secondary);
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            transition: all 0.3s ease;
-        }
-        #whatsapp-submit-btn:hover {
-            filter: brightness(1.1);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px var(--shadow-gold-hard);
+        /* Fallback untuk iOS Safari yang kadang buggy dengan fixed background */
+        @supports (-webkit-touch-callout: none) {
+            .bg-parallax { background-attachment: scroll; }
         }
 
-        /* --- Floating Controls & Nav --- */
-        #audio-control {
-            position: fixed; bottom: 90px; right: 15px;
-            width: 50px; height: 50px;
-            background: var(--bg-card); backdrop-filter: blur(5px);
-            color: var(--text-primary);
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            cursor: pointer; z-index: 50; border: 1px solid var(--border-color);
-            box-shadow: 0 4px 15px var(--shadow-color);
-            transition: all 0.3s;
+        .bg-overlay {
+            position: absolute; inset: 0;
+            background: rgba(5, 5, 5, 0.85); /* Overlay gelap */
+            z-index: 1;
         }
-        #audio-control:hover { transform: scale(1.1); }
 
+        #home { background-image: url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=2000&auto=format&fit=crop'); min-height: 100vh; display: flex; align-items: center; }
+        #schedule { background-image: url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65?q=80&w=2000&auto=format&fit=crop'); }
+        #gallery { background-color: var(--bg-base); }
+        #ministry { background-image: url('https://images.unsplash.com/photo-1544427920-c49ccfaf8f56?q=80&w=2000&auto=format&fit=crop'); }
+        #contact { background-color: #0a0a0a; }
+
+        /* ==========================================================================
+           4. SCROLL REVEAL ANIMATIONS
+           ========================================================================== */
+        .reveal { opacity: 0; transform: translateY(40px); transition: 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        .reveal-left { opacity: 0; transform: translateX(-30px); transition: 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal-left.active { opacity: 1; transform: translateX(0); }
+        
+        .reveal-right { opacity: 0; transform: translateX(30px); transition: 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal-right.active { opacity: 1; transform: translateX(0); }
+
+        .reveal-scale { opacity: 0; transform: scale(0.95); transition: 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal-scale.active { opacity: 1; transform: scale(1); }
+
+        /* ==========================================================================
+           5. COVER / WELCOME SCREEN
+           ========================================================================== */
+        #cover {
+            position: fixed; inset: 0; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 1.2s ease, visibility 1.2s ease, transform 1.2s ease;
+            background-color: #000;
+        }
+        
+        .cover-video {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; z-index: 1;
+        }
+        
+        #cover::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(5,5,5,0.95)); z-index: 2;
+        }
+        
+        #cover.fade-out { opacity: 0; visibility: hidden; transform: scale(1.05); }
+
+        .cover-content { position: relative; text-align: center; z-index: 3; padding: 2rem; width: 100%; max-width: 800px; }
+        .cover-subtitle { font-size: 1rem; letter-spacing: 5px; color: var(--gold-primary); text-transform: uppercase; margin-bottom: 1rem; font-weight: 600; }
+        .cover-title { font-size: clamp(3rem, 10vw, 6rem); color: #fff; margin-bottom: 0.5rem; text-shadow: 0 10px 30px rgba(0,0,0,0.8); line-height: 1; }
+        .cover-location { font-size: 1.1rem; font-weight: 300; margin-bottom: 3rem; letter-spacing: 2px; }
+
+        /* ==========================================================================
+           6. NAVIGATION (DESKTOP & MOBILE)
+           ========================================================================== */
+        #top-nav {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            padding: 1.5rem 0; transition: var(--trans-smooth); border-bottom: 1px solid transparent;
+        }
+        #top-nav.scrolled {
+            padding: 1rem 0; background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(15px); border-bottom: 1px solid var(--glass-border);
+        }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .nav-logo { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: var(--gold-primary); letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 2.5rem; }
+        .nav-links a { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; transition: var(--trans-smooth); color: var(--text-light); }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold-primary); }
+
+        /* Bottom Nav Mobile - Disempurnakan! */
         #bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: color-mix(in srgb, var(--bg-card) 80%, transparent); 
-            backdrop-filter: blur(10px);
-            height: 70px; z-index: 50;
-            border-top: 1px solid var(--border-color);
+            position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px);
+            border-top: 1px solid var(--glass-border);
+            height: 70px; /* Ukuran pasti agar tidak lari-lari */
+            padding-bottom: env(safe-area-inset-bottom); /* Fix untuk iPhone */
+            display: none; box-shadow: 0 -5px 25px rgba(0,0,0,0.7);
         }
-        .nav-container {
-            display: flex; justify-content: space-around; align-items: center; height: 100%;
-            max-width: 500px; margin: 0 auto;
+        .bottom-nav-inner { 
+            display: flex; justify-content: space-between; align-items: center; 
+            height: 100%; max-width: 600px; margin: 0 auto; padding: 0 1rem;
         }
-        .nav-button {
-            color: var(--text-secondary); text-decoration: none;
-            display: flex; flex-direction: column; align-items: center;
-            gap: 4px; opacity: 0.8; transition: opacity 0.3s, color 0.3s, transform 0.2s;
-            cursor: pointer; background: none; border: none;
-            font-family: var(--font-sans);
+        .b-nav-item { 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            flex: 1; height: 100%; gap: 6px; 
+            color: var(--text-muted); transition: var(--trans-smooth); 
         }
-        .nav-button:hover { opacity: 1; color: var(--text-gold); transform: translateY(-3px); }
-        .nav-button span { font-size: 0.7rem; font-weight: 700; }
+        .b-nav-icon { width: 22px; height: 22px; }
+        .b-nav-text { font-size: 0.7rem; font-weight: 600; }
+        .b-nav-item:hover, .b-nav-item.active { color: var(--gold-primary); transform: translateY(-3px); }
 
-        /* --- Real-time Clock & Lightning Effect --- */
-        #clock-wrapper {
-            position: absolute;
-            top: 1.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 350px;
-            z-index: 10;
+        @media (max-width: 768px) {
+            #top-nav .nav-links { display: none; }
+            #bottom-nav { display: block; }
+            main { padding-bottom: 70px; } /* Space untuk bottom nav */
         }
-        #realtime-clock {
-            position: relative;
-            background: rgba(0, 0, 0, 0.2); border-radius: 12px;
-            padding: 0.5rem; text-align: center;
-            display: flex; justify-content: space-around; align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-shadow: 0 0 5px rgba(0,0,0,0.5); backdrop-filter: blur(2px);
-        }
-        .lightning {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-            filter: drop-shadow(0 0 8px #fef08a) drop-shadow(0 0 15px #fef08a);
-        }
-        .lightning path {
-            stroke: #fef08a;
-            stroke-width: 2;
-            fill: rgba(254, 240, 138, 0.8);
-        }
-        #lightning-1 {
-            top: -20px; left: -15px; width: 60px;
-            animation: flash 4s linear infinite;
-            animation-delay: 1.2s;
-        }
-        #lightning-2 {
-            top: -10px; right: -20px; width: 50px; transform: scaleX(-1) rotate(-15deg);
-            animation: flash 3.5s linear infinite;
-            animation-delay: 0.3s;
-        }
-        #lightning-3 {
-            bottom: -25px; left: 50%; width: 40px; transform: translateX(-50%) rotate(180deg);
-            animation: flash 5s linear infinite;
-            animation-delay: 2.5s;
-        }
-        @keyframes flash {
-            0%, 100% { opacity: 0; }
-            1%, 3% { opacity: 1; transform: scale(1.1); }
-            1.5%, 4% { opacity: 0; }
-            5%, 7% { opacity: 0.8; }
-            6%, 8% { opacity: 0; }
-            20%, 22% { opacity: 1; transform: scale(1); }
-            21%, 23% { opacity: 0; }
-        }
-        #clock-day { font-size: 0.9rem; font-weight: 700; color: var(--text-gold); text-transform: uppercase; }
-        #clock-date {
-            font-size: 2rem; font-weight: 700; color: white; padding: 0 0.5rem;
-            border-left: 1px solid rgba(255,255,255,0.2); border-right: 1px solid rgba(255,255,255,0.2);
-        }
-        #clock-time { font-size: 1rem; font-weight: 400; letter-spacing: 1px; color: white; }
+
+        /* ==========================================================================
+           7. HERO SECTION (HOME)
+           ========================================================================== */
+        .hero-content { text-align: center; max-width: 900px; margin: 0 auto; }
         
-        /* --- Footer --- */
-        footer .footer-credit {
-            margin-top: 2rem; font-size: 0.9rem;
-            color: var(--text-secondary); font-family: var(--font-sans);
+        .hero-frame { padding: 3rem 1.5rem; position: relative; margin-top: 2rem; }
+        .hero-frame::before, .hero-frame::after { content: ''; position: absolute; width: 40px; height: 40px; border: 2px solid var(--gold-primary); opacity: 0.6; }
+        .hero-frame::before { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .hero-frame::after { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+        .clock-time { font-family: var(--font-heading); font-size: clamp(3.5rem, 8vw, 5rem); color: #fff; line-height: 1; margin-bottom: 0.5rem; text-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+        .clock-date { font-size: clamp(0.9rem, 3vw, 1.2rem); color: var(--gold-primary); text-transform: uppercase; letter-spacing: 3px; font-weight: 500; }
+
+        .countdown-box { display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; }
+        .cd-item {
+            background: rgba(0,0,0,0.7); border: 1px solid var(--glass-border);
+            padding: 1.2rem 0.5rem; border-radius: 12px; 
+            flex: 1 1 80px; max-width: 110px; /* Pas di desktop & mobile */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); border-top: 1px solid rgba(212, 175, 55, 0.5);
+        }
+        .cd-num { font-size: 2rem; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 0.4rem; font-family: var(--font-heading); }
+        .cd-label { font-size: 0.75rem; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 1px; }
+
+        .live-badge {
+            display: none; align-items: center; gap: 0.5rem; margin: 2rem auto; justify-content: center;
+            background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.5);
+            padding: 0.8rem 2rem; border-radius: 50px; color: var(--live-red);
+            font-weight: 700; font-size: 0.95rem; letter-spacing: 1.5px; animation: pulse-border 2s infinite;
+        }
+        .live-dot { width: 12px; height: 12px; background: var(--live-red); border-radius: 50%; animation: pulse-bg 1.5s infinite; }
+
+        .special-event-card { margin-top: 4rem; padding: 2.5rem 1.5rem; text-align: center; }
+
+        /* ==========================================================================
+           8. SCHEDULE (JADWAL)
+           ========================================================================== */
+        .schedule-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem; width: 100%;
         }
         
-        /* --- Notification Styles --- */
-        #next-event-datetime { color: #ccc; margin-top: 1rem; font-size: 0.9rem; font-style: italic; }
-        #notification-container { margin-top: 2rem; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 12px; }
-        #subscribe-btn {
-            background-color: var(--text-gold); color: white; border: none;
-            padding: 0.8rem 1.5rem; border-radius: 50px; cursor: pointer;
-            font-weight: 700; display: inline-flex; align-items: center;
-            gap: 0.5rem; transition: background-color 0.3s, transform 0.2s;
+        .schedule-card { padding: 2rem; height: 100%; display: flex; flex-direction: column; transition: var(--trans-smooth); }
+        .schedule-card:hover { transform: translateY(-5px); border-color: var(--gold-primary); }
+        .day-badge {
+            display: inline-block; background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark)); color: #000;
+            padding: 0.4rem 1.5rem; border-radius: 50px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 1.5rem; align-self: flex-start;
         }
-        #subscribe-btn:hover { background-color: #d4b98a; transform: translateY(-2px) scale(1.05); }
-        #subscribe-btn:disabled { background-color: #555; color: #999; cursor: not-allowed; }
-        #notification-status { font-size: 0.8rem; color: #aaa; margin-top: 0.5rem; }
+        .event-list { display: flex; flex-direction: column; gap: 1.2rem; flex-grow: 1; }
+        .event-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1.2rem; }
+        .event-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .e-title { font-weight: 600; font-size: 1.05rem; color: #fff; margin-bottom: 4px; }
+        .e-loc { font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+        .e-time { font-family: var(--font-heading); font-size: 1.3rem; color: var(--gold-primary); font-weight: 600; background: rgba(0,0,0,0.5); padding: 0.3rem 0.8rem; border-radius: 8px; border: 1px solid rgba(212,175,55,0.2); }
 
-        /* --- AUTH & ACCOUNT MODAL STYLES --- */
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(8px); z-index: 2000;
-            display: none;
-            justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease;
+        /* ==========================================================================
+           9. GALLERY (SWIPER)
+           ========================================================================== */
+        #gallery { padding-bottom: 7rem; }
+        .swiper { width: 100%; padding: 2rem 0; overflow: visible; /* Biar bayangannya gak kepotong */ }
+        .swiper-slide {
+            width: 85vw; max-width: 350px; height: 450px; border-radius: 20px; overflow: hidden;
+            position: relative; border: 1px solid var(--glass-border); box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         }
-        .modal-overlay.visible { 
-            display: flex;
-            opacity: 1; 
-            visibility: visible; 
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
+        .caption-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 70%, transparent 100%);
+            padding: 3rem 1.5rem 1.5rem; text-align: center;
         }
-        .modal-box {
-            background: var(--bg-card); padding: 2.5rem 2rem; border-radius: 16px;
-            width: 90%; max-width: 400px; position: relative;
-            border: 1px solid var(--border-color); box-shadow: 0 10px 30px var(--shadow-color);
-            transform: translateY(-50px) scale(0.95);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .modal-overlay.visible .modal-box { transform: translateY(0) scale(1); }
-        .modal-close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-secondary); cursor: pointer; }
-        .modal-box h2 { font-family: var(--font-serif); color: var(--text-gold); text-align: center; margin-bottom: 2rem; }
+        .caption-overlay h4 { font-size: 1.2rem; color: var(--gold-light); margin-bottom: 4px; }
+
+        /* ==========================================================================
+           10. MINISTRIES & DAILY VERSE
+           ========================================================================== */
+        .verse-box { padding: 4rem 2rem; text-align: center; position: relative; max-width: 900px; margin: 0 auto; border-top: 2px solid var(--gold-primary); }
+        .quote-icon { position: absolute; top: -1.5rem; left: 50%; transform: translateX(-50%); font-family: var(--font-heading); font-size: 3.5rem; color: var(--bg-base); background: var(--gold-primary); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .verse-text { font-family: var(--font-heading); font-size: clamp(1.6rem, 4vw, 2.5rem); font-style: italic; color: #fff; margin-bottom: 1.5rem; line-height: 1.4; }
+        .verse-ref { font-weight: 700; color: var(--gold-primary); letter-spacing: 2px; text-transform: uppercase; font-size: 0.95rem; }
+
+        .ministry-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .ministry-card { padding: 3rem 2rem; text-align: center; height: 100%; transition: var(--trans-smooth); }
+        .ministry-card:hover { transform: translateY(-8px); border-color: var(--gold-primary); }
+        .ministry-icon { width: 70px; height: 70px; background: linear-gradient(135deg, rgba(212,175,55,0.2), transparent); border: 1px solid var(--gold-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; color: var(--gold-primary); }
         
-        .auth-form .form-group { margin-bottom: 1.5rem; }
-        .auth-form input {
-            width: 100%; padding: 0.8rem 1rem; background: var(--bg-primary);
-            border: 1px solid var(--border-color); border-radius: 8px;
-            color: var(--text-primary); font-size: 1rem;
+        /* ==========================================================================
+           11. CONTACT & MAP (Diratakan tinggi kotaknya di desktop)
+           ========================================================================== */
+        .contact-grid { 
+            display: grid; grid-template-columns: 1fr; gap: 2rem; 
         }
-        .form-action-btn {
-            width: 100%; padding: 0.9rem; background: var(--text-gold);
-            color: var(--bg-secondary); border: none; border-radius: 8px;
-            font-weight: 700; font-size: 1rem; cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
+        @media(min-width: 900px) { 
+            .contact-grid { grid-template-columns: 1fr 1fr; gap: 3rem; align-items: stretch; } 
         }
-        .form-action-btn:hover { filter: brightness(1.1); }
-        .form-action-btn:active { transform: scale(0.98); }
-        .auth-toggle-link { text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary); }
-        .auth-toggle-link button { background: none; border: none; color: var(--text-gold); text-decoration: underline; cursor: pointer; font-size: inherit; }
-        #register-form { display: none; }
-        .auth-message {
-            text-align: center;
-            margin-bottom: 1rem;
-            color: var(--live-red);
-            font-size: 0.9rem;
-            min-height: 1.2rem;
-            transition: color 0.3s;
-        }
-        .auth-message.success {
-            color: #22c55e;
-        }
+        
+        .contact-wrapper { padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center; height: 100%; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
+        .form-control { width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.6); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; font-family: inherit; font-size: 1rem; transition: var(--trans-smooth); }
+        .form-control:focus { outline: none; border-color: var(--gold-primary); background: rgba(0,0,0,0.8); }
+        textarea.form-control { resize: vertical; min-height: 140px; }
 
-        /* Account Info Modal Specifics */
-        .account-info { text-align: center; }
-        .account-info p { margin-bottom: 0.5rem; color: var(--text-secondary); }
-        .account-info strong { color: var(--text-primary); font-weight: 700; }
-        #logout-btn { margin-top: 2rem; background-color: var(--live-red); color: white; }
+        .map-container { border-radius: 16px; overflow: hidden; height: 350px; border: 1px solid var(--glass-border); position: relative; }
+        @media(min-width: 900px) { .map-container { height: 100%; min-height: 400px; } }
+        .map-container iframe { width: 100%; height: 100%; border: 0; position: absolute; inset: 0; filter: grayscale(80%) contrast(1.2) opacity(0.8); transition: 0.5s; }
+        .map-container:hover iframe { filter: grayscale(0%) contrast(1) opacity(1); }
 
+        /* ==========================================================================
+           12. FOOTER
+           ========================================================================== */
+        footer { text-align: center; padding: 5rem 1.5rem 3rem; border-top: 1px solid var(--glass-border); background: #000; position: relative; z-index: 10; }
+        .footer-logo { font-family: var(--font-heading); font-size: 2.5rem; color: var(--gold-primary); margin-bottom: 0.5rem; }
+        .footer-text { color: var(--text-muted); font-size: 0.95rem; letter-spacing: 1px; }
+        .social-links { margin: 2rem 0; display: flex; justify-content: center; gap: 1.5rem; }
+        .social-links a { width: 45px; height: 45px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); transition: var(--trans-smooth); }
+        .social-links a:hover { background: var(--gold-primary); color: #000; transform: translateY(-5px); }
 
-        /* --- TOAST NOTIFICATION --- */
-        #toast-notification {
-            position: fixed;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background-color: var(--text-gold);
-            color: var(--bg-secondary);
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            z-index: 3000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s, visibility 0.5s, transform 0.5s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            font-weight: 700;
+        /* ==========================================================================
+           13. FLOATING CONTROLS
+           ========================================================================== */
+        .fab {
+            position: fixed; right: 20px; width: 50px; height: 50px;
+            background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid var(--glass-border);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--gold-primary); cursor: pointer; z-index: 100;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5); transition: var(--trans-smooth);
         }
-        #toast-notification.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* --- DESKTOP STYLES --- */
+        .fab:hover { background: var(--gold-primary); color: #000; transform: scale(1.1); }
+        #audio-btn { bottom: 95px; }
+        #top-btn { bottom: 155px; opacity: 0; visibility: hidden; transform: translateY(20px); }
+        #top-btn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+        
         @media (min-width: 768px) {
-            section { padding: 5rem 1.5rem; }
-            #home { padding-top: 5rem; }
-            .cover-content h1 { font-size: 4rem; }
-            #home h2 { font-size: 5rem; }
-            .section-title { font-size: 3.5rem; }
-            .schedule-item { 
-                flex-direction: row; align-items: center;
-                justify-content: space-between; gap: 1rem;
-            }
-            .ministries-container { flex-direction: row; }
-            #special-event-title { font-size: 2rem; }
-            .flip-unit { width: 80px; height: 100px; font-size: 4rem; line-height: 100px; }
-            #special-countdown { gap: 1.5rem; }
-            #clock-wrapper { top: 2rem; }
-            .swiper-slide { width: 320px; height: 450px; }
+            .fab { width: 60px; height: 60px; right: 30px; }
+            #audio-btn { bottom: 110px; }
+            #top-btn { bottom: 180px; }
         }
+
+        #toast {
+            position: fixed; top: 20px; left: 50%; transform: translate(-50%, -20px);
+            background: var(--gold-primary); color: #000; padding: 1rem 2rem;
+            border-radius: 50px; font-weight: 700; font-size: 0.95rem; z-index: 10000;
+            opacity: 0; visibility: hidden; transition: var(--trans-smooth); width: max-content; max-width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        #toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
     </style>
 </head>
 <body>
-    <audio id="worship-audio" loop><source src="" type="audio/mpeg"></audio>
 
+    <!-- AUDIO -->
+    <audio id="worship-audio" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4966601b0b.mp3?filename=ambient-piano-amp-strings-10711.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 1. COVER / LANDING -->
     <div id="cover">
-        <div class="cover-content">
-            <p>SELAMAT DATANG DI</p>
-            <h1>GSJA RIVER OF LIFE</h1>
-            <p>PEMATANGSIANTAR</p>
-            <button id="open-invitation">NEXT</button>
-        </div>
-    </div>
-
-    <main id="main-content">
-        <section id="home">
-            <div id="clock-wrapper">
-                <div id="realtime-clock">
-                    <div id="clock-day"></div>
-                    <div id="clock-date"></div>
-                    <div id="clock-time"></div>
-                </div>
-                <svg class="lightning" id="lightning-1" viewBox="0 0 512 512"><path d="M441.15,224.82,272.58,15.8A16,16,0,0,0,248,27.23V192H123.29a16,16,0,0,0-13.8,24.31L255.42,487.2a16,16,0,0,0,28.1-9.44l-23.3-163.2H424.71a16,16,0,0,0,13.8-24.31Z"/></svg>
-                <svg class="lightning" id="lightning-2" viewBox="0 0 512 512"><path d="M441.15,224.82,272.58,15.8A16,16,0,0,0,248,27.23V192H123.29a16,16,0,0,0-13.8,24.31L255.42,487.2a16,16,0,0,0,28.1-9.44l-23.3-163.2H424.71a16,16,0,0,0,13.8-24.31Z"/></svg>
-                <svg class="lightning" id="lightning-3" viewBox="0 0 512 512"><path d="M441.15,224.82,272.58,15.8A16,16,0,0,0,248,27.23V192H123.29a16,16,0,0,0-13.8,24.31L255.42,487.2a16,16,0,0,0,28.1-9.44l-23.3-163.2H424.71a16,16,0,0,0,13.8-24.31Z"/></svg>
-            </div>
-
-            <div class="animate-fade-in-up">
-                <p>Mari Beribadah Bersama Kami Di:</p>
-                <h3>GSJA River of Life<br>Pematangsiantar</h3>
-                <hr class="separator">
-                
-                <!-- NEW: Countdown Wrapper with Arrows -->
-                <div id="countdown-wrapper">
-                    <div class="rotating-arrow" id="arrow-1">
-                        <svg viewBox="0 0 24 24"><path d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14l-6-6z"/></svg>
-                    </div>
-                    <div class="rotating-arrow" id="arrow-2">
-                        <svg viewBox="0 0 24 24"><path d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14l-6-6z"/></svg>
-                    </div>
-                    <div id="countdown-container">
-                        <div id="countdown-label">Menghitung...</div>
-                        <div id="countdown">
-                            <div class="countdown-item"><div>00</div><div>Hari</div></div>
-                            <div class="countdown-item"><div>00</div><div>Jam</div></div>
-                            <div class="countdown-item"><div>00</div><div>Menit</div></div>
-                            <div class="countdown-item"><div>00</div><div>Detik</div></div>
-                        </div>
-                        <p id="next-event-datetime"></p>
-                        <div id="live-notification">
-                            <span class="live-dot"></span>
-                            <span id="live-text"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="notification-container" class="animate-pop-in" style="transition-delay: 0.2s;">
-                    <button id="subscribe-btn">
-                        <i data-feather="bell"></i>
-                        <span>Ingatkan Saya</span>
-                    </button>
-                    <p id="notification-status"></p>
-                </div>
-
-                <div id="special-event-container" class="animate-pop-in" style="transition-delay: 0.4s;">
-                    <h3 id="special-event-title"><h2><u>Event</u></h2><H5>JANGAN LEWATKAN</H5><u>Peresmian Gedung Gereja GSJA River of Life</u></h3><br><H5><i>Kiranya Kita Semua Dapat Menghadiri Acara Ini. GOD BLESS WE.</i></H5>
-                    <div id="special-countdown">
-                        <div class="flip-card"><div class="flip-unit" data-flip="days">00</div><div class="flip-card-label">Hari</div></div>
-                        <div class="flip-card"><div class="flip-unit" data-flip="hours">00</div><div class="flip-card-label">Jam</div></div>
-                        <div class="flip-card"><div class="flip-unit" data-flip="minutes">00</div><div class="flip-card-label">Menit</div></div>
-                        <div class="flip-card"><div class="flip-unit" data-flip="seconds">00</div><div class="flip-card-label">Detik</div></div>
-                    </div>
-                    <div id="special-event-finished-message">MENANTI EVENT LAINNYA</div>
-                </div>
-            </div>
-        </section>
-
-        <section id="details">
-            <h2 class="section-title animate-fade-in-up">Jadwal & Lokasi</h2>
-            <div class="schedule-card animate-pop-in">
-                <h3 class="schedule-day-header">Selasa</h3>
-                <div class="schedule-item"><div class="event-details"><span class="event-name shimmer-text">Ibadah Komsel Immanuel</span><span class="event-location">Lokasi: DIINFOKAN DI WARTA</span></div><span class="event-time shimmer-text">19:30 - 21:00 WIB</span></div>
-                <div class="schedule-item"><div class="event-details"><span class="event-name shimmer-text">Ibadah Komsel Maranatha</span><span class="event-location">Lokasi: DIINFOKAN DI WARTA</span></div><span class="event-time shimmer-text">19:30 - 21:00 WIB</span></div>
-                <h3 class="schedule-day-header">Kamis</h3>
-                <div class="schedule-item"><div class="event-details"><span class="event-name shimmer-text">Ibadah Komsel Kasih</span><span class="event-location">Lokasi: DIINFOKAN DI WARTA</span></div><span class="event-time shimmer-text">19:30 - 21:00 WIB</span></div>
-                <div class="schedule-item"><div class="event-details"><span class="event-name shimmer-text">Ibadah Komsel Agape</span><span class="event-location">Lokasi: DIINFOKAN DI WARTA</span></div><span class="event-time shimmer-text">19:30 - 21:00 WIB</span></div>
-                <h3 class="schedule-day-header">Jumat</h3>
-                <div class="schedule-item"><div class="event-details"><span class="event-name shimmer-text">Doa Syafaat</span></div><span class="event-time shimmer-text">18:30 - 20:00 WIB</span></div>
-                <div class="schedule-item"><div class="event-details"><span class="event-name shimmer-text">Latihan Pujian & Penyembahan</span></div><span class="event-time shimmer-text">20:30 - 22:00 WIB</span></div>
-                <h3 class="schedule-day-header">Sabtu</h3>
-                <div class="schedule-item"><div class="event-details"><span class="event-name shimmer-text">Ibadah Youth Generation</span></div><span class="event-time shimmer-text">19:00 - 21:00 WIB</span></div>
-                <h3 class="schedule-day-header">Minggu</h3>
-                <div class="schedule-item"><div class="event-details"><span class="event-name shimmer-text">Ibadah Raya Sesi 1 & Sekolah Minggu</span></div><span class="event-time shimmer-text">08:30 - 10:30 WIB</span></div>
-                <div class="schedule-item"><div class="event-details"><span class="event-name shimmer-text">Ibadah Raya Sesi 2</span></div><span class="event-time shimmer-text">10:35 - 12:30 WIB</span></div>
-            </div>
-            <div class="map-container animate-pop-in" style="transition-delay: 0.2s;">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.417215228878!2d99.0699223152194!3d2.98114695444769!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3031857427a7a1e1%3A0x8f5a33f4a0a436b!2sGSJA%20RIVER%20OF%20LIFE!5e0!3m2!1sen!2sid!4v1672895698123!5m2!1sen!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-             <p class="animate-fade-in-up" style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">Jl. Pdt. J. Wismar Saragih, Pematangsiantar</p>
-        </section>
-
-        <section id="gallery">
-            <h2 class="section-title animate-fade-in-up">Galeri</h2>
-            <p class="animate-fade-in-up" style="max-width: 600px; margin: -2rem auto 2rem auto; color: var(--text-secondary);">Kita lihat bagaimana Kuasa Tuhan terjadi dan melawat setiap hati orang yang mau datang dan bersekutu kepada-Nya</p>
-            
-            <div class="gallery-slider-container animate-pop-in">
-                <div class="swiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide"><img src="https://placehold.co/600x800/c5a572/000000?text=Ibadah+Sesi+1" alt="Suasana Ibadah Raya Sesi 1"><div class="slide-caption">Ibadah Raya</div></div>
-                        <div class="swiper-slide"><img src="https://placehold.co/600x800/c5a572/000000?text=Firman+Tuhan" alt="Penyampaian Firman Tuhan"><div class="slide-caption">Gembala Sidang menyampaikan Firman Tuhan</div></div>
-                        <div class="swiper-slide"><img src="https://placehold.co/600x800/c5a572/000000?text=Altar+Call" alt="Doa dan Altar Call"><div class="slide-caption">Momen Doa dan Panggilan Altar</div></div>
-                        <div class="swiper-slide"><img src="https://placehold.co/600x800/242424/FFFFFF?text=Anak-anak" alt="Anak-anak Sekolah Minggu"><div class="slide-caption">Anak-anak Sekolah Minggu</div></div>
-                        <div class="swiper-slide"><img src="https://placehold.co/600x800/242424/FFFFFF?text=Aktivitas" alt="Aktivitas belajar Firman"><div class="slide-caption">Belajar Firman melalui aktivitas kreatif</div></div>
-                        <div class="swiper-slide"><img src="https://placehold.co/600x800/ef4444/FFFFFF?text=Youth+Worship" alt="Ibadah Youth"><div class="slide-caption">Youth Generation Worship</div></div>
-                        <div class="swiper-slide"><img src="https://placehold.co/600x800/ef4444/FFFFFF?text=Komunitas" alt="Komunitas anak muda"><div class="slide-caption">Komunitas yang bertumbuh bersama</div></div>
-                        <div class="swiper-slide"><img src="https://placehold.co/600x800/1e40af/ffffff?text=Natal" alt="Perayaan Natal"><div class="slide-caption">Perayaan Natal Penuh Sukacita</div></div>
-                        <div class="swiper-slide"><img src="https://placehold.co/600x800/1e40af/ffffff?text=Paskah" alt="Drama Paskah"><div class="slide-caption">Drama Penyaliban Yesus</div></div>
-                    </div>
-                </div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            </div>
-        </section>
-
-        <section id="ministries">
-             <h2 class="section-title animate-fade-in-up">Pelayanan Kami</h2>
-             <p class="animate-fade-in-up" style="max-width: 600px; margin: -2rem auto 2rem auto; color: var(--text-secondary);">Kami percaya setiap orang memiliki karunia untuk melayani. Temukan tempat mu untuk bertumbuh dan melayani bersama kami.</p>
-             <div class="ministries-container">
-                 <div class="ministry-card animate-pop-in"><i data-feather="heart" width="48" height="48"></i><h3>Sekolah Minggu</h3><p>Menanamkan Firman Tuhan yang benar kepada anak-anak.</p></div>
-                 <div class="ministry-card animate-pop-in" style="transition-delay: 0.2s;"><i data-feather="zap" width="48" height="48"></i><h3>Youth Generation GSJA</h3><p>Wadah bagi kaum muda/remaja untuk bertumbuh dalam iman dan komunitas yang positif.</p></div>
-                 <div class="ministry-card animate-pop-in" style="transition-delay: 0.4s;"><i data-feather="music" width="48" height="48"></i><h3>Pujian & Penyembahan</h3><p>Memimpin jemaat untuk masuk dalam hadirat Tuhan melalui pujian.</p></div>
-             </div>
-        </section>
-
-        <section id="contact">
-            <div class="contact-card animate-pop-in">
-                <h2 class="section-title">Hubungi Kami</h2>
-                <p style="max-width: 600px; margin: -2rem auto 2rem auto; color: var(--text-secondary);">Punya pertanyaan, permohonan doa, atau ingin terhubung? Kirimkan pesan Anda langsung melalui WhatsApp.</p>
-                <form id="whatsapp-form">
-                    <div class="form-group">
-                        <label for="wa-name">Nama Anda</label>
-                        <input type="text" id="wa-name" name="name" placeholder="Nama Kamu" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="wa-message">Pesan Anda</label>
-                        <textarea id="wa-message" name="message" placeholder="Kirimkan Harapan Dan Doamu" required></textarea>
-                    </div>
-                    <button type="submit" id="whatsapp-submit-btn">
-                        <i data-feather="send"></i>
-                        <span>Kirim via WhatsApp</span>
-                    </button>
-                </form>
-            </div>
-        </section>
+        <video autoplay loop muted playsinline class="cover-video">
+            <source src="https://cdn.pixabay.com/video/2020/03/31/34763-402636254_large.mp4" type="video/mp4">
+        </video>
         
-        <footer style="text-align: center; padding: 3rem 1rem;" class="animate-fade-in-up">
-            <p>Tuhan Yesus Memberkati.</p>
-            <h3 style="font-family: var(--font-serif); font-size: 2.5rem; color: var(--text-gold); margin-top: 1rem;">GSJA River of Life</h3>
-            <p class="footer-credit">© Create by MultiMedia GSJA River Of Life Pematangsiantar @kingproject_ar - 2025 All Right Reserved.</p>
-        </footer>
-    </main>
-    
-    <!-- Auth Modal -->
-    <div id="auth-modal-overlay" class="modal-overlay">
-        <div class="modal-box">
-            <button id="auth-modal-close" class="modal-close-btn"><i data-feather="x"></i></button>
-            <form id="login-form" class="auth-form">
-                <h2>Selamat Datang Kembali</h2>
-                <div class="auth-message" id="login-message"></div>
-                <div class="form-group"><input type="email" id="login-email" placeholder="Email Anda" required></div>
-                <div class="form-group"><input type="password" id="login-password" placeholder="Kata Sandi" required></div>
-                <button type="submit" class="form-action-btn">Masuk</button>
-                <div class="auth-toggle-link">Belum punya akun? <button type="button" id="show-register">Daftar di sini</button></div>
-            </form>
-            <form id="register-form" class="auth-form">
-                <h2>Buat Akun Baru</h2>
-                <div class="auth-message" id="register-message"></div>
-                <div class="form-group"><input type="text" id="register-name" placeholder="Nama Lengkap" required></div>
-                <div class="form-group"><input type="email" id="register-email" placeholder="Email Anda" required></div>
-                <div class="form-group"><input type="password" id="register-password" placeholder="Buat Kata Sandi" required></div>
-                <button type="submit" class="form-action-btn">Daftar</button>
-                <div class="auth-toggle-link">Sudah punya akun? <button type="button" id="show-login">Masuk di sini</button></div>
-            </form>
+        <div class="cover-content">
+            <p class="cover-subtitle">Selamat Datang di</p>
+            <h1 class="cover-title">GSJA River of Life</h1>
+            <p class="cover-location">Pematangsiantar</p>
+            <button class="btn-primary" id="open-invitation">
+                Masuk <i data-feather="arrow-right" width="20"></i>
+            </button>
         </div>
     </div>
 
-    <!-- NEW: Account Info Modal -->
-    <div id="account-modal-overlay" class="modal-overlay">
-        <div class="modal-box">
-            <button id="account-modal-close" class="modal-close-btn"><i data-feather="x"></i></button>
-            <h2>Info Akun</h2>
-            <div class="account-info">
-                <p>Nama: <strong id="account-name"></strong></p>
-                <p>Email: <strong id="account-email"></strong></p>
+    <!-- 2. DESKTOP NAVIGATION -->
+    <nav id="top-nav">
+        <div class="container nav-inner">
+            <div class="nav-logo">GSJA ROL</div>
+            <div class="nav-links">
+                <a href="#home">Beranda</a>
+                <a href="#schedule">Jadwal</a>
+                <a href="#gallery">Galeri</a>
+                <a href="#ministry">Pelayanan</a>
+                <a href="#contact">Kontak</a>
             </div>
-            <button id="logout-btn" class="form-action-btn">Logout</button>
-        </div>
-    </div>
-
-    <div id="audio-control"><i data-feather="music"></i></div>
-
-    <nav id="bottom-nav">
-        <div class="nav-container">
-            <a href="#home" class="nav-button"><i data-feather="home"></i><span>Home</span></a>
-            <a href="#details" class="nav-button"><i data-feather="calendar"></i><span>Jadwal</span></a>
-            <a href="#gallery" class="nav-button"><i data-feather="image"></i><span>Galeri</span></a>
-            <a href="#ministries" class="nav-button"><i data-feather="grid"></i><span>Pelayanan</span></a>
-            <button id="auth-nav-btn" class="nav-button"><i data-feather="user"></i><span>Login</span></button>
         </div>
     </nav>
- 
-    <div id="toast-notification"></div>
 
-    <!-- SwiperJS Script -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-    <script type="module">
-        document.addEventListener('DOMContentLoaded', () => {
-            const swCode = `
-                self.addEventListener('install', event => { self.skipWaiting(); });
-                self.addEventListener('activate', event => {});
-                const checkReminders = () => {
-                    const reminderTime = parseInt(localStorage.getItem('nextReminderTime') || '0');
-                    const reminderName = localStorage.getItem('nextReminderName');
-                    const now = new Date().getTime();
-                    if (reminderTime > 0 && now >= reminderTime) {
-                        self.registration.showNotification('Ibadah Segera Dimulai!', {
-                            body: 'Saatnya bersiap! ' + (reminderName || 'Ibadah') + ' akan dimulai dalam 15 menit.',
-                            icon: 'https://img.icons8.com/plasticine/100/praying-man.png',
-                            tag: 'event-reminder-' + reminderTime
-                        });
-                        localStorage.removeItem('nextReminderTime');
-                        localStorage.removeItem('nextReminderName');
-                        localStorage.removeItem('notificationSubscribed');
-                    }
-                };
-                setInterval(checkReminders, 60000);
-            `;
-            const swBlob = new Blob([swCode], { type: 'application/javascript' });
-            const swUrl = URL.createObjectURL(swBlob);
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register(swUrl).catch(err => console.error('Service Worker registration failed:', err));
-            }
-
-            feather.replace();
-
-            // --- Element Selectors & Data ---
-            const openBtn = document.getElementById('open-invitation');
-            const cover = document.getElementById('cover');
-            const mainContent = document.getElementById('main-content');
-            const audio = document.getElementById('worship-audio');
-            const audioControl = document.getElementById('audio-control');
-            let isAudioPlaying = false;
-            let nextEventForNotification = null;
-            
-            const songs = [
-                "(Hari Ini Kurasa Bahagia) GKDI Worship.mp3",
-                "(Nothing's Gonna Stop Us Now) JPCC Worship.mp3",
-                "JPCC(Imanuel).mp3",
-                "Kuberserah Penuh - OFFICIAL MUSIC VIDEO (Live Recording).mp3",
-                "Kutuk Jadi Berkat - Sound of Praise ft Clarisa Dewi (Live at GBT KAO Semarang).mp3"
-            ];
-
-            // --- Cover & Audio Logic ---
-            openBtn.addEventListener('click', () => {
-                const randomIndex = Math.floor(Math.random() * songs.length);
-                const audioSource = audio.querySelector('source');
-                audioSource.src = songs[randomIndex];
-                audio.load();
-
-                audio.play().then(() => {
-                    isAudioPlaying = true;
-                    audioControl.innerHTML = '<i data-feather="pause"></i>';
-                    feather.replace();
-                }).catch(e => {
-                    console.error("Audio play failed:", e);
-                    isAudioPlaying = false;
-                    audioControl.innerHTML = '<i data-feather="play"></i>';
-                    feather.replace();
-                });
-
-                cover.classList.add('fade-out');
-                document.body.style.overflowY = 'auto';
-                document.body.style.overflowX = 'hidden';
-                mainContent.style.display = 'block';
+    <!-- MAIN CONTENT -->
+    <main id="main-content">
+        
+        <!-- 3. HERO / HOME -->
+        <section id="home" class="bg-parallax">
+            <div class="bg-overlay"></div>
+            <div class="container hero-content reveal-scale">
                 
-                setupNotifications();
+                <div class="hero-frame">
+                    <div class="ornament">
+                        <div class="ornament-line" style="transform: rotate(180deg)"></div>
+                        <div class="ornament-icon">✦</div>
+                        <div class="ornament-line"></div>
+                    </div>
+                    
+                    <div class="clock-time" id="c-time">00:00:00</div>
+                    <div class="clock-date" id="c-date">Memuat Tanggal...</div>
+                    
+                    <div class="live-badge" id="live-indicator">
+                        <span class="live-dot"></span> <span id="live-text">IBADAH SEDANG BERLANGSUNG</span>
+                    </div>
+
+                    <div id="next-event-wrapper">
+                        <h3 style="font-weight: 400; color: var(--gold-light); margin-top: 2rem; font-size: 1.1rem;">Menuju <span id="next-event-name" style="font-weight:700; color: var(--gold-primary);">Ibadah</span></h3>
+                        <div class="countdown-box" id="countdown">
+                            <div class="cd-item"><div class="cd-num" id="cd-d">00</div><div class="cd-label">Hari</div></div>
+                            <div class="cd-item"><div class="cd-num" id="cd-h">00</div><div class="cd-label">Jam</div></div>
+                            <div class="cd-item"><div class="cd-num" id="cd-m">00</div><div class="cd-label">Menit</div></div>
+                            <div class="cd-item"><div class="cd-num" id="cd-s">00</div><div class="cd-label">Detik</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel special-event-card reveal">
+                    <h4 style="color: var(--text-muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 2px;">Jangan Lewatkan</h4>
+                    <h2 class="text-gold" style="font-size: 2rem; margin: 0.5rem 0;">Peresmian Gedung Gereja</h2>
+                    <p style="font-size: 1rem; margin-bottom: 2rem; color: #ddd;">Mari hadir dan saksikan karya Tuhan yang luar biasa di tengah jemaat-Nya.</p>
+                    <div class="countdown-box" style="margin: 0;">
+                        <div class="cd-item" style="background: rgba(0,0,0,0.8);"><div class="cd-num" id="sp-d">00</div><div class="cd-label">Hari</div></div>
+                        <div class="cd-item" style="background: rgba(0,0,0,0.8);"><div class="cd-num" id="sp-h">00</div><div class="cd-label">Jam</div></div>
+                        <div class="cd-item" style="background: rgba(0,0,0,0.8);"><div class="cd-num" id="sp-m">00</div><div class="cd-label">Menit</div></div>
+                        <div class="cd-item" style="background: rgba(0,0,0,0.8);"><div class="cd-num" id="sp-s">00</div><div class="cd-label">Detik</div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. SCHEDULE -->
+        <section id="schedule" class="bg-parallax">
+            <div class="bg-overlay"></div>
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="ornament">
+                        <div class="ornament-line" style="transform: rotate(180deg)"></div>
+                        <div class="ornament-icon">✦</div>
+                        <div class="ornament-line"></div>
+                    </div>
+                    <h2 class="section-title text-gold">Jadwal Ibadah</h2>
+                    <p class="section-subtitle">Tumbuh dan berakar bersama dalam persekutuan kasih persaudaraan.</p>
+                </div>
+                
+                <div class="schedule-grid">
+                    <div class="glass-panel schedule-card reveal-left">
+                        <span class="day-badge">Minggu</span>
+                        <div class="event-list">
+                            <div class="event-item">
+                                <div><div class="e-title">Ibadah Raya Sesi 1</div><div class="e-loc"><i data-feather="map-pin" width="12"></i> Gedung Utama</div></div>
+                                <div class="e-time">08:30</div>
+                            </div>
+                            <div class="event-item">
+                                <div><div class="e-title">Sekolah Minggu</div><div class="e-loc"><i data-feather="map-pin" width="12"></i> Ruang Anak</div></div>
+                                <div class="e-time">08:30</div>
+                            </div>
+                            <div class="event-item">
+                                <div><div class="e-title">Ibadah Raya Sesi 2</div><div class="e-loc"><i data-feather="map-pin" width="12"></i> Gedung Utama</div></div>
+                                <div class="e-time">10:35</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel schedule-card reveal">
+                        <span class="day-badge">Jumat & Sabtu</span>
+                        <div class="event-list">
+                            <div class="event-item">
+                                <div><div class="e-title">Doa Syafaat</div><div class="e-loc"><i data-feather="calendar" width="12"></i> Jumat</div></div>
+                                <div class="e-time">18:30</div>
+                            </div>
+                            <div class="event-item">
+                                <div><div class="e-title">Latihan Pujian</div><div class="e-loc"><i data-feather="calendar" width="12"></i> Jumat</div></div>
+                                <div class="e-time">20:30</div>
+                            </div>
+                            <div class="event-item">
+                                <div><div class="e-title">Youth Generation</div><div class="e-loc"><i data-feather="calendar" width="12"></i> Sabtu</div></div>
+                                <div class="e-time">19:00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel schedule-card reveal-right">
+                        <span class="day-badge">Komsel (Selasa & Kamis)</span>
+                        <div class="event-list">
+                            <div class="event-item">
+                                <div><div class="e-title">Immanuel & Maranatha</div><div class="e-loc"><i data-feather="home" width="12"></i> Info Warta (Sel)</div></div>
+                                <div class="e-time">19:30</div>
+                            </div>
+                            <div class="event-item">
+                                <div><div class="e-title">Kasih & Agape</div><div class="e-loc"><i data-feather="home" width="12"></i> Info Warta (Kam)</div></div>
+                                <div class="e-time">19:30</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. GALLERY -->
+        <section id="gallery">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="ornament">
+                        <div class="ornament-line" style="transform: rotate(180deg)"></div>
+                        <div class="ornament-icon">✦</div>
+                        <div class="ornament-line"></div>
+                    </div>
+                    <h2 class="section-title text-gold">Momen Pelayanan</h2>
+                    <p class="section-subtitle">Melihat karya Tuhan melawat setiap hati melalui kebersamaan jemaat.</p>
+                </div>
+                
+                <div class="swiper mySwiper reveal-scale">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=600&h=800&fit=crop" alt="Ibadah" loading="lazy">
+                            <div class="caption-overlay"><h4>Penyembahan</h4></div>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="https://images.unsplash.com/photo-1544427920-c49ccfaf8f56?w=600&h=800&fit=crop" alt="Firman" loading="lazy">
+                            <div class="caption-overlay"><h4>Firman Tuhan</h4></div>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=600&h=800&fit=crop" alt="Komunitas" loading="lazy">
+                            <div class="caption-overlay"><h4>Youth Generation</h4></div>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=600&h=800&fit=crop" alt="Pelayanan" loading="lazy">
+                            <div class="caption-overlay"><h4>Sekolah Minggu</h4></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. MINISTRIES & DAILY VERSE -->
+        <section id="ministry" class="bg-parallax">
+            <div class="bg-overlay"></div>
+            <div class="container">
+                <div class="glass-panel verse-box reveal">
+                    <div class="quote-icon">“</div>
+                    <p class="verse-text" id="d-verse">Memuat renungan hari ini...</p>
+                    <p class="verse-ref" id="d-ref"></p>
+                </div>
+
+                <div style="margin-top: 6rem;">
+                    <div class="section-header reveal">
+                        <div class="ornament">
+                            <div class="ornament-line" style="transform: rotate(180deg)"></div>
+                            <div class="ornament-icon">✦</div>
+                            <div class="ornament-line"></div>
+                        </div>
+                        <h2 class="section-title text-gold">Area Pelayanan</h2>
+                        <p class="section-subtitle">Temukan tempatmu untuk bertumbuh dan melayani Tuhan sesuai karunia-Mu.</p>
+                    </div>
+                    
+                    <div class="ministry-grid">
+                        <div class="glass-panel ministry-card reveal-left">
+                            <div class="ministry-icon"><i data-feather="smile" width="30" height="30"></i></div>
+                            <h3>Sekolah Minggu</h3>
+                            <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 0.8rem;">Menanamkan kebenaran Firman sejak dini dengan cara yang menyenangkan.</p>
+                        </div>
+                        <div class="glass-panel ministry-card reveal">
+                            <div class="ministry-icon"><i data-feather="zap" width="30" height="30"></i></div>
+                            <h3>Youth Generation</h3>
+                            <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 0.8rem;">Wadah bagi kaum muda untuk membangun karakter ilahi dan komunitas positif.</p>
+                        </div>
+                        <div class="glass-panel ministry-card reveal-right">
+                            <div class="ministry-icon"><i data-feather="music" width="30" height="30"></i></div>
+                            <h3>Tim Pujian</h3>
+                            <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 0.8rem;">Membawa umat masuk ke dalam hadirat Tuhan melalui alunan musik.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. CONTACT & MAP -->
+        <section id="contact">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="ornament">
+                        <div class="ornament-line" style="transform: rotate(180deg)"></div>
+                        <div class="ornament-icon">✦</div>
+                        <div class="ornament-line"></div>
+                    </div>
+                    <h2 class="section-title text-gold">Hubungi Kami</h2>
+                    <p class="section-subtitle">Punya permohonan doa atau pertanyaan? Jangan ragu untuk menghubungi kami via WhatsApp.</p>
+                </div>
+                
+                <div class="contact-grid">
+                    <div class="glass-panel contact-wrapper reveal-left">
+                        <h3 style="margin-bottom: 2rem; color: var(--gold-primary); font-size: 1.8rem;">Kirim Pesan</h3>
+                        <form id="wa-form">
+                            <div class="form-group">
+                                <label>Nama Anda</label>
+                                <input type="text" id="wa-name" class="form-control" placeholder="Masukkan nama..." required>
+                            </div>
+                            <div class="form-group">
+                                <label>Pesan / Permohonan Doa</label>
+                                <textarea id="wa-msg" class="form-control" placeholder="Tulis pesan Anda di sini..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary" style="width: 100%; padding: 1.2rem;">
+                                <i data-feather="send" width="18"></i> Kirim Pesan via WA
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="map-container reveal-right">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.417215228878!2d99.0699223152194!3d2.98114695444769!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3031857427a7a1e1%3A0x8f5a33f4a0a436b!2sGSJA%20RIVER%20OF%20LIFE!5e0!3m2!1sen!2sid!4v1672895698123!5m2!1sen!2sid" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. FOOTER -->
+        <footer>
+            <div class="container reveal">
+                <div class="footer-logo">GSJA River of Life</div>
+                <p class="footer-text">Jl. Pdt. J. Wismar Saragih, Pematangsiantar</p>
+                <div class="social-links">
+                    <a href="#"><i data-feather="instagram" width="20"></i></a>
+                    <a href="#"><i data-feather="youtube" width="20"></i></a>
+                    <a href="#"><i data-feather="facebook" width="20"></i></a>
+                </div>
+                <p class="footer-text" style="opacity: 0.5; font-size: 0.85rem;">&copy; 2026 MultiMedia GSJA River Of Life.<br>Made for His Glory.</p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- FLOATING CONTROLS -->
+    <div class="fab" id="audio-btn" aria-label="Toggle Music"><i data-feather="music" width="20"></i></div>
+    <div class="fab" id="top-btn" aria-label="Back to Top"><i data-feather="chevron-up" width="20"></i></div>
+
+    <!-- MOBILE BOTTOM NAV (Khusus Layar Kecil) -->
+    <nav id="bottom-nav">
+        <div class="bottom-nav-inner">
+            <a href="#home" class="b-nav-item active" data-target="home">
+                <i data-feather="home" class="b-nav-icon"></i><span class="b-nav-text">Home</span>
+            </a>
+            <a href="#schedule" class="b-nav-item" data-target="schedule">
+                <i data-feather="calendar" class="b-nav-icon"></i><span class="b-nav-text">Jadwal</span>
+            </a>
+            <a href="#gallery" class="b-nav-item" data-target="gallery">
+                <i data-feather="image" class="b-nav-icon"></i><span class="b-nav-text">Galeri</span>
+            </a>
+            <a href="#ministry" class="b-nav-item" data-target="ministry">
+                <i data-feather="grid" class="b-nav-icon"></i><span class="b-nav-text">Layanan</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- TOAST COMPONENT -->
+    <div id="toast">Pesan Notifikasi</div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Init Icons
+        feather.replace();
+
+        // Constants
+        const WA_NUMBER = "6283146557755";
+        const SPECIAL_EVENT_DATE = "2026-08-30T15:00:00"; 
+        
+        // Toast
+        const showToast = (msg) => {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+
+        // ==========================================
+        // UI & INTERACTION LOGIC
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Cover & Audio
+            const btnOpen = document.getElementById('open-invitation');
+            const cover = document.getElementById('cover');
+            const audio = document.getElementById('worship-audio');
+            const audioBtn = document.getElementById('audio-btn');
+            let isPlaying = false;
+
+            btnOpen.addEventListener('click', () => {
+                cover.classList.add('fade-out');
+                document.body.style.overflowY = 'auto'; // Unlock scroll
+                
+                audio.play().then(() => {
+                    isPlaying = true;
+                    audioBtn.innerHTML = '<i data-feather="pause" width="20"></i>';
+                    feather.replace();
+                }).catch(() => {
+                    showToast("Mode Hening Aktif");
+                });
             });
 
-            audioControl.addEventListener('click', () => {
-                if (isAudioPlaying) {
+            audioBtn.addEventListener('click', () => {
+                if(isPlaying) {
                     audio.pause();
-                    audioControl.innerHTML = '<i data-feather="play"></i>';
+                    audioBtn.innerHTML = '<i data-feather="music" width="20"></i>';
                 } else {
-                    audio.play();
-                    audioControl.innerHTML = '<i data-feather="pause"></i>';
+                    audio.play().catch(() => showToast("Audio tidak tersedia."));
+                    audioBtn.innerHTML = '<i data-feather="pause" width="20"></i>';
                 }
-                isAudioPlaying = !isAudioPlaying;
+                isPlaying = !isPlaying;
                 feather.replace();
             });
 
-            // --- DYNAMIC COUNTDOWN & LIVE ALERT ---
-            const countdownContainer = document.getElementById('countdown-container');
-            const countdownEl = document.getElementById('countdown');
-            const countdownLabelEl = document.getElementById('countdown-label');
-            const liveNotificationEl = document.getElementById('live-notification');
-            const liveTextEl = document.getElementById('live-text');
-            const nextEventDateTimeEl = document.getElementById('next-event-datetime');
+            // 2. Nav & Back to Top
+            const topNav = document.getElementById('top-nav');
+            const topBtn = document.getElementById('top-btn');
+            
+            window.addEventListener('scroll', () => {
+                if(window.scrollY > 50) topNav.classList.add('scrolled');
+                else topNav.classList.remove('scrolled');
 
-            const events = [
-                { name: "Ibadah Raya Sesi 1 & Sekolah Minggu", day: 0, hour: 8, minute: 30, endHour: 10, endMinute: 30 },
-                { name: "Ibadah Raya Sesi 2", day: 0, hour: 10, minute: 35, endHour: 12, endMinute: 30 },
-                { name: "Ibadah Komsel Immanuel", day: 2, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
-                { name: "Ibadah Komsel Maranatha", day: 2, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
-                { name: "Ibadah Komsel Kasih", day: 4, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
-                { name: "Ibadah Komsel Agape", day: 4, hour: 19, minute: 30, endHour: 21, endMinute: 0 },
-                { name: "Doa Syafaat", day: 5, hour: 18, minute: 30, endHour: 20, endMinute: 0 },
-                { name: "Latihan Pujian & Penyembahan", day: 5, hour: 20, minute: 30, endHour: 22, endMinute: 0 },
-                { name: "Ibadah Youth Generation", day: 6, hour: 19, minute: 0, endHour: 21, endMinute: 0 },
+                if(window.scrollY > 500) topBtn.classList.add('visible');
+                else topBtn.classList.remove('visible');
+            });
+
+            topBtn.addEventListener('click', () => window.scrollTo(0, 0));
+
+            // 3. SCROLL REVEAL ANIMATION
+            const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    entry.target.classList.toggle('active', entry.isIntersecting);
+                });
+            }, { 
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px" 
+            });
+            reveals.forEach(el => revealObserver.observe(el));
+
+            // 4. Bottom Nav Active State
+            const sections = document.querySelectorAll('section');
+            const navItems = document.querySelectorAll('.b-nav-item, .nav-links a');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(sec => {
+                    const secTop = sec.offsetTop;
+                    if(scrollY >= secTop - 250) current = sec.getAttribute('id');
+                });
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if(item.getAttribute('href') === `#${current}` || item.getAttribute('data-target') === current) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+            // 5. Swiper Init
+            new Swiper(".mySwiper", {
+                effect: "cards",
+                grabCursor: true,
+                loop: true,
+                autoplay: { delay: 3000, disableOnInteraction: false }
+            });
+
+            // 6. WhatsApp Submit
+            document.getElementById('wa-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('wa-name').value;
+                const msg = document.getElementById('wa-msg').value;
+                const text = `Shalom, saya *${name}*.%0A%0A${encodeURIComponent(msg)}`;
+                window.open(`https://wa.me/${WA_NUMBER}?text=${text}`, '_blank');
+            });
+
+            // ==========================================
+            // DATE, TIME & COUNTDOWN
+            // ==========================================
+            const timeEl = document.getElementById('c-time');
+            const dateEl = document.getElementById('c-date');
+            const daysArr = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+            const monthsArr = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+            const schedule = [
+                { name: "Ibadah Raya", day: 0, h: 8, m: 30 },
+                { name: "Komsel Immanuel", day: 2, h: 19, m: 30 },
+                { name: "Komsel Kasih", day: 4, h: 19, m: 30 },
+                { name: "Doa Syafaat", day: 5, h: 18, m: 30 },
+                { name: "Youth Generation", day: 6, h: 19, m: 0 }
             ];
 
-            function updateCountdown() {
-                const now = new Date();
-                let eventIsLive = false;
+            const liveInd = document.getElementById('live-indicator');
+            const liveTxt = document.getElementById('live-text');
+            const cdWrapper = document.getElementById('next-event-wrapper');
+            const cdName = document.getElementById('next-event-name');
 
-                for (const event of events) {
-                    if (now.getDay() === event.day) {
-                        const startTime = new Date(now.getTime());
-                        startTime.setHours(event.hour, event.minute, 0, 0);
-                        const endTime = new Date(now.getTime());
-                        endTime.setHours(event.endHour, event.endMinute, 0, 0);
-                        if (now >= startTime && now < endTime) {
-                            liveTextEl.textContent = `${event.name.toUpperCase()} SEDANG BERLANGSUNG`;
-                            countdownContainer.style.display = 'none';
-                            liveNotificationEl.style.display = 'flex';
-                            eventIsLive = true;
+            function updateTime() {
+                const now = new Date();
+                
+                timeEl.textContent = now.toLocaleTimeString('id-ID', { hour12: false });
+                dateEl.textContent = `${daysArr[now.getDay()]}, ${now.getDate()} ${monthsArr[now.getMonth()]} ${now.getFullYear()}`;
+
+                // Next Event Logic
+                let upcoming = [];
+                schedule.forEach(ev => {
+                    let d = new Date(now);
+                    let daysToAdd = ev.day - now.getDay();
+                    if(daysToAdd < 0 || (daysToAdd === 0 && (now.getHours() > ev.h || (now.getHours() === ev.h && now.getMinutes() >= ev.m)))) {
+                        daysToAdd += 7;
+                    }
+                    d.setDate(now.getDate() + daysToAdd);
+                    d.setHours(ev.h, ev.m, 0, 0);
+                    upcoming.push({ ...ev, dateObj: d });
+                });
+                upcoming.sort((a,b) => a.dateObj - b.dateObj);
+                const nextEv = upcoming[0];
+                
+                let isLive = false;
+                for(let ev of schedule) {
+                    if(now.getDay() === ev.day) {
+                        let start = new Date(now); start.setHours(ev.h, ev.m, 0);
+                        let end = new Date(start); end.setHours(ev.h + 2, ev.m, 0); 
+                        if(now >= start && now <= end) {
+                            isLive = true;
+                            liveTxt.textContent = `${ev.name.toUpperCase()} SEDANG BERLANGSUNG`;
                             break;
                         }
                     }
                 }
-                
-                if (!eventIsLive) {
-                    liveNotificationEl.style.display = 'none';
-                    countdownContainer.style.display = 'block';
 
-                    let upcomingEvents = [];
-                    for (const event of events) {
-                        const eventDate = new Date(now.getTime());
-                        let daysToAdd = (event.day + 7 - now.getDay()) % 7;
-                        if (daysToAdd === 0 && (now.getHours() > event.hour || (now.getHours() === event.hour && now.getMinutes() >= event.minute))) {
-                            daysToAdd = 7;
-                        }
-                        eventDate.setDate(now.getDate() + daysToAdd);
-                        eventDate.setHours(event.hour, event.minute, 0, 0);
-                        upcomingEvents.push({ date: eventDate, name: event.name });
-                    }
-
-                    upcomingEvents.sort((a, b) => a.date - b.date);
-                    const nextEvent = upcomingEvents[0];
-                    nextEventForNotification = nextEvent;
-                    
-                    countdownLabelEl.textContent = `Next ${nextEvent.name}`;
-                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-                    nextEventDateTimeEl.textContent = `Pada: ${nextEvent.date.toLocaleDateString('id-ID', options)} WIB`;
-
-                    const distance = nextEvent.date - now.getTime();
-                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                    countdownEl.innerHTML = `
-                        <div class="countdown-item"><div>${String(days).padStart(2,'0')}</div><div>Hari</div></div>
-                        <div class="countdown-item"><div>${String(hours).padStart(2,'0')}</div><div>Jam</div></div>
-                        <div class="countdown-item"><div>${String(minutes).padStart(2,'0')}</div><div>Menit</div></div>
-                        <div class="countdown-item"><div>${String(seconds).padStart(2,'0')}</div><div>Detik</div></div>
-                    `;
-                }
-            }
-
-            // --- SPECIAL EVENT COUNTDOWN LOGIC ---
-            const specialEventDate = new Date('2025-08-31T15:00:00');
-            const specialCountdownEl = document.getElementById('special-countdown');
-            const specialFinishedMessageEl = document.getElementById('special-event-finished-message');
-            const flipUnits = document.querySelectorAll('.flip-unit');
-
-            function updateSpecialCountdown() {
-                const now = new Date();
-                const distance = specialEventDate - now;
-
-                if (distance <= 0) {
-                    specialCountdownEl.style.display = 'none';
-                    specialFinishedMessageEl.style.display = 'block';
-                    flipUnits.forEach(unit => { updateFlipUnit(unit, "00"); });
-                    return; 
-                }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                updateFlipUnit(document.querySelector('[data-flip="days"]'), String(days).padStart(2, '0'));
-                updateFlipUnit(document.querySelector('[data-flip="hours"]'), String(hours).padStart(2, '0'));
-                updateFlipUnit(document.querySelector('[data-flip="minutes"]'), String(minutes).padStart(2, '0'));
-                updateFlipUnit(document.querySelector('[data-flip="seconds"]'), String(seconds).padStart(2, '0'));
-            }
-            
-            function updateFlipUnit(element, newValue) {
-                const currentValue = element.textContent;
-                if (newValue !== currentValue) {
-                    element.style.transition = 'transform 0.5s, background-color 0.5s';
-                    element.style.transform = 'rotateX(180deg)';
-                    setTimeout(() => {
-                        element.textContent = newValue;
-                        element.style.transform = 'rotateX(0deg)';
-                    }, 250); 
-                }
-            }
-
-            // --- Main Interval Timer ---
-            setInterval(() => {
-                updateCountdown();
-                updateSpecialCountdown();
-                updateClock();
-            }, 1000);
-            updateCountdown();
-            updateSpecialCountdown();
-
-            // --- Real-time Clock Logic ---
-            const dayEl = document.getElementById('clock-day');
-            const dateEl = document.getElementById('clock-date');
-            const timeEl = document.getElementById('clock-time');
-            const daysOfWeek = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-
-            function updateClock() {
-                const now = new Date();
-                if(dayEl) dayEl.textContent = daysOfWeek[now.getDay()];
-                if(dateEl) dateEl.textContent = String(now.getDate()).padStart(2, '0');
-                if(timeEl) timeEl.textContent = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
-            }
-            updateClock();
-
-            // --- Animate on Scroll ---
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.animate-fade-in-up, .animate-pop-in').forEach(el => {
-                observer.observe(el);
-            });
-            
-            // --- GALLERY SLIDER INITIALIZATION ---
-            const swiper = new Swiper('.swiper', {
-                effect: 'coverflow',
-                grabCursor: true,
-                centeredSlides: true,
-                slidesPerView: 'auto',
-                coverflowEffect: {
-                    rotate: 50,
-                    stretch: 0,
-                    depth: 100,
-                    modifier: 1,
-                    slideShadows: true,
-                },
-                loop: true,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-            });
-
-            // --- NOTIFICATION LOGIC ---
-            function setupNotifications() {
-                const subscribeBtn = document.getElementById('subscribe-btn');
-                const notificationStatus = document.getElementById('notification-status');
-
-                if (!('Notification' in window) || !('serviceWorker' in navigator)) {
-                    subscribeBtn.style.display = 'none';
-                    notificationStatus.textContent = 'Browser Anda tidak mendukung notifikasi.';
-                    return;
-                }
-
-                function updateButtonState() {
-                    if (Notification.permission === 'denied') {
-                        subscribeBtn.disabled = true;
-                        notificationStatus.textContent = 'Anda telah memblokir notifikasi.';
-                        return;
-                    }
-                    if (localStorage.getItem('notificationSubscribed') === 'true') {
-                        subscribeBtn.disabled = true;
-                        subscribeBtn.querySelector('span').textContent = 'Pengingat Aktif';
-                        notificationStatus.textContent = 'Anda akan diingatkan untuk ibadah berikutnya.';
-                    } else {
-                        subscribeBtn.disabled = false;
-                        subscribeBtn.querySelector('span').textContent = 'Ingatkan Saya';
-                        notificationStatus.textContent = '';
-                    }
-                }
-
-                subscribeBtn.addEventListener('click', () => {
-                    if (Notification.permission === 'granted') {
-                        scheduleNextNotification();
-                    } else {
-                        Notification.requestPermission().then(permission => {
-                            if (permission === 'granted') scheduleNextNotification();
-                            else notificationStatus.textContent = 'ANDA TIDAK MEMBERIKAN IZIN NOTIFIKASI...';
-                            updateButtonState();
-                        });
-                    }
-                });
-
-                function scheduleNextNotification() {
-                    if (!nextEventForNotification) {
-                        notificationStatus.textContent = 'Tidak ada jadwal ibadah untuk diingatkan.';
-                        return;
-                    }
-                    const reminderTime = new Date(nextEventForNotification.date.getTime() - 15 * 60 * 1000);
-                    if (reminderTime > new Date()) {
-                        localStorage.setItem('notificationSubscribed', 'true');
-                        localStorage.setItem('nextReminderTime', reminderTime.getTime());
-                        localStorage.setItem('nextReminderName', nextEventForNotification.name);
-                        notificationStatus.textContent = `Pengingat diatur untuk ${nextEventForNotification.name}.`;
-                        updateButtonState();
-                    } else {
-                         notificationStatus.textContent = 'PERSIAPKAN DIRI ANDA UNTUK MENGIKUTI IBADAH.';
-                    }
-                }
-                updateButtonState();
-            }
-            
-            // --- WHATSAPP FORM LOGIC ---
-            const whatsappForm = document.getElementById('whatsapp-form');
-            whatsappForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const name = document.getElementById('wa-name').value;
-                const message = document.getElementById('wa-message').value;
-                const phoneNumber = '6283146557755';
-
-                const waMessage = `Shalom, perkenalkan nama saya *${name}*. Saya ingin menyampaikan pesan: \n\n${message}`;
-                const encodedMessage = encodeURIComponent(waMessage);
-
-                const waUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-                
-                window.open(waUrl, '_blank');
-            });
-
-            // --- AUTH LOGIC (localStorage) ---
-            const authModalOverlay = document.getElementById('auth-modal-overlay');
-            const accountModalOverlay = document.getElementById('account-modal-overlay');
-            const authNavBtn = document.getElementById('auth-nav-btn');
-            const authModalClose = document.getElementById('auth-modal-close');
-            const accountModalClose = document.getElementById('account-modal-close');
-            
-            const loginForm = document.getElementById('login-form');
-            const registerForm = document.getElementById('register-form');
-            const loginMessageEl = document.getElementById('login-message');
-            const registerMessageEl = document.getElementById('register-message');
-
-            const showRegisterBtn = document.getElementById('show-register');
-            const showLoginBtn = document.getElementById('show-login');
-            const logoutBtn = document.getElementById('logout-btn');
-
-            const USERS_KEY = 'churchAppUsers';
-            const LOGGED_IN_USER_KEY = 'churchAppLoggedInUser';
-
-            // --- Toast Notification Function ---
-            const showToast = (message) => {
-                const toastEl = document.getElementById('toast-notification');
-                if (!toastEl) return;
-                toastEl.textContent = message;
-                toastEl.classList.add('show');
-                setTimeout(() => {
-                    toastEl.classList.remove('show');
-                }, 3000);
-            };
-
-            // --- Modal UI Functions ---
-            const openAuthModal = () => {
-                loginMessageEl.textContent = '';
-                registerMessageEl.textContent = '';
-                authModalOverlay.classList.add('visible');
-            };
-            const closeAuthModal = () => authModalOverlay.classList.remove('visible');
-            
-            const openAccountModal = () => {
-                const user = getLoggedInUser();
-                if (user) {
-                    document.getElementById('account-name').textContent = user.name;
-                    document.getElementById('account-email').textContent = user.email;
-                    accountModalOverlay.classList.add('visible');
-                }
-            };
-            const closeAccountModal = () => accountModalOverlay.classList.remove('visible');
-
-            // --- Event Listeners for Modals ---
-            authNavBtn.addEventListener('click', () => {
-                const loggedInUser = getLoggedInUser();
-                if (loggedInUser) {
-                    openAccountModal(); // NEW: Open account info modal if logged in
+                if(isLive) {
+                    liveInd.style.display = 'inline-flex';
+                    cdWrapper.style.display = 'none';
                 } else {
-                    openAuthModal(); // Open login/register modal if not logged in
-                }
-            });
-            authModalClose.addEventListener('click', closeAuthModal);
-            accountModalClose.addEventListener('click', closeAccountModal);
-            authModalOverlay.addEventListener('click', (e) => { if (e.target === authModalOverlay) closeAuthModal(); });
-            accountModalOverlay.addEventListener('click', (e) => { if (e.target === accountModalOverlay) closeAccountModal(); });
-            
-            showRegisterBtn.addEventListener('click', () => { 
-                loginForm.style.display = 'none'; 
-                registerForm.style.display = 'block'; 
-                loginMessageEl.textContent = '';
-            });
-            showLoginBtn.addEventListener('click', () => { 
-                registerForm.style.display = 'none'; 
-                loginForm.style.display = 'block'; 
-                registerMessageEl.textContent = '';
-            });
+                    liveInd.style.display = 'none';
+                    cdWrapper.style.display = 'block';
+                    cdName.textContent = nextEv.name;
 
-            // --- Auth Helper Functions ---
-            const getUsers = () => JSON.parse(localStorage.getItem(USERS_KEY)) || [];
-            const saveUsers = (users) => localStorage.setItem(USERS_KEY, JSON.stringify(users));
-            const getLoggedInUser = () => JSON.parse(localStorage.getItem(LOGGED_IN_USER_KEY));
-
-            const updateNavButton = (user) => {
-                const icon = authNavBtn.querySelector('i');
-                const span = authNavBtn.querySelector('span');
-                if (user) {
-                    icon.setAttribute('data-feather', 'user-check');
-                    span.textContent = 'Akun'; // NEW: Text changes to "Akun"
-                } else {
-                    icon.setAttribute('data-feather', 'user');
-                    span.textContent = 'Login';
-                }
-                feather.replace();
-            };
-
-            const logout = () => {
-                localStorage.removeItem(LOGGED_IN_USER_KEY);
-                updateNavButton(null);
-                closeAccountModal(); // Close the account modal on logout
-                showToast('Anda telah berhasil logout.');
-            };
-            logoutBtn.addEventListener('click', logout);
-
-            // --- Registration Logic ---
-            registerForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                registerMessageEl.textContent = '';
-                registerMessageEl.classList.remove('success');
-
-                const name = document.getElementById('register-name').value.trim();
-                const email = document.getElementById('register-email').value.trim().toLowerCase();
-                const password = document.getElementById('register-password').value;
-
-                if (!name || !email || !password) {
-                    registerMessageEl.textContent = 'Semua field harus diisi.';
-                    return;
-                }
-                if (password.length < 6) {
-                    registerMessageEl.textContent = 'Kata sandi minimal 6 karakter.';
-                    return;
+                    let diff = nextEv.dateObj - now;
+                    document.getElementById('cd-d').textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2,'0');
+                    document.getElementById('cd-h').textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2,'0');
+                    document.getElementById('cd-m').textContent = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2,'0');
+                    document.getElementById('cd-s').textContent = String(Math.floor((diff / 1000) % 60)).padStart(2,'0');
                 }
 
-                const users = getUsers();
-                const existingUser = users.find(user => user.email === email);
-
-                if (existingUser) {
-                    registerMessageEl.textContent = 'Email ini sudah terdaftar.';
-                    return;
+                // Special Event
+                const spDate = new Date(SPECIAL_EVENT_DATE);
+                const spDiff = spDate - now;
+                if(spDiff > 0) {
+                    document.getElementById('sp-d').textContent = String(Math.floor(spDiff / (1000 * 60 * 60 * 24))).padStart(2,'0');
+                    document.getElementById('sp-h').textContent = String(Math.floor((spDiff / (1000 * 60 * 60)) % 24)).padStart(2,'0');
+                    document.getElementById('sp-m').textContent = String(Math.floor((spDiff / 1000 / 60) % 60)).padStart(2,'0');
+                    document.getElementById('sp-s').textContent = String(Math.floor((spDiff / 1000) % 60)).padStart(2,'0');
                 }
+            }
+            setInterval(updateTime, 1000);
+            updateTime();
 
-                const newUser = { name, email, password };
-                users.push(newUser);
-                saveUsers(users);
-                
-                registerMessageEl.classList.add('success');
-                registerMessageEl.textContent = `Pendaftaran berhasil! Selamat datang, ${name}.`;
-
-                setTimeout(() => {
-                    localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(newUser));
-                    updateNavButton(newUser);
-                    closeAuthModal();
-                    registerForm.reset();
-                }, 1500);
-            });
-
-            // --- Login Logic ---
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                loginMessageEl.textContent = '';
-                loginMessageEl.classList.remove('success');
-                const email = document.getElementById('login-email').value.trim().toLowerCase();
-                const password = document.getElementById('login-password').value;
-
-                if (!email || !password) {
-                    loginMessageEl.textContent = 'Email dan kata sandi harus diisi.';
-                    return;
-                }
-
-                const users = getUsers();
-                const user = users.find(u => u.email === email);
-
-                if (!user || user.password !== password) {
-                    loginMessageEl.textContent = 'Email atau kata sandi salah.';
-                    return;
-                }
-                
-                loginMessageEl.classList.add('success');
-                loginMessageEl.textContent = `Login berhasil! Selamat datang kembali, ${user.name}.`;
-
-                setTimeout(() => {
-                    localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(user));
-                    updateNavButton(user);
-                    closeAuthModal(); // Close login modal
-                    loginForm.reset();
-                    // No redirect needed, user is already on the main page.
-                }, 1500);
-            });
-
-            // --- Initial Check on Page Load ---
-            const checkLoginStatus = () => {
-                const user = getLoggedInUser();
-                updateNavButton(user);
-            };
-            checkLoginStatus();
+            // ==========================================
+            // DAILY VERSE
+            // ==========================================
+            const verses = [
+                { t: "TUHAN adalah gembalaku, takkan kekurangan aku.", r: "Mazmur 23:1" },
+                { t: "Serahkanlah segala kekuatiranmu kepada-Nya, sebab Ia yang memelihara kamu.", r: "1 Petrus 5:7" },
+                { t: "Mengucap syukurlah dalam segala hal.", r: "1 Tesalonika 5:18" },
+                { t: "Percayalah kepada TUHAN dengan segenap hatimu.", r: "Amsal 3:5" }
+            ];
+            const today = new Date();
+            const verse = verses[today.getDate() % verses.length];
+            document.getElementById('d-verse').textContent = verse.t;
+            document.getElementById('d-ref').textContent = `— ${verse.r}`;
         });
     </script>
- </body>
+</body>
 </html>
-
