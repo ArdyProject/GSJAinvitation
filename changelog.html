@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#050505">
+    <title>Changelog & Developer Info - GSJA ROL</title>
+  
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* Base Styling persis dengan index.html */
+        :root {
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Montserrat', sans-serif;
+            --bg-base: #050505;
+            --gold-primary: #d4af37;
+            --gold-light: #f9e596;
+            --gold-dark: #8c7322;
+            --text-light: #f5f5f5;
+            --text-muted: #a3a3a3;
+            --glass-bg: rgba(10, 10, 10, 0.7);
+            --glass-border: rgba(212, 175, 55, 0.25);
+            --trans-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-body); background-color: var(--bg-base); color: var(--text-light); line-height: 1.6; }
+        a { color: inherit; text-decoration: none; }
+        h1, h2, h3 { font-family: var(--font-heading); font-weight: 700; line-height: 1.2; }
+        
+        /* Navbar */
+        #top-nav {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            padding: 1rem 0; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        
+        .btn-back { display: flex; align-items: center; gap: 8px; color: var(--gold-primary); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; transition: var(--trans-smooth); }
+        .btn-back:hover { transform: translateX(-5px); color: var(--gold-light); }
+        
+        /* Hamburger Button */
+        .btn-hamburger { background: none; border: none; color: var(--gold-primary); cursor: pointer; padding: 0.5rem; border-radius: 8px; border: 1px solid transparent; transition: var(--trans-smooth); }
+        .btn-hamburger:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--glass-border); }
+
+        /* Header Title */
+        .page-header { text-align: center; padding: 8rem 0 3rem; border-bottom: 1px dashed rgba(212, 175, 55, 0.2); }
+        .page-title { font-size: 3rem; color: var(--gold-primary); margin-bottom: 0.5rem; }
+        .page-subtitle { color: var(--text-muted); font-size: 1rem; }
+
+        /* Timeline / Changelog */
+        .timeline { padding: 4rem 0; position: relative; }
+        .timeline::before { content: ''; position: absolute; left: 20px; top: 4rem; bottom: 4rem; width: 2px; background: rgba(212, 175, 55, 0.2); }
+        
+        .timeline-item { position: relative; padding-left: 60px; margin-bottom: 3rem; }
+        .timeline-item:last-child { margin-bottom: 0; }
+        
+        .timeline-dot { position: absolute; left: 14px; top: 5px; width: 14px; height: 14px; border-radius: 50%; background: var(--gold-primary); box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+        .timeline-item:first-child .timeline-dot { width: 20px; height: 20px; left: 11px; top: 2px; animation: pulse-gold 2s infinite; }
+
+        .t-version { display: inline-block; background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold-primary); color: var(--gold-primary); padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.8rem; letter-spacing: 1px; }
+        .t-date { color: var(--text-muted); font-size: 0.85rem; margin-left: 10px; }
+        .t-title { font-size: 1.5rem; margin-bottom: 1rem; color: #fff; }
+        
+        .t-list { list-style: none; padding: 0; }
+        .t-list li { position: relative; padding-left: 20px; margin-bottom: 0.8rem; color: #ccc; font-size: 0.95rem; }
+        .t-list li::before { content: '→'; position: absolute; left: 0; top: 0; color: var(--gold-dark); }
+        .t-list li span.badge { font-size: 0.7rem; background: var(--live-red); color: #fff; padding: 2px 6px; border-radius: 4px; margin-right: 5px; font-weight: 600; text-transform: uppercase; }
+        .t-list li span.badge-new { background: #10b981; } /* Green */
+
+        @keyframes pulse-gold { 0% { box-shadow: 0 0 0 0 rgba(212,175,55,0.4); } 70% { box-shadow: 0 0 0 10px rgba(212,175,55,0); } 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0); } }
+
+        /* DEVELOPER DRAWER (SIDEBAR) */
+        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 9999; opacity: 0; visibility: hidden; transition: var(--trans-smooth); }
+        .drawer-overlay.show { opacity: 1; visibility: visible; }
+        
+        .drawer { position: fixed; top: 0; right: -400px; width: 100%; max-width: 380px; height: 100vh; background: #0a0a0a; border-left: 1px solid var(--glass-border); z-index: 10000; overflow-y: auto; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); padding: 2rem; box-shadow: -10px 0 30px rgba(0,0,0,0.8); }
+        .drawer.open { right: 0; }
+
+        .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; }
+        .drawer-close { background: none; border: none; color: var(--text-muted); cursor: pointer; transition: 0.3s; }
+        .drawer-close:hover { color: var(--live-red); transform: rotate(90deg); }
+
+        .dev-profile { text-align: center; margin-bottom: 3rem; }
+        .dev-avatar { width: 120px; height: 120px; background: linear-gradient(135deg, #222, #000); border: 2px solid var(--gold-primary); border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: var(--gold-primary); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
+        .dev-name { font-family: var(--font-heading); font-size: 2rem; color: #fff; margin-bottom: 0.2rem; }
+        .dev-role { color: var(--gold-primary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; margin-bottom: 1rem; }
+        .dev-bio { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+
+        .dev-section { margin-bottom: 2.5rem; }
+        .dev-section h4 { color: #fff; font-size: 1rem; margin-bottom: 1rem; border-left: 3px solid var(--gold-primary); padding-left: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tech-badge { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #ccc; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+
+        .social-buttons { display: flex; flex-direction: column; gap: 10px; }
+        .btn-social { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 0.8rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; transition: var(--trans-smooth); border: 1px solid rgba(255,255,255,0.1); color: #fff; background: rgba(255,255,255,0.02); }
+        .btn-social:hover { background: var(--gold-primary); color: #000; border-color: var(--gold-primary); }
+
+    </style>
+</head>
+<body>
+
+    <!-- TOP NAVIGATION -->
+    <nav id="top-nav">
+        <div class="container nav-inner">
+            <a href="index.html" class="btn-back">
+                <i data-feather="arrow-left" width="18"></i> Kembali ke Web
+            </a>
+            <button class="btn-hamburger" id="btn-open-drawer" aria-label="Buka Info Developer">
+                <i data-feather="menu" width="24"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">Pembaruan Sistem</h1>
+            <p class="page-subtitle">Daftar lengkap changelog dan fitur terbaru pada website GSJA River of Life.</p>
+        </div>
+    </header>
+
+    <!-- TIMELINE / CHANGELOG CONTENT -->
+    <section class="container">
+        <div class="timeline">
+            
+            <!-- Update Terbaru -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="t-version">v1.2.0</div> <span class="t-date">06 Juli 2026</span>
+                <h3 class="t-title">Fitur Interaktif & Otomatisasi Jadwal</h3>
+                <ul class="t-list">
+                    <li><span class="badge badge-new">BARU</span> Fitur "Kocok Janji Tuhan" dengan integrasi API Ayat Alkitab acak.</li>
+                    <li><span class="badge badge-new">BARU</span> Sistem limitasi 1x sehari menggunakan <code>localStorage</code> untuk pembukaan janji Tuhan.</li>
+                    <li><span class="badge badge-new">BARU</span> Halaman pop-up "Riwayat Event" untuk mengarsip event yang sudah berlalu.</li>
+                    <li><span class="badge badge-new">BARU</span> Sistem otomatisasi jadwal: Event yang sudah lewat batas waktu akan otomatis berpindah ke daftar riwayat.</li>
+                    <li><span class="badge">UPDATE</span> Membedakan desain Pop-up Ibadah Reguler (Merah) dengan Pop-up Event Khusus (Premium Gold).</li>
+                </ul>
+            </div>
+
+            <!-- Update Sebelumnya -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="t-version">v1.1.0</div> <span class="t-date">05 Juli 2026</span>
+                <h3 class="t-title">Penyempurnaan Indikator Live</h3>
+                <ul class="t-list">
+                    <li><span class="badge badge-new">BARU</span> Animasi highlight merah menyala pada baris jadwal jika ibadah sedang berlangsung.</li>
+                    <li><span class="badge badge-new">BARU</span> Pop-up penanda Live Ibadah akan tertutup otomatis (Auto-Close) dalam waktu 3 detik.</li>
+                    <li><span class="badge badge-new">BARU</span> Menambahkan animasi <i>progress bar</i> menyusut pada Pop-up Live.</li>
+                    <li><span class="badge">UPDATE</span> Perbaikan susunan dan tata letak jadwal ibadah mingguan.</li>
+                </ul>
+            </div>
+
+            <!-- Versi Pertama -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="t-version">v1.0.0</div> <span class="t-date">Rilis Awal 2026</span>
+                <h3 class="t-title">Rilis Perdana Website (Soft Launch)</h3>
+                <ul class="t-list">
+                    <li><span class="badge badge-new">BARU</span> Desain UI/UX Premium dengan tema Dark-Gold (Glassmorphism).</li>
+                    <li><span class="badge badge-new">BARU</span> Pemutar musik ibadah (Worship Audio) dengan kontrol background.</li>
+                    <li><span class="badge badge-new">BARU</span> Galeri foto dinamis dengan fitur filter kategori dan Lightbox.</li>
+                    <li><span class="badge badge-new">BARU</span> Formulir kontak otomatis terhubung ke WhatsApp Gereja.</li>
+                    <li><span class="badge badge-new">BARU</span> Integrasi Google Maps Pematangsiantar.</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- DEVELOPER DRAWER (SIDEBAR) -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="drawer" id="dev-drawer">
+        
+        <div class="drawer-header">
+            <h3 style="color: #fff; font-size: 1.1rem; margin: 0; font-family: var(--font-body); font-weight: 500;">Developer Info</h3>
+            <button class="drawer-close" id="btn-close-drawer"><i data-feather="x" width="24"></i></button>
+        </div>
+
+        <div class="dev-profile">
+            <div class="dev-avatar">
+                <i data-feather="terminal" width="50" height="50"></i>
+            </div>
+            <h2 class="dev-name">Tim Multimedia GSJA ROL PS</h2>
+            <p class="dev-role">ARDY LASRO GANDA SIHOMBING</p>
+            <p class="dev-bio">Didedikasikan untuk membangun ekosistem digital gereja yang modern, responsif, dan memberkati banyak orang melalui teknologi.</p>
+        </div>
+
+        <div class="dev-section">
+            <h4>Teknologi Yang Digunakan</h4>
+            <div class="tech-stack">
+                <span class="tech-badge"><i data-feather="code" width="14"></i> HTML5 Semantic</span>
+                <span class="tech-badge"><i data-feather="layout" width="14"></i> CSS3 (Glassmorphism)</span>
+                <span class="tech-badge"><i data-feather="cpu" width="14"></i> Vanilla JavaScript</span>
+                <span class="tech-badge"><i data-feather="database" width="14"></i> LocalStorage API</span>
+                <span class="tech-badge"><i data-feather="feather" width="14"></i> Feather Icons</span>
+            </div>
+        </div>
+
+        <div class="dev-section">
+            <h4>Hubungi Developer</h4>
+            <div class="social-buttons">
+                <a href="https://github.com/ArdyProject" class="btn-social">
+                    <i data-feather="github" width="18"></i> Github Portfolio
+                </a>
+                <a href="mailto:ardysihombing2006@gmail.com" class="btn-social">
+                    <i data-feather="mail" width="18"></i> Kirim Email
+                </a>
+                <a href="https://wa.me/6283146557755" class="btn-social" style="background: rgba(212,175,55,0.1); border-color: var(--gold-primary); color: var(--gold-primary);">
+                    <i data-feather="message-circle" width="18"></i> Hubungi WhatsApp
+                </a>
+            </div>
+        </div>
+
+        <p style="text-align: center; color: var(--text-muted); font-size: 0.75rem; margin-top: 3rem;">© GSJA River of Life Pematangsiantar | 2026.
+        </p>
+
+    </div>
+
+    <script>
+        // Inisialisasi Ikon
+        feather.replace();
+
+        // Logika Sidebar Drawer (Hamburger Menu)
+        const btnOpen = document.getElementById('btn-open-drawer');
+        const btnClose = document.getElementById('btn-close-drawer');
+        const drawer = document.getElementById('dev-drawer');
+        const overlay = document.getElementById('drawer-overlay');
+
+        function openDrawer() {
+            drawer.classList.add('open');
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Kunci scroll background
+        }
+
+        function closeDrawer() {
+            drawer.classList.remove('open');
+            overlay.classList.remove('show');
+            document.body.style.overflow = 'auto'; // Buka kunci scroll
+        }
+
+        btnOpen.addEventListener('click', openDrawer);
+        btnClose.addEventListener('click', closeDrawer);
+        overlay.addEventListener('click', closeDrawer);
+    </script>
+</body>
+</html>
